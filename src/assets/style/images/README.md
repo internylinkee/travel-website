@@ -1,0 +1,1 @@
+This folder contains all images are used to in application

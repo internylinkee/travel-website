@@ -1,0 +1,87 @@
+/* -------- GLobal style -------- */
+#root {
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hide {
+  display: none;
+}
+.no-shadow {
+  box-shadow: none;
+}
+.d-block {
+  display: block;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.column-25 {
+  float: left;
+  width: 25%;
+}
+.w-0 {
+  width: 0 !important;
+}
+.size18 {
+  font-size: 18px;
+}
+.size24 {
+  font-size: 24px;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+// Font-weight
+.font-family-bold {
+  font-family: $font-family;
+  font-weight: bold;
+}
+// Margin auto
+.ml-auto {
+  margin-left: auto;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.cursor-default {
+  cursor: default;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.w-100 {
+  width: 100%;
+}
+.flex-wrap-nowrap {
+  flex-wrap: nowrap;
+}
+.d-flex {
+  display: flex;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.border-bottom {
+  border-bottom: 1px solid $color-border;
+}
+.inline-block {
+  display: inline-block !important;
+}
+.pre-line {
+  white-space: pre-line !important;
+}
+.link-underline {
+  span {
+    text-decoration: underline;
+  }
+}
+.bold {
+  font-weight: 700;
+}
