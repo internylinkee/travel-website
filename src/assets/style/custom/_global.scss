@@ -7,6 +7,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-color:#edf2f6;
+  overflow-x: hidden;
+}
+
 .hide {
   display: none;
 }
@@ -84,4 +89,12 @@
 }
 .bold {
   font-weight: 700;
+}
+
+// Style Layout
+.b-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 110px auto 0;
+  width: 1300px;
 }

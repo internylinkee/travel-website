@@ -1,1 +1,26 @@
 /* -------- GLobal style responsive -------- */
+@media (min-width: 540px) {
+  .b-container {
+    max-width: 600px;
+  }
+}
+@media (min-width: 800px) {
+  .b-container {
+    max-width: 680px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 900px;
+  }
+}
+@media (min-width: 1199px) {
+  .b-container {
+    max-width: 1110px;
+  }
+}
+@media (min-width: 1400px) {
+  .b-container {
+    max-width: 1300px;
+  }
+}

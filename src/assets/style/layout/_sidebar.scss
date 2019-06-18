@@ -1,1 +1,25 @@
 /* -------- Style about sidebar -------- */
+// Style Sidebar Left
+.fixed-sidebar-left {
+  position: fixed;
+  z-index: 25;
+  width: 70px;
+  min-height: 1000vh;
+  left: 0;
+}
+
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
+// Style Sidebar Right
+.fixed-sidebar-right {
+  top: 64px;
+  z-index: 20;
+  right: 0;
+  left: auto;
+  min-height: 100%;
+  position: fixed;
+}

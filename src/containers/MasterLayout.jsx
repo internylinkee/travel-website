@@ -5,16 +5,9 @@ import { bindActionCreators } from 'redux';
 import { Layout } from 'antd';
 import {
   Header as HeaderComponent,
-  Sidebar as SidebarComponent,
-  Footer as FooterComponent
+  SidebarLeft as SidebarLeftComponent,
+  SidebarRight as SidebarRightComponent
 } from 'components/layout';
-
-const {
-  Header,
-  Footer,
-  Sider,
-  Content
-} = Layout;
 
 class MasterLayout extends PureComponent {
   constructor(props) {
@@ -25,20 +18,14 @@ class MasterLayout extends PureComponent {
   render() {
     return (
       <Layout>
-        <Header>
-          <HeaderComponent />
-        </Header>
+        <HeaderComponent />
         <Layout>
-          <Sider>
-            <SidebarComponent />
-          </Sider>
-          <Content>
+          <SidebarLeftComponent />
+          <div className="b-container">
             {this.props.children}
-          </Content>
+          </div>
+          <SidebarRightComponent />
         </Layout>
-        <Footer>
-          <FooterComponent />
-        </Footer>
       </Layout>
     );
   }
