@@ -1,12 +1,23 @@
 import React from 'react';
+import { Layout } from 'antd';
 
-export default function home(props) {
-  return (
-    <div>
-      <h1>Home page</h1>
-      <p>This is the content</p>
-    </div>
-  );
+const { Content } = Layout;
+
+class content extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Content>
+        Content page Home
+      </Content>
+    );
+  }
 }
 
-home.displayName = 'Home';
+export default content;
+
+content.displayName = 'Content';
