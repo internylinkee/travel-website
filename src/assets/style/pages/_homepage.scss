@@ -1,1 +1,48 @@
 /* -------- Style about home page -------- */
+
+// Padding for col
+.p-col {
+  padding: 15px;
+}
+
+.p-card {
+  margin: 20px 0;
+  position: relative;
+  top: 0;
+  right: 0;
+}
+.name-users {
+  font-size: 17px;
+  font-weight: bold;
+}
+.count-post {
+  margin-right: 10px;
+}
+.tag-post {
+  float: right;
+}
+.control-post-button {
+  width: 33px;
+  position: absolute;
+  top: 18px;
+  right: -16px;
+
+  .ant-list-item {
+    padding: 5px 0;
+  }
+}
+.b-comment {
+  margin-top: -20px;
+  background: #fafbfd;
+  border-top: 0;
+
+}
+
+.text-comment {
+  padding-top: 5px;
+  text-align: right;
+  font-style: italic;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
