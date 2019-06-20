@@ -1,0 +1,26 @@
+.topic-posts {
+
+  .ant-radio-button-wrapper {
+    margin-right: 30px;
+    min-width: 100px;
+    text-align: center;
+    border-radius: 30px;
+    padding: 0 20px;
+    color: #888da8;
+    background: #dee4ec;
+    font-size: 14px;
+  }
+
+  .ant-radio-button-wrapper:not(:first-child)::before {
+    width: 0;
+  }
+}
+
+.sorting-col {
+  display: flex;
+  flex-wrap: wrap;
+
+  .ant-col {
+    float: left;
+  }
+}
