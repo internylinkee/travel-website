@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Icon, Menu } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
 
@@ -18,7 +19,7 @@ class siderbarLeft extends React.Component {
     return (
       <Sider className="fixed-sidebar-left" collapsed={this.state.collapsed} collapsible trigger={null}>
         <div className="logo" />
-        <Menu defaultSelectedKeys={['1']} mode="inline" theme="light">
+        <Menu defaultSelectedKeys={['2']} mode="inline" theme="light">
           <Menu.Item key="1" onClick={this.toggle}>
             <Icon
               className="trigger"
@@ -27,16 +28,22 @@ class siderbarLeft extends React.Component {
             <span>Toggle Menu</span>
           </Menu.Item>
           <Menu.Item key="2">
-            <Icon type="user" />
-            <span>nav 1</span>
+            <Link to="/">
+              <Icon type="home" />
+              <span>Trang chủ</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Icon type="video-camera" />
-            <span>nav 2</span>
+            <Link to="/posts">
+              <Icon type="read" />
+              <span>Danh sách bài viết</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="4">
-            <Icon type="upload" />
-            <span>nav 3</span>
+            <Link to="/tourguide">
+              <Icon type="idcard" />
+              <span>Hướng dẫn viên</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
