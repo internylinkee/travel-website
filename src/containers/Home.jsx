@@ -304,6 +304,8 @@ class content extends React.Component {
                 </Col>
                 <Col span={22} style={{ paddingTop: '5px' }}>
                   <Text className="name-users">Sarah Hetfield</Text>
+                  <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
+                  <IconText text="Đà Nẵng, Nha Trang" type="environment" />
                 </Col>
                 <Col span={22}>
                   <Text>March 2 at 9:06am</Text>
@@ -328,7 +330,6 @@ class content extends React.Component {
                   <IconText text="156" type="heart" />
                   <IconText text="2" type="message" />
                   <IconText text="156" type="share-alt" />
-                  <IconText text="Đà Nẵng, Nha Trang" type="environment" />
                 </Col>
                 <Col span={12}>
                   <span className="tag-post">
@@ -350,6 +351,7 @@ class content extends React.Component {
                 </List.Item>
               </List>
             </Card>
+            {/* Hien thi bai viet */}
             <Card className="p-card">
               <Row style={{ marginBottom: '20px' }}>
                 <Col span={2}>
@@ -383,7 +385,6 @@ class content extends React.Component {
                   <IconText text="156" type="heart" />
                   <IconText text="2" type="message" />
                   <IconText text="156" type="share-alt" />
-                  <IconText text="Đà Nẵng, Nha Trang" type="environment" />
                 </Col>
                 <Col span={12}>
                   <span className="tag-post">
