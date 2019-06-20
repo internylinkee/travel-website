@@ -338,7 +338,7 @@ class content extends React.Component {
                   </span>
                 </Col>
               </Row>
-              <List class="control-post-button">
+              <List className="control-post-button">
                 <List.Item>
                   <Avatar icon="heart" style={{ backgroundColor: '#7dbcea' }} />
                 </List.Item>
@@ -365,7 +365,7 @@ class content extends React.Component {
               <Row>
                 <Title level={3}>Những nơi nên đến khi bạn đi du lịch ở Đà Nẵng</Title>
                 {/* Hiển thị Mô tả. Bấm chi tiết sẽ qua trang chi tiết bài viết */}
-                <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                <Paragraph>
                   Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
                   Mixta dispositam chaos: igni unda nulli posset: densior haec.
                   Contraria septemque unda fuit plagae orba nubes valles terrarum.
@@ -392,7 +392,7 @@ class content extends React.Component {
                   </span>
                 </Col>
               </Row>
-              <List class="control-post-button">
+              <List className="control-post-button">
                 <List.Item>
                   <Avatar icon="heart" style={{ backgroundColor: '#7dbcea' }} />
                 </List.Item>
