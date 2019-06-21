@@ -7,13 +7,15 @@ import {
   Input,
   Typography,
   Avatar,
-  Icon
+  Icon,
+  Select
 } from 'antd';
 
 const { Content } = Layout;
 const { Search } = Input;
 const { Title, Text } = Typography;
 const { Meta } = Card;
+const { Option } = Select;
 
 class tourGuide extends React.Component {
   constructor(props) {
@@ -24,16 +26,33 @@ class tourGuide extends React.Component {
   render() {
     return (
       <Content>
+        {/* Header Page */}
         <Card style={{ margin: '20px 0' }}>
-          <Row>
+          <Row gutter={24}>
             <Col span={12}>
-              <Title level={4} style={{ margin: '5px 0 0' }}>Hướng dẫn viên (89)</Title>
+              <Title level={4} style={{ margin: '5px 0 0' }}>Hướng dẫn viên</Title>
             </Col>
-            <Col span={12}>
-              <Search enterButton placeholder="Tìm hướng dẫn viên" size="large" />
+            <Col span={6}>
+              <Select
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                optionFilterProp="children"
+                placeholder="Lọc theo ..."
+                showSearch
+                size="large"
+                style={{ width: '100%' }}
+              >
+                <Option value="jack">Được yêu thích nhất</Option>
+                <Option value="lucy">Có nhiều bài viết nhất</Option>
+                <Option value="tom">Có lượt đánh giá</Option>
+              </Select>
+            </Col>
+            <Col span={6}>
+              <Search placeholder="Tìm hướng dẫn viên" size="large" />
             </Col>
           </Row>
         </Card>
+        {/* Danh sách Hướng DV */}
         <Row gutter={24}>
           <Col lg={6} md={8} sm={12} xs={24}>
             <Card
