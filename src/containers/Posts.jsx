@@ -203,14 +203,16 @@ class posts extends React.Component {
                   Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
                   Mixta dispositam chaos: igni unda nulli posset: densior haec.
                   Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
+                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.Sibi minantia in onerosior iners.
+                  Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
                   Mixta dispositam chaos: igni unda nulli posset: densior haec.
                   Contraria septemque unda fuit plagae orba nubes valles terrarum.
                   Peragebant vos neu divino viseret tenent terras sectamque onerosior.
                   Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
                   Mixta dispositam chaos: igni unda nulli posset: densior haec.
                   Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
+                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.Sibi minantia in onerosior iners.
+                  Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
                   Mixta dispositam chaos: igni unda nulli posset: densior haec.
                   Contraria septemque unda fuit plagae orba nubes valles terrarum.
                   Peragebant vos neu divino viseret tenent terras sectamque onerosior.
