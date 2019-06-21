@@ -5,7 +5,9 @@ import {
   Login,
   NotFound,
   Posts,
-  TourGuide
+  Profile,
+  TourGuide,
+  PostDetail
 } from 'containers';
 
 const routes = [
@@ -15,8 +17,11 @@ const routes = [
   { path: '/login', exact: true, component: Login },
   // Posts
   { path: '/posts', exact: true, component: Posts },
+  { path: '/posts/:id/detail', exact: true, component: PostDetail },
   // Tour Guide
   { path: '/tourguide', exact: true, component: TourGuide },
+  // Profile
+  { path: '/profile/:id', exact: true, component: Profile },
   // Not found
   { component: NotFound }
 ];
