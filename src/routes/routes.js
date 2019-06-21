@@ -7,7 +7,11 @@ import {
   Posts,
   Profile,
   TourGuide,
-  PostDetail
+  PostDetail,
+  Reviews,
+  Tours,
+  AboutMe,
+  Albums
 } from 'containers';
 
 const routes = [
@@ -22,6 +26,10 @@ const routes = [
   { path: '/tourguide', exact: true, component: TourGuide },
   // Profile
   { path: '/profile/:id', exact: true, component: Profile },
+  { path: '/profile/:id/reviews', exact: true, component: Reviews },
+  { path: '/profile/:id/tours', exact: true, component: Tours },
+  { path: '/profile/:id/albums', exact: true, component: Albums },
+  { path: '/profile/:id/aboutme', exact: true, component: AboutMe },
   // Not found
   { component: NotFound }
 ];

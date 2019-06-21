@@ -61,7 +61,7 @@ class profile extends React.Component {
               <Col className="menu-profile" span={3}><Link to="/profile/1/tours">Chuyến đi</Link></Col>
               <Col className="name-profile" span={6}><Link to="/profile/1">James Spiegel</Link></Col>
               <Col className="menu-profile" span={3}><Link to="/profile/1/albums">Ảnh</Link></Col>
-              <Col className="menu-profile" span={3}><Link to="/profile/1/about">Về Tôi</Link></Col>
+              <Col className="menu-profile" span={3}><Link to="/profile/1/aboutme">Về Tôi</Link></Col>
             </Row>
           </Card>
         </Row>

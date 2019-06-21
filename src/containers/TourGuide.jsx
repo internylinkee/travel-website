@@ -32,7 +32,7 @@ class tourGuide extends React.Component {
             <Col span={12}>
               <Title level={4} style={{ margin: '5px 0 0' }}>Hướng dẫn viên</Title>
             </Col>
-            <Col span={6}>
+            <Col offset={6} span={6}>
               <Select
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
@@ -47,9 +47,6 @@ class tourGuide extends React.Component {
                 <Option value="tom">Có lượt đánh giá</Option>
               </Select>
             </Col>
-            <Col span={6}>
-              <Search placeholder="Tìm hướng dẫn viên" size="large" />
-            </Col>
           </Row>
         </Card>
         {/* Danh sách Hướng DV */}
@@ -57,7 +54,7 @@ class tourGuide extends React.Component {
           <Col lg={6} md={8} sm={12} xs={24}>
             <Card
               actions={[
-                <span><Icon style={{ margin: '10px' }} type="profile" />Trang cá nhân</span>,
+                <a href="/profile/:id"><Icon style={{ margin: '10px' }} type="profile" />Trang cá nhân</a>,
                 <span><Icon style={{ margin: '10px' }} type="wechat" />Liên hệ</span>
               ]}
               className="card-tour-guide"
