@@ -1,0 +1,45 @@
+.card-imgage-cover {
+  position: relative;
+  text-align: center;
+
+  .ant-card-cover {
+    height: 400px;
+  }
+
+  .ant-avatar > img {
+    height: auto;
+    width: 100%;
+  }
+
+  .ant-avatar {
+    border: 4px solid #fff;
+  }
+
+  .card-avatar {
+    margin-top: -130px;
+  }
+
+  .menu-profile > a {
+    color: #9a9fbf;
+    font-weight: 700;
+    padding-top: 20px;
+    }
+
+  .active > a {
+    color: #515365;
+  }
+
+  .name-profile {
+    margin-top: -4px;
+
+    > a {
+    font-size: 25px;
+    color: #515365;
+    font-weight: 700;
+  }
+  }
+}
+
+.empty {
+  margin-top: 100px;
+}

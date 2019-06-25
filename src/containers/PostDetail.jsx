@@ -10,14 +10,11 @@ import {
   Avatar,
   Card,
   Typography,
-  Input,
-  Cascader,
-  Button
+  Input
 } from 'antd';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
-const { Meta } = Card;
 
 const IconText = ({ type, text }) => (
   <span className="count-post">
@@ -26,7 +23,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class postDetail extends React.Component {
+class PostDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -232,6 +229,4 @@ class postDetail extends React.Component {
   }
 }
 
-export default postDetail;
-
-postDetail.displayName = 'postDetail';
+export default PostDetail;

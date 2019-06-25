@@ -3,17 +3,17 @@ import {
   Layout,
   Row,
   Col,
-  Divider,
-  Icon,
-  Tag,
-  List,
-  Avatar,
   Card,
-  Typography,
   Input,
-  Cascader,
-  Button
+  Icon,
+  Typography,
+  Divider,
+  Tag,
+  Button,
+  Avatar,
+  List
 } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -25,69 +25,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-// Thanh search
-const options = [
-  {
-    value: 'Reviews',
-    label: 'Bài đánh giá',
-    children: [
-      {
-        value: 'love',
-        label: 'Yêu thích nhất',
-        children: [
-          {
-            value: 'eat',
-            label: 'Ăn uống'
-          },
-          {
-            value: 'Tham quan',
-            label: 'Tham quan'
-          },
-          {
-            value: 'Vui chơi',
-            label: 'Vui chơi'
-          }
-        ]
-      },
-      {
-        value: 'comment',
-        label: 'Bình luận nhiều nhất',
-        children: [
-          {
-            value: 'eat',
-            label: 'Ăn uống'
-          },
-          {
-            value: 'Tham quan',
-            label: 'Tham quan'
-          },
-          {
-            value: 'Vui chơi',
-            label: 'Vui chơi'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men'
-          }
-        ]
-      }
-    ]
-  }
-];
-
-class Posts extends React.Component {
+class Reviews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -96,77 +34,35 @@ class Posts extends React.Component {
   render() {
     return (
       <Content>
-        {/* Header Page */}
-        <Card style={{ margin: '20px 15px 0' }}>
-          <Row gutter={24}>
-            <Col span={12}>
-              <Title level={4} style={{ margin: '5px 0 0' }}>Danh sách bài viết</Title>
-            </Col>
-            <Col span={12}>
-              <Cascader options={options} placeholder="Loc bài viết theo ..." size="large" style={{ width: '100%' }} />
-            </Col>
-          </Row>
-        </Card>
-        {/* Content Page */}
+        <Row style={{ padding: '0 15px' }}>
+          {/* Ảnh bìa, Avatar và Menu */}
+          <Card
+            className="card-imgage-cover"
+            cover={(
+              <img
+                alt="example"
+                src="http://newsmobile.in/wp-content/uploads/2017/06/5104226627001_5297440765001_5280261645001-vs.jpg"
+                style={{ height: '100%' }}
+              />
+            )}
+          >
+            <div className="card-avatar">
+              <Avatar size={150} src="https://www.cg-cooper.com/uploads/7/6/9/1/7691405/published/0c4a1744.jpg?1506475705" />
+            </div>
+            <Row gutter={16} style={{ lineHeight: '50px' }}>
+              <Col className="menu-profile active" span={3}><Link to="/profile/1">Dòng thời gian</Link></Col>
+              <Col className="menu-profile" span={3}><Link to="/profile/1/reviews">Bài viết</Link></Col>
+              <Col className="menu-profile" span={3}><Link to="/profile/1/tours">Chuyến đi</Link></Col>
+              <Col className="name-profile" span={6}><Link to="/profile/1">James Spiegel</Link></Col>
+              <Col className="menu-profile" span={3}><Link to="/profile/1/albums">Ảnh</Link></Col>
+              <Col className="menu-profile" span={3}><Link to="/profile/1/aboutme">Về Tôi</Link></Col>
+            </Row>
+          </Card>
+        </Row>
         <Row>
           <Col className="p-col" span={16}>
-            {/* Hiển thị nội dung bài viết k có comment */}
-            <Card>
-              <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
-                  <Avatar size={56} src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
-                </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
-                  <Text className="name-users">Sarah Hetfield</Text>
-                  <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
-                  <IconText text="Đà Nẵng, Nha Trang" type="environment" />
-                </Col>
-                <Col span={22}>
-                  <Text>March 2 at 9:06am</Text>
-                </Col>
-              </Row>
-              <Row>
-                <Title level={3}>Du lịch Phú Quốc nên ăn gì?</Title>
-                <Paragraph ellipsis={{ rows: 6, expandable: true }}>
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                  Peragebant vos neu divino viseret tenent terras sectamque onerosior.
-                </Paragraph>
-              </Row>
-              <Divider />
-              <Row>
-                <Col span={12}>
-                  <IconText text="156" type="heart" />
-                  <IconText text="2" type="message" />
-                  <IconText text="156" type="share-alt" />
-                </Col>
-                <Col span={12}>
-                  <span className="tag-post">
-                    <Tag color="volcano">Ăn uống</Tag>
-                    <Tag color="geekblue">Vui chơi</Tag>
-                    <Tag color="purple">Tham quan</Tag>
-                  </span>
-                </Col>
-              </Row>
-              <List className="control-post-button">
-                <List.Item>
-                  <Avatar icon="heart" style={{ backgroundColor: '#7dbcea' }} />
-                </List.Item>
-                <List.Item>
-                  <Avatar icon="message" style={{ backgroundColor: '#7dbcea' }} />
-                </List.Item>
-                <List.Item>
-                  <Avatar icon="share-alt" style={{ backgroundColor: '#7dbcea' }} />
-                </List.Item>
-              </List>
-            </Card>
             {/* Hien thi bai viet: review, tour */}
-            <Card className="p-card">
+            <Card className="p-card first">
               <Row style={{ marginBottom: '20px' }}>
                 <Col span={2}>
                   <Avatar size={56} src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
@@ -296,16 +192,8 @@ class Posts extends React.Component {
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
-            {/* Địa điểm */}
-            <Card title="Địa điểm">
-              <Tag>Nha Trang</Tag>
-              <Tag>Đà Lạt</Tag>
-              <Tag>Đà Nẵng</Tag>
-              <Tag>Phú Quốc</Tag>
-              <Tag>Vinh</Tag>
-            </Card>
             {/* Danh sách bài viết nổi bật */}
-            <Card className="p-card" title="Bài viết nổi bật">
+            <Card title="Bài viết được yêu thích">
               <List>
                 <List.Item>
                   <List.Item.Meta
@@ -376,7 +264,7 @@ class Posts extends React.Component {
             {/* Kết thúc phần danh sách bài viết nổi bất */}
 
             {/* Phần Tác giả được Yêu thích */}
-            <Card className="p-card" title="Tác giả được yêu thích">
+            <Card className="p-card" title="Những người yêu thích bạn">
               <List>
                 <List.Item
                   extra={<Avatar icon="heart" style={{ backgroundColor: '#7dbcea' }} />}
@@ -445,6 +333,29 @@ class Posts extends React.Component {
                 </List.Item>
               </List>
             </Card>
+            {/* Album ảnh */}
+            <Card title="Ảnh của bạn">
+              <Row gutter={16}>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3fBhLeTmBqCYHzDZIaK_-U-IWQ0VkI7O0CJ5YD4MRV4Hz7Foz" style={{ width: '100%', height: '100%' }} />
+                </Col>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://lh3.googleusercontent.com/KP0uUZWi2GoW49T17y4P1U1ehscle9qTSivSZc2pDripm2zbtLScw_hR81S6pIyicLSP" style={{ width: '100%', height: '100%' }} />
+                </Col>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3fBhLeTmBqCYHzDZIaK_-U-IWQ0VkI7O0CJ5YD4MRV4Hz7Foz" style={{ width: '100%', height: '100%' }} />
+                </Col>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3fBhLeTmBqCYHzDZIaK_-U-IWQ0VkI7O0CJ5YD4MRV4Hz7Foz" style={{ width: '100%', height: '100%' }} />
+                </Col>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://lh3.googleusercontent.com/KP0uUZWi2GoW49T17y4P1U1ehscle9qTSivSZc2pDripm2zbtLScw_hR81S6pIyicLSP" style={{ width: '100%', height: '100%' }} />
+                </Col>
+                <Col span={8} style={{ height: '80px', margin: '10px 0' }}>
+                  <img alt="Ảnh 1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3fBhLeTmBqCYHzDZIaK_-U-IWQ0VkI7O0CJ5YD4MRV4Hz7Foz" style={{ width: '100%', height: '100%' }} />
+                </Col>
+              </Row>
+            </Card>
           </Col>
         </Row>
       </Content>
@@ -452,4 +363,4 @@ class Posts extends React.Component {
   }
 }
 
-export default Posts;
+export default Reviews;
