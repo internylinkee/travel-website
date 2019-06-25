@@ -3,7 +3,7 @@ import { Layout, Icon, Menu } from 'antd';
 
 const { Sider } = Layout;
 
-class siderbarRight extends React.Component {
+class SiderbarRight extends React.Component {
   state = {
     collapsed: true
   };
@@ -42,6 +42,4 @@ class siderbarRight extends React.Component {
   }
 }
 
-export default siderbarRight;
-
-siderbarRight.displayName = 'SiderbarRight';
+export default SiderbarRight;

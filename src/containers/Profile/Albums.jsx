@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 
-class albums extends React.Component {
+class Albums extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -49,6 +49,4 @@ class albums extends React.Component {
   }
 }
 
-export default albums;
-
-albums.displayName = 'Albums';
+export default Albums;

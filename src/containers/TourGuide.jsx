@@ -12,12 +12,11 @@ import {
 } from 'antd';
 
 const { Content } = Layout;
-const { Search } = Input;
 const { Title, Text } = Typography;
 const { Meta } = Card;
 const { Option } = Select;
 
-class tourGuide extends React.Component {
+class TourGuide extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -201,6 +200,4 @@ class tourGuide extends React.Component {
   }
 }
 
-export default tourGuide;
-
-tourGuide.displayName = 'TourGuide';
+export default TourGuide;

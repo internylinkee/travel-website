@@ -4,25 +4,18 @@ import {
   Row,
   Col,
   Card,
-  Tabs,
   Input,
   Icon,
   Typography,
   Divider,
   Tag,
-  Form,
-  Select,
-  Button,
   Avatar,
   List
 } from 'antd';
 import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
-const { TabPane } = Tabs;
-const { TextArea } = Input;
 const { Title, Text, Paragraph } = Typography;
-const { Option } = Select;
 
 const IconText = ({ type, text }) => (
   <span className="count-post">
@@ -31,7 +24,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class profile extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -394,6 +387,4 @@ class profile extends React.Component {
   }
 }
 
-export default profile;
-
-profile.displayName = 'Profile';
+export default Profile;

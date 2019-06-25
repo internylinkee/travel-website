@@ -1,9 +1,9 @@
 import React from 'react';
 import { Layout } from 'antd';
 
-const { Header } = Layout;
+const { Header: HeaderAntd } = Layout;
 
-class header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -11,13 +11,11 @@ class header extends React.Component {
 
   render() {
     return (
-      <Header>
+      <HeaderAntd>
         Header
-      </Header>
+      </HeaderAntd>
     );
   }
 }
 
-export default header;
-
-header.displayName = 'Header';
+export default Header;

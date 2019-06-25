@@ -87,7 +87,7 @@ const options = [
   }
 ];
 
-class posts extends React.Component {
+class Posts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -452,6 +452,4 @@ class posts extends React.Component {
   }
 }
 
-export default posts;
-
-posts.displayName = 'Posts';
+export default Posts;

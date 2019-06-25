@@ -4,14 +4,11 @@ import {
   Row,
   Col,
   Card,
-  Tabs,
   Input,
   Icon,
   Typography,
   Divider,
   Tag,
-  Form,
-  Select,
   Button,
   Avatar,
   List
@@ -28,7 +25,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class reviews extends React.Component {
+class Reviews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -366,6 +363,4 @@ class reviews extends React.Component {
   }
 }
 
-export default reviews;
-
-reviews.displayName = 'Reviews';
+export default Reviews;

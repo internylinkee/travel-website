@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
 
-class siderbarLeft extends React.Component {
+class SiderbarLeft extends React.Component {
   state = {
     collapsed: true
   };
@@ -51,6 +51,4 @@ class siderbarLeft extends React.Component {
   }
 }
 
-export default siderbarLeft;
-
-siderbarLeft.displayName = 'SiderbarLeft';
+export default SiderbarLeft;

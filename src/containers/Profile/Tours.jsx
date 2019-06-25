@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 
-class tours extends React.Component {
+class Tours extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -67,6 +67,4 @@ class tours extends React.Component {
   }
 }
 
-export default tours;
-
-tours.displayName = 'Tours';
+export default Tours;

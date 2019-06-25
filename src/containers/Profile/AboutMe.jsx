@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 
-class aboutMe extends React.Component {
+class AboutMe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -49,6 +49,4 @@ class aboutMe extends React.Component {
   }
 }
 
-export default aboutMe;
-
-aboutMe.displayName = 'AboutMe';
+export default AboutMe;
