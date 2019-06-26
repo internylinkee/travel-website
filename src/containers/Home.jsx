@@ -1,23 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Layout,
   Row,
   Col
 } from 'antd';
 import {
-  FormPost as FormPostComponent,
-  ListHorizontalPosts as ListHorizontalPostsComponent,
-  ListFeaturedPosts as ListFeaturedPostsComponent,
-  ListAuthor as ListAuthorComponent,
-  ListTags as ListTagsComponent
+  FormPost,
+  ListHorizontalPosts,
+  ListFeaturedPosts,
+  ListAuthor,
+  ListTags
 } from 'components/post';
+import {
+  getListFeaturedPosts
+} from 'actions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 const { Content } = Layout;
 
-class content extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  async componentDidMount() {
+    const response = await this.props.actions.getListFeaturedPosts();
   }
 
   render() {
@@ -26,24 +36,24 @@ class content extends React.Component {
         <Row>
           <Col className="p-col" span={16}>
             {/* 1. Form Edittor */}
-            <FormPostComponent />
+            <FormPost />
 
             {/* 2. Hiển thị nội dung bài viết có comment */}
-            <ListHorizontalPostsComponent />
-            <ListHorizontalPostsComponent />
-            <ListHorizontalPostsComponent />
+            <ListHorizontalPosts />
+            <ListHorizontalPosts />
+            <ListHorizontalPosts />
           </Col>
 
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
             {/* 3. Danh sách bài viết nổi bật */}
-            <ListFeaturedPostsComponent />
+            <ListFeaturedPosts />
 
             {/* 4. Phần Tác giả được Yêu thích */}
-            <ListAuthorComponent />
+            <ListAuthor />
 
             {/* 5. Tag & Địa điểm */}
-            <ListTagsComponent />
+            <ListTags />
           </Col>
         </Row>
       </Content>
@@ -51,6 +61,19 @@ class content extends React.Component {
   }
 }
 
-export default content;
+const mapStateToProps = state => ({});
 
-content.displayName = 'Content';
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getListFeaturedPosts
+  }, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
+
+Home.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.any).isRequired
+};

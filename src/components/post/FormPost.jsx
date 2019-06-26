@@ -25,7 +25,7 @@ class FormPost extends React.Component {
 
   render() {
     return (
-      <Card className="card-container">
+      <Card style={{ marginBottom: '20px' }}>
         <Tabs type="card">
           <TabPane
             key="1"
