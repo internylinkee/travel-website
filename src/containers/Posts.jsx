@@ -2,7 +2,8 @@ import React from 'react';
 import {
   Layout,
   Row,
-  Col
+  Col,
+  Cascader
 } from 'antd';
 import {
   ListFeaturedPosts,
@@ -10,9 +11,70 @@ import {
   ListTags,
   ListHorizontalPosts
 } from 'components/post';
-import { HeaderPages } from 'common';
+import { HeadingPage } from 'components/common';
 
 const { Content } = Layout;
+
+const options = [
+  {
+    value: 'Reviews',
+    label: 'Bài đánh giá',
+    children: [
+      {
+        value: 'love',
+        label: 'Yêu thích nhất',
+        children: [
+          {
+            value: 'eat',
+            label: 'Ăn uống'
+          },
+          {
+            value: 'Tham quan',
+            label: 'Tham quan'
+          },
+          {
+            value: 'Vui chơi',
+            label: 'Vui chơi'
+          }
+        ]
+      },
+      {
+        value: 'comment',
+        label: 'Bình luận nhiều nhất',
+        children: [
+          {
+            value: 'eat',
+            label: 'Ăn uống'
+          },
+          {
+            value: 'Tham quan',
+            label: 'Tham quan'
+          },
+          {
+            value: 'Vui chơi',
+            label: 'Vui chơi'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    value: 'jiangsu',
+    label: 'Jiangsu',
+    children: [
+      {
+        value: 'nanjing',
+        label: 'Nanjing',
+        children: [
+          {
+            value: 'zhonghuamen',
+            label: 'Zhong Hua Men'
+          }
+        ]
+      }
+    ]
+  }
+];
 
 class Posts extends React.Component {
   constructor(props) {
@@ -24,7 +86,14 @@ class Posts extends React.Component {
     return (
       <Content>
         {/* Header Page */}
-        <HeaderPages />
+        <HeadingPage title="Danh sách bài viết">
+          <Cascader
+            options={options}
+            placeholder="Loc bài viết theo ..."
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </HeadingPage>
 
         {/* Content Page */}
         <Row>

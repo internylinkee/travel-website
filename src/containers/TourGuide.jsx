@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import {
   ListTourGuides
-} from 'components/users';
+} from 'components/user';
 
 const { Content } = Layout;
 const { Title } = Typography;

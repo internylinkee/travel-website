@@ -5,7 +5,6 @@ import {
   Empty,
   Button
 } from 'antd';
-import { HeaderProfile } from 'components/users';
 
 const { Content } = Layout;
 
@@ -18,7 +17,6 @@ class Tours extends React.Component {
   render() {
     return (
       <Content>
-        <HeaderProfile />
         <Row style={{ padding: '0 15px' }}>
           <Empty
             className="empty"

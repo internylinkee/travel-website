@@ -4,7 +4,6 @@ import {
   Row,
   Col
 } from 'antd';
-import { ListAlbums, HeaderProfile } from 'components/users';
 import {
   ListHorizontalPosts,
   ListFeaturedPosts,
@@ -22,7 +21,6 @@ class Reviews extends React.Component {
   render() {
     return (
       <Content>
-        <HeaderProfile />
         <Row>
           <Col className="p-col" span={16}>
             <ListHorizontalPosts />
@@ -36,7 +34,7 @@ class Reviews extends React.Component {
             <ListAuthor />
 
             {/* Album ảnh */}
-            <ListAlbums />
+
           </Col>
         </Row>
       </Content>
