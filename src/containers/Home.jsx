@@ -40,8 +40,6 @@ class Home extends React.Component {
 
             {/* 2. Hiển thị nội dung bài viết có comment */}
             <ListHorizontalPosts />
-            <ListHorizontalPosts />
-            <ListHorizontalPosts />
           </Col>
 
           {/* Thanh thông tin hiển thị các nội dung khác */}
