@@ -1,1 +1,19 @@
 /* -------- Style about header -------- */
+.welcome-name {
+  color: #fff;
+  margin: 0 10px;
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background: none;
+}
+
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  padding: 0;
+}
+
+.ant-dropdown-menu {
+  padding: 4px 0 0;
+}

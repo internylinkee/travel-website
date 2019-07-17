@@ -61,8 +61,7 @@ class ListTourGuides extends React.Component {
     return (
       <div>
         {listData.map((tourguide, index) => (
-          // eslint-disable-next-line react/jsx-sort-props
-          <Col xs={24} sm={24} md={12} lg={6} style={{ marginBottom: '20px' }}>
+          <Col lg={6} md={12} sm={24} style={{ marginBottom: '20px' }} xs={24}>
             <Card
               key={get(tourguide, 'id')}
               actions={[

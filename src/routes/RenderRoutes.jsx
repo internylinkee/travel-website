@@ -2,34 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
-  withRouter
-  // Redirect
+  withRouter,
+  Redirect
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import QueryString from 'query-string';
-// import { Cookies } from 'react-cookie';
+import { get, isEmpty } from 'lodash';
+import { Cookies } from 'react-cookie';
+import { MasterLayout } from 'containers';
 import ConnectedSwitch from './ConnectedSwitch';
 
-// const cookies = new Cookies();
+const cookies = new Cookies();
+
+const renderComponent = (route, props) => {
+  if (isEmpty(route)) {
+    return null;
+  }
+  const { isUseMasterLayout = true } = route;
+  if (isUseMasterLayout) {
+    return (
+      <MasterLayout>
+        <route.component
+          {...props}
+          routes={route.routes}
+        />
+      </MasterLayout>
+    );
+  }
+  return (
+    <route.component
+      {...props}
+      routes={route.routes}
+    />
+  );
+};
 
 const RenderRoutes = ({ routes, auth, location }) => {
-  // const query = QueryString.parse(location.hash);
-  // let token;
-  // let error;
-  // if (query.access_token) {
-  //   token = {
-  //     accessToken: query.access_token,
-  //     expiresIn: query.expires_in,
-  //     tokenType: query.token_type,
-  //     sessionState: query.session_state,
-  //     state: query.state
-  //   };
-  // }
-
-  // if (query.error) {
-  //   error = query;
-  // }
-
+  const authInfo = cookies.get('authInfo');
+  const path = get(location, 'pathname');
+  const accessToken = get(auth, 'token.accessToken') || get(authInfo, 'token.accessToken');
   if (!routes) {
     return null;
   }
@@ -44,17 +54,12 @@ const RenderRoutes = ({ routes, auth, location }) => {
           render={props => (
             <React.Fragment>
               {/* {
-                (
-                  (error || token) || (
-                    location.pathname !== route.requireLogin && route.requireLogin && (
-                      !auth.token || !cookies.get('authState')
-                    )
-                  )
+                path !== route.requireLogin && route.requireLogin && (
+                  !accessToken
                 ) && (
                   <Redirect
                     to={{
-                      pathname: route.requireLogin,
-                      state: { token }
+                      pathname: route.requireLogin
                     }}
                   />
                 )
@@ -62,7 +67,7 @@ const RenderRoutes = ({ routes, auth, location }) => {
               {
                 (
                   !route.requireLogin
-                  || auth.token
+                  || accessToken
                   || route.requireLogin === route.path
                 ) && (
                   <route.component
@@ -71,10 +76,7 @@ const RenderRoutes = ({ routes, auth, location }) => {
                   />
                 )
               } */}
-              <route.component
-                {...props}
-                routes={route.routes}
-              />
+              {renderComponent(route, props)}
             </React.Fragment>
           )}
         />

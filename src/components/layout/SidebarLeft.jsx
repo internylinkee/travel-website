@@ -1,5 +1,10 @@
 import React from 'react';
-import { Layout, Icon, Menu } from 'antd';
+import {
+  Layout,
+  Icon,
+  Menu,
+  Avatar
+} from 'antd';
 import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
@@ -10,15 +15,14 @@ class SiderbarLeft extends React.Component {
   };
 
   toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+    this.setState(prevState => ({
+      collapsed: !prevState.collapsed
+    }));
   };
 
   render() {
     return (
       <Sider className="fixed-sidebar-left" collapsed={this.state.collapsed} collapsible trigger={null}>
-        <div className="logo" />
         <Menu defaultSelectedKeys={['2']} mode="inline" theme="light">
           <Menu.Item key="1" onClick={this.toggle}>
             <Icon

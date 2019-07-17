@@ -2,10 +2,7 @@ import axios from 'axios';
 import { API_URL, API_AUTH, API_FILE_URL } from 'constants/api';
 import { camelizeKeys } from 'humps';
 import { getActionTypes } from 'redux-axios-middleware';
-// import { Cookies } from 'react-cookie';
-import { authLogout } from 'actions';
-
-// const cookies = new Cookies();
+import { logout } from 'actions';
 
 export const apiClients = {
   default: {
@@ -112,7 +109,7 @@ export const apiMiddlewareConfig = {
     action, next, error, dispatch
   }, options) => {
     if (error.response && error.response.status === 401) {
-      return dispatch(authLogout());
+      return dispatch(logout());
     }
     let errorObject;
     if (error && !error.response) {

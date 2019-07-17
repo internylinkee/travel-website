@@ -6,24 +6,20 @@ import { RenderRoutes } from 'routes';
 import { MasterLayout } from 'containers';
 import 'app.less';
 import 'assets/style/main.css';
+import { Cookies } from 'react-cookie';
 
+const cookies = new Cookies();
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
-    // check token in props.auth & call API to get '/me'
-  }
-
   render() {
+    // console.log('PROPS', this.props);
+    // console.log('authInfo', cookies.get('authInfo'));
     return (
-      <MasterLayout
-        history={this.props.history}
-      >
-        <RenderRoutes history={this.props.history} routes={this.props.routes} />
-      </MasterLayout>
+      <RenderRoutes history={this.props.history} routes={this.props.routes} />
     );
   }
 }
