@@ -5,7 +5,7 @@ import {
   Login,
   NotFound,
   Posts,
-  Profile,
+  ProfileUser,
   TourGuide,
   PostDetail,
   Reviews,
@@ -24,12 +24,8 @@ const routes = [
   { path: '/posts/:id/detail', exact: true, component: PostDetail },
   // Tour Guide
   { path: '/tourguide', exact: true, component: TourGuide },
-  // Profile
-  { path: '/profile/:id', exact: true, component: Profile },
-  { path: '/profile/:id/reviews', exact: true, component: Reviews },
-  { path: '/profile/:id/tours', exact: true, component: Tours },
-  { path: '/profile/:id/albums', exact: true, component: Albums },
-  { path: '/profile/:id/aboutme', exact: true, component: AboutMe },
+  // ProfileUser
+  { path: '/user/:id/:tab', exact: true, component: ProfileUser },
   // Not found
   { component: NotFound }
 ];

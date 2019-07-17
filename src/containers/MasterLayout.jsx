@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Layout } from 'antd';
 import {
-  Header as HeaderComponent,
-  SidebarLeft as SidebarLeftComponent,
-  SidebarRight as SidebarRightComponent
+  Header,
+  SidebarLeft,
+  SidebarRight
 } from 'components/layout';
 
 class MasterLayout extends PureComponent {
@@ -18,13 +18,13 @@ class MasterLayout extends PureComponent {
   render() {
     return (
       <Layout>
-        <HeaderComponent />
+        <Header />
         <Layout>
-          <SidebarLeftComponent />
+          <SidebarLeft />
           <div className="b-container">
             {this.props.children}
           </div>
-          <SidebarRightComponent />
+          <SidebarRight />
         </Layout>
       </Layout>
     );
