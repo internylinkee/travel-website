@@ -19,11 +19,7 @@ class App extends Component {
     // console.log('PROPS', this.props);
     // console.log('authInfo', cookies.get('authInfo'));
     return (
-      <MasterLayout
-        history={this.props.history}
-      >
-        <RenderRoutes history={this.props.history} routes={this.props.routes} />
-      </MasterLayout>
+      <RenderRoutes history={this.props.history} routes={this.props.routes} />
     );
   }
 }

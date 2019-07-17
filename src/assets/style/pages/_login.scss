@@ -1,1 +1,38 @@
 /* -------- Style about login page -------- */
+.login-container {
+  background-image: url("https://timedotcom.files.wordpress.com/2018/06/how-high-do-airplanes-fly.jpg");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: overlay;
+
+  .login-background {
+    height: -webkit-fill-available;
+    background: #6c7c8a78;
+    z-index: 2;
+    overflow: overlay;
+  }
+
+  .b-login-form {
+    width: 600px;
+    margin: 200px auto;
+    background: #fff;
+    z-index: 3;
+    padding: 80px 40px;
+    opacity: 0.8;
+  }
+
+  .login-text {
+    text-align: center;
+  }
+
+  .login-form-forgot {
+    float: right;
+  }
+
+  .login-form-button {
+    width: 100%;
+    margin-top: 30px;
+  }
+}

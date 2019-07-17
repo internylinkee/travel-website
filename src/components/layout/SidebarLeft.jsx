@@ -23,11 +23,7 @@ class SiderbarLeft extends React.Component {
   render() {
     return (
       <Sider className="fixed-sidebar-left" collapsed={this.state.collapsed} collapsible trigger={null}>
-        <div className="logo" />
         <Menu defaultSelectedKeys={['2']} mode="inline" theme="light">
-          <Menu.Item key="0">
-            <Avatar src="https://www.cg-cooper.com/uploads/7/6/9/1/7691405/published/0c4a1744.jpg?1506475705" />
-          </Menu.Item>
           <Menu.Item key="1" onClick={this.toggle}>
             <Icon
               className="trigger"

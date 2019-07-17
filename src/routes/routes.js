@@ -7,18 +7,14 @@ import {
   Posts,
   ProfileUser,
   TourGuide,
-  PostDetail,
-  Reviews,
-  Tours,
-  AboutMe,
-  Albums
+  PostDetail
 } from 'containers';
 
 const routes = [
   // Home
   { path: '/', exact: true, component: Home, requireLogin: '/login' },
   // Login
-  { path: '/login', exact: true, component: Login },
+  { path: '/login', exact: true, component: Login, isUseMasterLayout: false },
   // Posts
   { path: '/posts', exact: true, component: Posts },
   { path: '/posts/:id/detail', exact: true, component: PostDetail },

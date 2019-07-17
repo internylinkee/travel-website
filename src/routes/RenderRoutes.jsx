@@ -6,11 +6,35 @@ import {
   Redirect
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { Cookies } from 'react-cookie';
+import { MasterLayout } from 'containers';
 import ConnectedSwitch from './ConnectedSwitch';
 
 const cookies = new Cookies();
+
+const renderComponent = (route, props) => {
+  if (isEmpty(route)) {
+    return null;
+  }
+  const { isUseMasterLayout = true } = route;
+  if (isUseMasterLayout) {
+    return (
+      <MasterLayout>
+        <route.component
+          {...props}
+          routes={route.routes}
+        />
+      </MasterLayout>
+    );
+  }
+  return (
+    <route.component
+      {...props}
+      routes={route.routes}
+    />
+  );
+};
 
 const RenderRoutes = ({ routes, auth, location }) => {
   const authInfo = cookies.get('authInfo');
@@ -29,7 +53,7 @@ const RenderRoutes = ({ routes, auth, location }) => {
           path={route.path}
           render={props => (
             <React.Fragment>
-              {
+              {/* {
                 path !== route.requireLogin && route.requireLogin && (
                   !accessToken
                 ) && (
@@ -51,7 +75,8 @@ const RenderRoutes = ({ routes, auth, location }) => {
                     routes={route.routes}
                   />
                 )
-              }
+              } */}
+              {renderComponent(route, props)}
             </React.Fragment>
           )}
         />
