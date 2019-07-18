@@ -31,12 +31,12 @@ class HeaderProfile extends React.Component {
             <Avatar size={150} src="https://www.cg-cooper.com/uploads/7/6/9/1/7691405/published/0c4a1744.jpg?1506475705" />
           </div>
           <Row gutter={16} style={{ lineHeight: '50px' }}>
-            <Col className="menu-profile active" span={3}><Link to="/profile/1">Dòng thời gian</Link></Col>
-            <Col className="menu-profile" span={3}><Link to="/profile/1/reviews">Bài viết</Link></Col>
-            <Col className="menu-profile" span={3}><Link to="/profile/1/tours">Chuyến đi</Link></Col>
-            <Col className="name-profile" span={6}><Link to="/profile/1">James Spiegel</Link></Col>
-            <Col className="menu-profile" span={3}><Link to="/profile/1/albums">Ảnh</Link></Col>
-            <Col className="menu-profile" span={3}><Link to="/profile/1/aboutme">Về Tôi</Link></Col>
+            <Col className="menu-profile active" span={3}><Link to="/user/1">Dòng thời gian</Link></Col>
+            <Col className="menu-profile" span={3}><Link to="/user/1/reviews">Bài viết</Link></Col>
+            <Col className="menu-profile" span={3}><Link to="/user/1/tours">Chuyến đi</Link></Col>
+            <Col className="name-profile" span={6}><Link to="/user/1">James Spiegel</Link></Col>
+            <Col className="menu-profile" span={3}><Link to="/user/1/albums">Ảnh</Link></Col>
+            <Col className="menu-profile" span={3}><Link to="/user/1/aboutme">Về Tôi</Link></Col>
           </Row>
         </Card>
       </Row>

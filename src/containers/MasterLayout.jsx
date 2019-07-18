@@ -8,6 +8,9 @@ import {
   SidebarLeft,
   SidebarRight
 } from 'components/layout';
+import {
+  logout
+} from 'actions';
 
 class MasterLayout extends PureComponent {
   constructor(props) {
@@ -18,7 +21,7 @@ class MasterLayout extends PureComponent {
   render() {
     return (
       <Layout>
-        <Header />
+        <Header actions={this.props.actions} auth={this.props.auth} history={this.props.history} />
         <Layout>
           <SidebarLeft />
           <div className="b-container">
@@ -32,10 +35,10 @@ class MasterLayout extends PureComponent {
 }
 
 MasterLayout.propTypes = {
-  children: PropTypes.node.isRequired
-  // history: PropTypes.objectOf(PropTypes.any).isRequired,
-  // actions: PropTypes.objectOf(PropTypes.any).isRequired,
-  // auth: PropTypes.objectOf(PropTypes.any).isRequired
+  children: PropTypes.node.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  auth: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -44,7 +47,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-
+    logout
   }, dispatch)
 });
 

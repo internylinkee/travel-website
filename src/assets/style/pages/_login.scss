@@ -16,10 +16,10 @@
 
   .b-login-form {
     width: 600px;
-    margin: 200px auto;
+    margin: auto;
     background: #fff;
     z-index: 3;
-    padding: 80px 40px;
+    padding: 60px 40px;
     opacity: 0.8;
   }
 
@@ -34,5 +34,9 @@
   .login-form-button {
     width: 100%;
     margin-top: 30px;
+  }
+
+  .ant-form-item {
+    margin: 10px 0;
   }
 }

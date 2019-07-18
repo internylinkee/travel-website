@@ -7,6 +7,7 @@ import { get } from 'lodash';
 
 const cookies = new Cookies();
 const initialState = cookies.get('authInfo') || {
+  isAuthenticated: false,
   token: {
     type: 'Bearer',
     accessToken: null
@@ -20,6 +21,7 @@ export default function auth(state = initialState, action = {}) {
     case AUTH_LOGIN:
       authState = {
         ...state,
+        isAuthenticated: !!get(action.payload, 'accessToken'),
         token: {
           ...state.token,
           accessToken: get(action.payload, 'accessToken')
@@ -29,6 +31,7 @@ export default function auth(state = initialState, action = {}) {
       break;
     case AUTH_LOGOUT:
       authState = {
+        isAuthenticated: false,
         token: {
           type: 'Bearer',
           accessToken: null

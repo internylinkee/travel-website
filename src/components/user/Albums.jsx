@@ -12,7 +12,7 @@ class Albums extends React.Component {
   render() {
     return (
       <Content>
-
+        <p>Albums</p>
       </Content>
     );
   }

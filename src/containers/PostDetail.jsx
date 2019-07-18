@@ -12,16 +12,10 @@ import {
   Typography,
   Input
 } from 'antd';
+import { IconText } from 'components/common';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
-
-const IconText = ({ type, text }) => (
-  <span className="count-post">
-    <Icon style={{ marginRight: 6 }} type={type} />
-    {text}
-  </span>
-);
 
 class PostDetail extends React.Component {
   constructor(props) {

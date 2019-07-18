@@ -2,8 +2,7 @@ import React from 'react';
 import {
   Layout,
   Icon,
-  Menu,
-  Avatar
+  Menu
 } from 'antd';
 import { Link } from 'react-router-dom';
 

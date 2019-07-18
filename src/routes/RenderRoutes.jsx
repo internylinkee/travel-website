@@ -20,7 +20,7 @@ const renderComponent = (route, props) => {
   const { isUseMasterLayout = true } = route;
   if (isUseMasterLayout) {
     return (
-      <MasterLayout>
+      <MasterLayout {...props}>
         <route.component
           {...props}
           routes={route.routes}
@@ -53,7 +53,7 @@ const RenderRoutes = ({ routes, auth, location }) => {
           path={route.path}
           render={props => (
             <React.Fragment>
-              {/* {
+              {
                 path !== route.requireLogin && route.requireLogin && (
                   !accessToken
                 ) && (
@@ -69,14 +69,8 @@ const RenderRoutes = ({ routes, auth, location }) => {
                   !route.requireLogin
                   || accessToken
                   || route.requireLogin === route.path
-                ) && (
-                  <route.component
-                    {...props}
-                    routes={route.routes}
-                  />
-                )
-              } */}
-              {renderComponent(route, props)}
+                ) && renderComponent(route, props)
+              }
             </React.Fragment>
           )}
         />
