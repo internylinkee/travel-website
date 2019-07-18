@@ -26,7 +26,7 @@ const routes = [
   // Profile Current User
   { path: '/profile/:tab', exact: true, component: ProfileUser },
   // Profile User
-  { path: '/user/:id/:tab', exact: true, component: ProfileUser },
+  { path: '/users/:id/:tab', exact: true, component: ProfileUser },
   // Not found
   { component: NotFound }
 ];

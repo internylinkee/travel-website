@@ -1,10 +1,12 @@
 import {
-  isString
+  isString,
+  isEmpty
 } from 'lodash';
 import {
   Notification
 } from 'components/common';
 import messages from 'constants/messages';
+import moment from 'moment';
 
 const canceledList = [];
 
@@ -64,5 +66,41 @@ export default class Helpers {
       message: messages.NOTIFICATION_TITLE,
       description: message
     });
+  }
+
+  /**
+   *Get the datetime by format
+   * @param {*} obj.value the datetime value
+   * @param {string} obj.format the format which will be used to convert the value
+   * @param {boolean} obj.isUTC if true, the value will be converted to UTC time (default use local time)
+   * @param {boolean} obj.isString if true, the value will be returned as a string
+   * @returns {moment} the moment instance
+   * @static
+   * @memberof Helpers
+   */
+  static getDateTime = ({
+    value = undefined,
+    format = null,
+    isUTC = false,
+    isString = true
+  }) => {
+    if (!value || !moment(value).isValid()) {
+      return undefined;
+    }
+    const newValue = isUTC ? moment.utc(value) : moment.utc(value).local();
+    let result = newValue;
+    if (isString && isEmpty(format)) {
+      result = moment(newValue).format();
+    }
+    if (isString && !isEmpty(format)) {
+      result = moment(newValue).format(format);
+    }
+    if (!isString && isEmpty(format)) {
+      result = moment(moment(newValue).format());
+    }
+    if (!isString && !isEmpty(format)) {
+      result = moment(moment(newValue).format(format), format);
+    }
+    return result;
   }
 }

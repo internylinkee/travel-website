@@ -15,6 +15,7 @@ import {
 import { get, isArray } from 'lodash';
 import classnames from 'classnames';
 import variables from 'constants/variables';
+import Helpers from 'helpers';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -30,43 +31,6 @@ IconText.propTypes = {
   text: PropTypes.string.isRequired
 };
 
-const listData = [
-  {
-    id: '1',
-    username: 'Sarah Hetfield',
-    location: ['Đà Nẵng', 'Nha Trang'],
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-    title: 'Du lịch Phú Quốc nên ăn gì?',
-    content: `Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-    Mixta dispositam chaos: igni unda nulli posset: densior haec.
-    Contraria septemque unda fuit plagae orba nubes valles terrarum.
-    Peragebant vos neu divino viseret tenent terras sectamque onerosior.
-    Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-    Mixta dispositam chaos: igni unda nulli posset: densior h.
-    Contraria septemque unda fuit plagae orba nubes valles terrarum.
-    Peragebant vos neu divino viseret tenent terras sectamque onerosior.`,
-    tags: ['Ăn uống', 'Vui chơi', 'Tham quan'],
-    type: 'question'
-  },
-  {
-    id: '2',
-    username: 'Sarah Hetfield',
-    location: ['Đà Nẵng'],
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-    title: 'Du lịch Phú Quốc nên ăn gì?',
-    content: `Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-    Mixta dispositam chaos: igni unda nulli posset: densior haec.
-    Contraria septemque unda fuit plagae orba nubes valles terrarum.
-    Peragebant vos neu divino viseret tenent terras sectamque onerosior.
-    Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-    Mixta dispositam chaos: igni unda nulli posset: densior h.
-    Contraria septemque unda fuit plagae orba nubes valles terrarum.
-    Peragebant vos neu divino viseret tenent terras sectamque onerosior.`,
-    tags: ['Ăn uống', 'Tham quan'],
-    type: 'review'
-  }
-];
 class HorizontalPosts extends React.Component {
   constructor(props) {
     super(props);
@@ -74,7 +38,7 @@ class HorizontalPosts extends React.Component {
   }
 
   renderContent = (post) => {
-    if (get(post, 'type') === 'question') {
+    if (get(post, 'type') === variables.TYPE_POST.QUESTION) {
       return (
         <React.Fragment>
           <Title level={3}>{get(post, 'title')}</Title>
@@ -87,13 +51,13 @@ class HorizontalPosts extends React.Component {
     return (
       <React.Fragment>
         <div style={{ height: '350px', margin: '0 -25px 20px' }}>
-          <img alt="Ảnh bìa" src={get(post, 'img')} style={{ width: '100%', height: '100%' }} />
+          <img alt="Ảnh bìa" src={get(post, 'featureImage')} style={{ width: '100%', height: '100%' }} />
         </div>
         <Title level={3}>{get(post, 'title')}</Title>
         <Paragraph ellipsis={{ rows: 6, expandable: true }}>
           {get(post, 'content')}
         </Paragraph>
-        <Button href="/posts/:id/detail" size="large">Xem thêm</Button>
+        <Button href={`/posts/${get(post, 'id')}/detail`} size="large">Xem thêm</Button>
       </React.Fragment>
     );
   }
@@ -106,7 +70,7 @@ class HorizontalPosts extends React.Component {
    */
   renderTags = (post) => {
     const colors = variables.COLOR;
-    const tags = get(post, 'tags');
+    const tags = (get(post, 'categories', []) || []).map(catg => catg.name);
     if (!isArray(tags)) {
       return null;
     }
@@ -119,10 +83,31 @@ class HorizontalPosts extends React.Component {
     );
   }
 
+  /**
+   * Lấy thông tin của một user trong bài viết
+   * @param {object} post
+   * @returns {object}
+   * @memberof HorizontalPosts
+   */
+  getUserInfo = (post) => {
+    const lastName = get(post, 'user.fullName.lastName');
+    const firstName = get(post, 'user.fullName.firstName');
+    const name = `${lastName} ${firstName}` || '';
+    const avatar = get(post, 'user.avatar') || '';
+    const location = (get(post, 'locations', []) || []).map(item => item.name).join(', ');
+    return {
+      lastName,
+      firstName,
+      name,
+      avatar,
+      location
+    };
+  }
+
   render() {
     return (
       <div>
-        {listData.map((post, index) => (
+        {this.props.data.map((post, index) => (
           <Card
             key={index}
             className={classnames('p-card', {
@@ -132,15 +117,20 @@ class HorizontalPosts extends React.Component {
           >
             <Row style={{ marginBottom: '20px' }}>
               <Col span={2}>
-                <Avatar size={56} src={get(post, 'avatar')} />
+                <Avatar size={56} src={this.getUserInfo(post).avatar} />
               </Col>
               <Col span={22} style={{ paddingTop: '5px' }}>
-                <Text className="name-users">{get(post, 'username')}</Text>
+                <Text className="name-users">{this.getUserInfo(post).name}</Text>
                 <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
-                <IconText text={get(post, 'location').join(', ')} type="environment" />
+                <IconText text={this.getUserInfo(post).location} type="environment" />
               </Col>
               <Col span={22}>
-                <Text>March 2 at 9:06am</Text>
+                <Text>
+                  {Helpers.getDateTime({
+                    value: get(post, 'updatedAt'),
+                    format: variables.DATE_FORMAT.DATETIME
+                  })}
+                </Text>
               </Col>
             </Row>
             <Row>{this.renderContent(post)}</Row>
@@ -172,5 +162,13 @@ class HorizontalPosts extends React.Component {
     );
   }
 }
+
+HorizontalPosts.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object)
+};
+
+HorizontalPosts.defaultProps = {
+  data: []
+};
 
 export default HorizontalPosts;

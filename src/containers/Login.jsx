@@ -4,7 +4,6 @@ import {
   Icon,
   Input,
   Button,
-  Checkbox,
   Typography
 } from 'antd';
 import PropTypes from 'prop-types';

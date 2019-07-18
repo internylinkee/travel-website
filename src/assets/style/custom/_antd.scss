@@ -44,3 +44,14 @@
 .ant-form-item {
   margin: 0;
 }
+
+// Style Loading
+.b-loading {
+  .ant-spin-spinning {
+    display: block;
+  }
+
+  .ant-spin {
+    margin: 50px auto;
+  }
+}
