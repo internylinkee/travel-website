@@ -17,6 +17,7 @@ import {
 } from 'actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 
 const { Content } = Layout;
 
@@ -27,8 +28,15 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await this.props.actions.getListFeaturedPosts();
+    // const response = await this.props.actions.getListFeaturedPosts();
   }
+
+  /**
+   * Điều kiện show editor
+   * @returns {boolean}
+   * @memberof Home
+   */
+  isShowEditor = () => !!get(this.props.auth, 'isAuthenticated')
 
   render() {
     return (
@@ -36,8 +44,7 @@ class Home extends React.Component {
         <Row>
           <Col className="p-col" span={16}>
             {/* 1. Form Edittor */}
-            <FormPost />
-
+            {this.isShowEditor() && (<FormPost />)}
             {/* 2. Hiển thị nội dung bài viết có comment */}
             <ListHorizontalPosts />
           </Col>
@@ -59,7 +66,9 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -73,5 +82,6 @@ export default connect(
 )(Home);
 
 Home.propTypes = {
-  actions: PropTypes.objectOf(PropTypes.any).isRequired
+  auth: PropTypes.objectOf(PropTypes.any).isRequired
+  // actions: PropTypes.objectOf(PropTypes.any).isRequired
 };

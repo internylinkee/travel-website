@@ -12,7 +12,7 @@ class AboutMe extends React.Component {
   render() {
     return (
       <Content>
-
+        <p>About me</p>
       </Content>
     );
   }

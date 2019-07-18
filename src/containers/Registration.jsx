@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   Form,
-  Icon,
   Input,
   Button,
-  Checkbox,
   Typography
 } from 'antd';
 import PropTypes from 'prop-types';
@@ -18,7 +16,7 @@ import {
 import Helpers from 'helpers';
 import messages from 'constants/messages';
 import {
-  login
+  register
 } from 'actions';
 
 const { Title } = Typography;
@@ -41,7 +39,7 @@ const getIsMounted = () => isMounted;
 
 const FormItem = Form.Item;
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +57,7 @@ class Login extends React.Component {
    * @param {object} data the data which will be merged to this.state
    * @param {function} callback the function which will be called after setState
    * @returns {void} call this.setState to update state
-   * @memberof Login
+   * @memberof Register
    */
   setStateData = (state, callback) => {
     if (!getIsMounted()) {
@@ -69,25 +67,25 @@ class Login extends React.Component {
   }
 
   /**
-   * Call the login API
-   * @param {object} data the data to login
-   * @returns {void} call API and redirect to home page or alert the error
-   * @memberof Login
+   * Gọi register API
+   * @param {object} data data cho register
+   * @returns {void} gọi API and điều hướng đến trang home hoặc thông báo error message
+   * @memberof Register
    */
-  callLoginAPI = async (data) => {
+  callRegsiterAPI = async (data) => {
     try {
       // set isSubmitting
       await this.setStateData({ isSubmitting: true });
       // call API
-      const response = await this.props.actions.login(data) || {};
+      const response = await this.props.actions.register(data) || {};
       // if error
       if (!isEmpty(response.error)) {
         Helpers.throwError(response.error);
       }
-      // go to home page
+      // điều hướng tới trang home
       return this.redirectTo('/');
     } catch (error) {
-      return Helpers.alertError(messages.LOGIN_FAILED);
+      return Helpers.alertError(messages.REGISTER_FAILED);
     } finally {
       // set isSubmitting
       this.setStateData({ isSubmitting: false });
@@ -95,10 +93,10 @@ class Login extends React.Component {
   }
 
   /**
-   * Redirect to a path
-   * @param {string} path the path
-   * @returns {void} call props.history.push() method
-   * @memberof Login
+   * Điều hướng đến một đường dẫn
+   * @param {string} path đường dẫn
+   * @returns {void} gọi props.history.push()
+   * @memberof Register
    */
   redirectTo = (path = '/') => {
     if (isFunction(get(this.props.history, 'push'))) {
@@ -107,10 +105,10 @@ class Login extends React.Component {
   }
 
   /**
-   * Handle when the users submit the login form
-   * @param {object} e the event object
-   * @returns {void} validate, call the login API or alert the error
-   * @memberof Login
+   * Xử lý khi submit login form
+   * @param {object} e event object
+   * @returns {void} validate, gọi register API
+   * @memberof Register
    */
   handleSubmit = (e) => {
     e.preventDefault();
@@ -118,8 +116,17 @@ class Login extends React.Component {
       if (err) {
         return false;
       }
-      return this.callLoginAPI(values);
+      return this.callRegsiterAPI(values);
     });
+  };
+
+  validateConfirmPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback(messages.IN_VALID_CONFIRM_PASSWORD);
+    } else {
+      callback();
+    }
   };
 
   render() {
@@ -133,8 +140,25 @@ class Login extends React.Component {
             </a>
           </div>
           <div className="b-login-form">
-            <Title className="login-text" level={2}>Đăng nhập</Title>
+            <Title className="login-text" level={2}>Đăng ký</Title>
             <Form className="login-form" onSubmit={this.handleSubmit}>
+              <FormItem>
+                <FormItem style={{ display: 'inline-block', width: 'calc(50% - 12px)', margin: 0 }}>
+                  {getFieldDecorator('firstName', {
+                    rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+                  })(
+                    <Input placeholder="Tên" />,
+                  )}
+                </FormItem>
+                <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }} />
+                <FormItem style={{ display: 'inline-block', width: 'calc(50% - 12px)', margin: 0 }}>
+                  {getFieldDecorator('lastName', {
+                    rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+                  })(
+                    <Input placeholder="Họ" />,
+                  )}
+                </FormItem>
+              </FormItem>
               <FormItem>
                 {getFieldDecorator('email', {
                   rules: [
@@ -151,7 +175,6 @@ class Login extends React.Component {
                 })(
                   <Input
                     placeholder="Email"
-                    prefix={<Icon style={{ color: 'rgba(0,0,0,.25)' }} type="user" />}
                   />,
                 )}
               </FormItem>
@@ -161,13 +184,24 @@ class Login extends React.Component {
                 })(
                   <Input
                     placeholder="Mật khẩu"
-                    prefix={<Icon style={{ color: 'rgba(0,0,0,.25)' }} type="lock" />}
                     type="password"
                   />,
                 )}
               </FormItem>
               <FormItem>
-                <Button href="/registration" style={{ padding: 0 }} type="link">Đăng ký tài khoản</Button>
+                {getFieldDecorator('confirmPassword', {
+                  rules: [
+                    { whitespace: true, required: true, message: messages.REQUIRED_FIELD },
+                    { validator: this.validateConfirmPassword }
+                  ]
+                })(
+                  <Input
+                    placeholder="Nhập lại mật khẩu"
+                    type="password"
+                  />,
+                )}
+              </FormItem>
+              <FormItem>
                 <Button
                   className="login-form-button"
                   htmlType="submit"
@@ -175,7 +209,7 @@ class Login extends React.Component {
                   size="large"
                   type="primary"
                 >
-                  Đăng nhập
+                  Đăng ký
                 </Button>
               </FormItem>
             </Form>
@@ -186,7 +220,7 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   form: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   actions: PropTypes.objectOf(PropTypes.any).isRequired
@@ -194,11 +228,11 @@ Login.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    login
+    register
   }, dispatch)
 });
 
-export default Form.create({ name: 'LoginForm' })(connect(
+export default Form.create({ name: 'RegisterForm' })(connect(
   null,
   mapDispatchToProps
-)(Login));
+)(Register));

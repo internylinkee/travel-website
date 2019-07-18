@@ -112,8 +112,8 @@ class HorizontalPosts extends React.Component {
     }
     return (
       <span className="tag-post">
-        {tags.map(tag => (
-          <Tag color={colors[Math.floor(Math.random() * colors.length)]}>{tag}</Tag>
+        {tags.map((tag, index) => (
+          <Tag key={index} color={colors[Math.floor(Math.random() * colors.length)]}>{tag}</Tag>
         ))}
       </span>
     );
@@ -124,6 +124,7 @@ class HorizontalPosts extends React.Component {
       <div>
         {listData.map((post, index) => (
           <Card
+            key={index}
             className={classnames('p-card', {
               'p-card1': get(post, 'type') === 1,
               'p-card2': get(post, 'type') === 2
@@ -156,13 +157,13 @@ class HorizontalPosts extends React.Component {
             </Row>
             <List className="control-post-button">
               <List.Item>
-                <Avatar icon="heart" style={{ backgroundColor: '#7dbcea' }} />
+                <Avatar icon="heart" style={{ backgroundColor: '#2699fb' }} />
               </List.Item>
               <List.Item>
-                <Avatar icon="message" style={{ backgroundColor: '#7dbcea' }} />
+                <Avatar icon="message" style={{ backgroundColor: '#2699fb' }} />
               </List.Item>
               <List.Item>
-                <Avatar icon="share-alt" style={{ backgroundColor: '#7dbcea' }} />
+                <Avatar icon="share-alt" style={{ backgroundColor: '#2699fb' }} />
               </List.Item>
             </List>
           </Card>

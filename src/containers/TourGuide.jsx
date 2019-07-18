@@ -2,9 +2,6 @@ import React from 'react';
 import {
   Layout,
   Row,
-  Col,
-  Card,
-  Typography,
   Select
 } from 'antd';
 import {
@@ -13,7 +10,6 @@ import {
 import { HeadingPage } from 'components/common';
 
 const { Content } = Layout;
-const { Title } = Typography;
 const { Option } = Select;
 
 class TourGuide extends React.Component {

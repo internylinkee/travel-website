@@ -9,9 +9,9 @@ class SiderbarRight extends React.Component {
   };
 
   toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+    this.setState(prevState => ({
+      collapsed: !prevState.collapsed
+    }));
   };
 
   render() {
