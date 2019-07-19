@@ -110,7 +110,7 @@ class Timeline extends React.Component {
   }
 
   /**
-   * Lấy danh sách bài viết
+   * Lấy danh sách bài viết nổi bật
    * @return {object}
    * @memberof ProfileUser
    */

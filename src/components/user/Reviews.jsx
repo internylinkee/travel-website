@@ -1,45 +1,178 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
-  Layout,
   Row,
   Col
 } from 'antd';
+import { get, isEmpty } from 'lodash';
+import {
+  getPostList,
+  getListFeaturedPosts
+} from 'actions';
+import Helpers from 'helpers';
+import messages from 'constants/messages';
 import {
   ListHorizontalPosts,
-  ListFeaturedPosts,
-  ListAuthor
+  ListFeaturedPosts
 } from 'components/post';
+import { LoadingWrapper } from 'components/common';
+import variables from 'constants/variables';
 
-const { Content } = Layout;
+let isMounted = true;
+
+/**
+ * Set isMounted
+ * @param {boolean} value
+ */
+const setIsMounted = (value = true) => {
+  isMounted = value;
+  return isMounted;
+};
+
+/**
+ * Get isMounted
+ */
+const getIsMounted = () => isMounted;
 
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+      isError: false,
+      mainPosts: [],
+      featuredPosts: []
+    };
+    setIsMounted(true);
+  }
+
+  async componentDidMount() {
+    // load data lần đầu
+    await this.loadData();
+  }
+
+  componentWillUnmount() {
+    setIsMounted(false);
+  }
+
+  /**
+   * Set state properties
+   * @param {object} data the data which will be merged to this.state
+   * @param {function} callback the function which will be called after setState
+   * @returns {void} call this.setState to update state
+   * @memberof Timeline
+   */
+  setStateData = (state, callback) => {
+    if (!getIsMounted()) {
+      return;
+    }
+    this.setState(state, callback);
+  }
+
+  /**
+   * Load data
+   * @returns {void} update state
+   * @memberof Timeline
+   */
+  loadData = async () => {
+    let isError = false;
+    try {
+      // set loading
+      await this.setStateData({ loading: true });
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      await this.setStateData({ mainPosts, featuredPosts });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      await this.setStateData({ isError, loading: false });
+    }
+  }
+
+  /**
+   * Lấy danh sách bài viết có type "review"
+   * @return {object}
+   * @memberof ProfileUser
+   */
+  getMainPosts = async () => {
+    if (!this.props.userId) {
+      Helpers.throwError(messages.ERROR_SYSTEM);
+    }
+    const params = { user: this.props.userId, type: variables.TYPE_POST.REVIEWS };
+    const response = await this.props.actions.getPostList(params) || {};
+    // if error
+    if (!isEmpty(response.error)) {
+      Helpers.throwError(response.error);
+    }
+    return get(response, 'payload');
+  }
+
+  /**
+   * Lấy danh sách bài viết nổi bật có type "review"
+   * @return {object}
+   * @memberof ProfileUser
+   */
+  getFeaturedPosts = async () => {
+    if (!this.props.userId) {
+      Helpers.throwError(messages.ERROR_SYSTEM);
+    }
+    const params = { user: this.props.userId, type: variables.TYPE_POST.REVIEWS };
+    const response = await this.props.actions.getListFeaturedPosts(params) || {};
+    // if error
+    if (!isEmpty(response.error)) {
+      Helpers.throwError(response.error);
+    }
+    return get(response, 'payload');
   }
 
   render() {
     return (
-      <Content>
+      <LoadingWrapper
+        isEmpty={isEmpty(this.state.mainPosts) && isEmpty(this.state.featuredPosts)}
+        isError={this.state.isError}
+        loading={this.state.loading}
+      >
         <Row>
+          {/* Danh sach tat ca cac bai viet có type "review" */}
           <Col className="p-col" span={16}>
-            <ListHorizontalPosts />
+            <ListHorizontalPosts data={this.state.mainPosts} />
           </Col>
+
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
-            {/* Danh sách bài viết được yêu thích */}
-            <ListFeaturedPosts />
-
-            {/* Phần Tác giả được Yêu thích */}
-            <ListAuthor />
-
-            {/* Album ảnh */}
-
+            {/* Danh sách bài viết nổi bật có type "review" */}
+            <ListFeaturedPosts data={this.state.featuredPosts} />
           </Col>
         </Row>
-      </Content>
+      </LoadingWrapper>
     );
   }
 }
 
-export default Reviews;
+Reviews.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  userId: PropTypes.string
+};
+
+Reviews.defaultProps = {
+  userId: ''
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getPostList,
+    getListFeaturedPosts
+  }, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Reviews);

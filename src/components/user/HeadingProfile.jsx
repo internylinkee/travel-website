@@ -26,35 +26,35 @@ class HeaderProfile extends React.Component {
   dataTab = () => [
     {
       key: variables.PROFILE_TAB.TIMELINE,
-      path: `/${this.props.prefix}/timeline`,
+      path: `/${this.props.prefix}/${variables.PROFILE_TAB.TIMELINE}`,
       className: 'menu-profile',
       span: 3,
       name: 'Dòng thời gian'
     },
     {
-      key: variables.PROFILE_TAB.REVIEW,
-      path: `/${this.props.prefix}/review`,
+      key: variables.PROFILE_TAB.REVIEWS,
+      path: `/${this.props.prefix}/${variables.PROFILE_TAB.REVIEWS}`,
       className: 'menu-profile',
       span: 3,
       name: 'Bài viết'
     },
     {
       key: variables.PROFILE_TAB.TOUR,
-      path: `/${this.props.prefix}/tour`,
+      path: `/${this.props.prefix}/${variables.PROFILE_TAB.TOUR}`,
       className: 'menu-profile',
       span: 3,
       name: 'Chuyến đi'
     },
     {
       key: variables.PROFILE_TAB.TIMELINE,
-      path: `/${this.props.prefix}/timeline`,
+      path: `/${this.props.prefix}/${variables.PROFILE_TAB.TIMELINE}`,
       className: 'name-profile',
       span: 6,
       name: this.getUserInfo().name
     },
     {
       key: variables.PROFILE_TAB.ABOUT_ME,
-      path: `/${this.props.prefix}/about-me`,
+      path: `/${this.props.prefix}/${variables.PROFILE_TAB.ABOUT_ME}`,
       className: 'menu-profile',
       span: 3,
       name: 'Về Tôi'
