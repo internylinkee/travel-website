@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { get, isEmpty } from 'lodash';
 import { Cookies } from 'react-cookie';
 import { MasterLayout } from 'containers';
+import variables from 'constants/variables';
 import ConnectedSwitch from './ConnectedSwitch';
 
 const cookies = new Cookies();
@@ -37,7 +38,7 @@ const renderComponent = (route, props) => {
 };
 
 const RenderRoutes = ({ routes, auth, location }) => {
-  const authInfo = cookies.get('authInfo');
+  const authInfo = cookies.get(variables.COOKIES_NAME.AUTH, variables.COOKIES_OPTION);
   const path = get(location, 'pathname');
   const accessToken = get(auth, 'token.accessToken') || get(authInfo, 'token.accessToken');
   if (!routes) {

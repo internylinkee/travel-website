@@ -19,14 +19,14 @@ const routes = [
   // Registration
   { path: '/registration', exact: true, component: Registration, isUseMasterLayout: false },
   // Posts
-  { path: '/posts', exact: true, component: Posts },
-  { path: '/posts/:id/detail', exact: true, component: PostDetail },
+  { path: '/posts', exact: true, component: Posts, requireLogin: '/login' },
+  { path: '/posts/:id/detail', exact: true, component: PostDetail, requireLogin: '/login' },
   // Tour Guide
-  { path: '/tourguide', exact: true, component: TourGuide },
+  { path: '/tourguide', exact: true, component: TourGuide, requireLogin: '/login' },
   // Profile Current User
-  { path: '/profile/:tab', exact: true, component: ProfileUser },
+  { path: '/profile/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Profile User
-  { path: '/user/:id/:tab', exact: true, component: ProfileUser },
+  { path: '/users/:id/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Not found
   { component: NotFound }
 ];
