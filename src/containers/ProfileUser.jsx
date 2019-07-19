@@ -144,8 +144,8 @@ class ProfileUser extends React.Component {
     const userId = this.state.userId || get(this.state.user, 'id', null);
     switch (this.state.tab) {
       // Bài viết
-      case variables.PROFILE_TAB.REVIEW:
-        return (<Reviews />);
+      case variables.PROFILE_TAB.REVIEWS:
+        return (<Reviews userId={userId} />);
       // Chuyến đi
       case variables.PROFILE_TAB.TOUR:
         return (<Tours />);

@@ -32,7 +32,7 @@ const variables = {
   // tabs profile
   PROFILE_TAB: {
     TIMELINE: 'timeline',
-    REVIEW: 'review',
+    REVIEWS: 'reviews',
     TOUR: 'tour',
     ABOUT_ME: 'about-me'
   },
@@ -43,9 +43,9 @@ const variables = {
   /* ------ Post ------ */
   // loại bài viết
   TYPE_POST: {
-    QUESTION: 'QUESTION',
-    REVIEW: 'REVIEW',
-    TOUR: 'TOUR'
+    QUESTION: 'question',
+    REVIEWS: 'review',
+    TOUR: 'tour'
   }
 };
 
