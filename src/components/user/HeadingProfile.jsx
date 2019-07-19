@@ -90,11 +90,13 @@ class HeaderProfile extends React.Component {
     const firstName = get(this.props.user, 'fullName.firstName');
     const name = `${lastName} ${firstName}` || '';
     const avatar = get(this.props.user, 'avatar') || '';
+    const background = get(this.props.user, 'background') || '';
     return {
       lastName,
       firstName,
       name,
-      avatar
+      avatar,
+      background
     };
   }
 
@@ -107,8 +109,7 @@ class HeaderProfile extends React.Component {
           cover={(
             <img
               alt="example"
-              // TODO: cần sử dụng ảnh bìa của user
-              src="http://newsmobile.in/wp-content/uploads/2017/06/5104226627001_5297440765001_5280261645001-vs.jpg"
+              src={this.getUserInfo().background}
               style={{ height: '100%' }}
             />
           )}
