@@ -1,12 +1,13 @@
 import { Cookies } from 'react-cookie';
+import { get } from 'lodash';
+import variables from 'constants/variables';
 import {
   AUTH_LOGIN,
   AUTH_LOGOUT
 } from 'constants/actionTypes';
-import { get } from 'lodash';
 
 const cookies = new Cookies();
-const initialState = cookies.get('authInfo') || {
+const initialState = cookies.get(variables.COOKIES_NAME.AUTH, variables.COOKIES_OPTION) || {
   isAuthenticated: false,
   token: {
     type: 'Bearer',
@@ -17,6 +18,7 @@ const initialState = cookies.get('authInfo') || {
 
 export default function auth(state = initialState, action = {}) {
   let authState = { ...state };
+  let isUpdatedAuth = false;
   switch (action.type) {
     case AUTH_LOGIN:
       authState = {
@@ -28,6 +30,7 @@ export default function auth(state = initialState, action = {}) {
         },
         user: get(action.payload, 'user')
       };
+      isUpdatedAuth = true;
       break;
     case AUTH_LOGOUT:
       authState = {
@@ -38,11 +41,13 @@ export default function auth(state = initialState, action = {}) {
         },
         user: {}
       };
+      isUpdatedAuth = true;
       break;
     default:
-      authState = state;
   }
-  // save auth info to cookies
-  cookies.set('authInfo', authState);
+  if (isUpdatedAuth) {
+    // save auth info to cookies
+    cookies.set(variables.COOKIES_NAME.AUTH, authState, variables.COOKIES_OPTION);
+  }
   return authState;
 }

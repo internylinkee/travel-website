@@ -46,7 +46,7 @@ class Header extends React.Component {
         <Card
           actions={[
             <Button.Group>
-              <Button href="/profile" style={{ display: 'inline' }} type="link">
+              <Button href="/profile/timeline" style={{ display: 'inline' }} type="link">
                 <Icon type="folder" />
                 Cá nhân
               </Button>
