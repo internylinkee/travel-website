@@ -13,6 +13,7 @@ import {
   Icon
 } from 'antd';
 import { get, isFunction } from 'lodash';
+import { Link } from 'react-router-dom';
 
 const { Header: HeaderAntd } = Layout;
 const { Search } = Input;
@@ -110,7 +111,9 @@ class Header extends React.Component {
       <HeaderAntd>
         <Row>
           <Col span={5}>
-            <img alt="Logo" src="/images/logo.png" style={{ height: '45px', marginLeft: '20px' }} />
+            <Link to="/">
+              <img alt="Logo" src="/images/logo.png" style={{ height: '45px', marginLeft: '20px' }} />
+            </Link>
           </Col>
           <Col span={6}>
             <Search

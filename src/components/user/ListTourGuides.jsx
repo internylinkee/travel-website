@@ -60,8 +60,8 @@ class ListTourGuides extends React.Component {
   render() {
     return (
       <div>
-        {listData.map((tourguide, index) => (
-          <Col lg={6} md={12} sm={24} style={{ marginBottom: '20px' }} xs={24}>
+        {listData.map(tourguide => (
+          <Col key={tourguide.id} lg={6} md={12} sm={24} style={{ marginBottom: '20px' }} xs={24}>
             <Card
               key={get(tourguide, 'id')}
               actions={[

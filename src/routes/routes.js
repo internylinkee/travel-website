@@ -22,7 +22,7 @@ const routes = [
   { path: '/posts', exact: true, component: Posts, requireLogin: '/login' },
   { path: '/posts/:id/detail', exact: true, component: PostDetail, requireLogin: '/login' },
   // Tour Guide
-  { path: '/tourguide', exact: true, component: TourGuide, requireLogin: '/login' },
+  { path: '/tourguides', exact: true, component: TourGuide, requireLogin: '/login' },
   // Profile Current User
   { path: '/profile/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Profile User

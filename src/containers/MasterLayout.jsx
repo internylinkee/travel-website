@@ -23,7 +23,7 @@ class MasterLayout extends PureComponent {
       <Layout>
         <Header actions={this.props.actions} auth={this.props.auth} history={this.props.history} />
         <Layout>
-          <SidebarLeft />
+          <SidebarLeft match={this.props.match} />
           <div className="b-container">
             {this.props.children}
           </div>
@@ -37,6 +37,7 @@ class MasterLayout extends PureComponent {
 MasterLayout.propTypes = {
   children: PropTypes.node.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
   auth: PropTypes.objectOf(PropTypes.any).isRequired
 };
