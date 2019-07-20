@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { LocaleProvider } from 'antd';
+import viVN from 'antd/lib/locale-provider/vi_VN';
 import { RenderRoutes } from 'routes';
 import 'app.less';
 import 'assets/style/main.css';
@@ -14,7 +16,9 @@ class App extends Component {
 
   render() {
     return (
-      <RenderRoutes history={this.props.history} routes={this.props.routes} />
+      <LocaleProvider locale={viVN}>
+        <RenderRoutes history={this.props.history} routes={this.props.routes} />
+      </LocaleProvider>
     );
   }
 }
