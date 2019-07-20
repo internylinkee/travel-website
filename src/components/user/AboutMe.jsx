@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import {
   Card,
   Row,
   Button,
-  Tooltip,
   Avatar,
   Divider,
   Tag,
@@ -13,7 +13,8 @@ import {
   Form,
   Input,
   DatePicker,
-  Radio
+  Radio,
+  Icon
 } from 'antd';
 
 const { Meta } = Card;
@@ -59,13 +60,11 @@ class AboutMe extends React.Component {
   render() {
     return (
       <Row style={{ padding: '15px' }}>
+        {/* Hiển thị thông tin của User khác */}
         <Card
-          extra={(
-            <Tooltip placement="top" title="Chỉnh sửa thông tin">
-              <Button ghost href="/" icon="edit" shape="circle" type="primary" />
-            </Tooltip>
+          title={(
+            <p>Thông tin cơ bản</p>
           )}
-          title="Thông tin cơ bản"
         >
           <Row>
             <Col span={8}>
@@ -105,23 +104,99 @@ class AboutMe extends React.Component {
                     <Meta description="Bài viết" title="14" />
                   </Col>
                   <Col span={8}>
-                    <Meta description="Đánh giá" title="5" />
+                    <Meta description="Đánh giá" title="0" />
                   </Col>
                 </Row>
+              </Card>
+            </Col>
+            <Col className="b-show-info-basic" span={16}>
+              <Form layout="horizontal">
+                {/* Firt Name */}
+                <Form.Item label="Tên" {...formItemLayout}>
+                  <Input defaultValue="Vy" {...inputLayout} className="show-info" readOnly />
+                </Form.Item>
+                {/* Last Name */}
+                <Form.Item label="Họ" {...formItemLayout}>
+                  <Input defaultValue="Van" {...inputLayout} className="show-info" readOnly />
+                </Form.Item>
+                <Form.Item label="Email" {...formItemLayout}>
+                  <Input defaultValue="abc@gmail.com" {...inputLayout} className="show-info" readOnly />
+                </Form.Item>
+                <Form.Item label="Số điện thoại" {...formItemLayout}>
+                  <Input defaultValue="" {...inputLayout} className="show-info" readOnly />
+                </Form.Item>
+                <Form.Item label="Giới tính" {...formItemLayout}>
+                  <Radio.Group disabled onChange={this.onChange} value={this.state.value}>
+                    <Radio value={1}>Nam</Radio>
+                    <Radio value={2}>Nữ</Radio>
+                  </Radio.Group>
+                </Form.Item>
+                <Form.Item label="Ngày sinh" {...formItemLayout}>
+                  <DatePicker
+                    defaultValue={moment('01/01/2015', dateFormatList[0])}
+                    disabled
+                    format={dateFormatList}
+                    placeholder="Chọn ngày sinh"
+                    {...inputLayout}
+                  />
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        </Card>
+
+        {/* Hiển thị thông tin của mình */}
+        <Card
+          title={(
+            <p>Thông tin cơ bản
+              <Link style={{ marginLeft: '10px' }} to="/">
+                <Icon type="edit" />
+              </Link>
+            </p>
+          )}
+        >
+          <Row>
+            <Col span={8}>
+              <Card
+                bordered={false}
+                cover={(
+                  <Avatar
+                    size={256}
+                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                    style={{ margin: '25px auto', display: 'inherit' }}
+                  />
+                )}
+
+                style={{ margin: '0 auto' }}
+              >
+                <Button
+                  className="btn-profile"
+                  ghost
+                  icon="upload"
+                  type="primary"
+                >
+                  Thay đổi ảnh đại diện
+                </Button>
+                <Button
+                  className="btn-profile"
+                  type="primary"
+                >
+                  Đổi mật khẩu
+                </Button>
               </Card>
             </Col>
             <Col span={16}>
               <Form layout="horizontal">
                 {/* Firt Name */}
                 <Form.Item label="Tên" {...formItemLayout}>
-                  <Input placeholder="Vy" {...inputLayout} />
+                  <Input defaultValue="Vy" placeholder="Nhập tên" {...inputLayout} />
                 </Form.Item>
                 {/* Last Name */}
                 <Form.Item label="Họ" {...formItemLayout}>
-                  <Input placeholder="Van" {...inputLayout} />
+                  <Input defaultValue="Van" placeholder="Nhập họ" {...inputLayout} />
                 </Form.Item>
                 <Form.Item label="Email" {...formItemLayout}>
-                  <Input placeholder="abc@gmail.com" {...inputLayout} disabled />
+                  <Input defaultValue="abc@gmail.com" placeholder="Nhập email" {...inputLayout} disabled />
                 </Form.Item>
                 <Form.Item label="Số điện thoại" {...formItemLayout}>
                   <Input placeholder="Nhập số điện thoại" {...inputLayout} />
@@ -144,6 +219,7 @@ class AboutMe extends React.Component {
             </Col>
           </Row>
         </Card>
+
         <Card
           style={{ marginTop: '15px' }}
           title="Đổi mật khẩu"
