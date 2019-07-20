@@ -8,8 +8,9 @@ import {
 import {
   ListFeaturedPosts,
   ListAuthor,
-  ListTags,
-  ListHorizontalPosts
+  ListLocations,
+  ListHorizontalPosts,
+  ListCategories
 } from 'components/post';
 import { HeadingPage } from 'components/common';
 
@@ -94,24 +95,22 @@ class Posts extends React.Component {
             style={{ width: '100%' }}
           />
         </HeadingPage>
-
         {/* Content Page */}
         <Row>
           {/* Danh sach bai viet */}
           <Col className="p-col" span={16}>
             <ListHorizontalPosts />
           </Col>
-
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts />
-
             {/* Phần Tác giả được Yêu thích */}
             <ListAuthor />
-
+            {/* Thẻ */}
+            <ListCategories />
             {/* Địa điểm */}
-            <ListTags />
+            <ListLocations />
           </Col>
         </Row>
       </Content>

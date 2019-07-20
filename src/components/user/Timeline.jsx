@@ -8,8 +8,8 @@ import {
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
-  getPostList,
-  getListFeaturedPosts
+  getListPost,
+  getListFeaturedPost
 } from 'actions';
 import Helpers from 'helpers';
 import messages from 'constants/messages';
@@ -94,14 +94,14 @@ class Timeline extends React.Component {
   /**
    * Lấy danh sách bài viết
    * @return {object}
-   * @memberof ProfileUser
+   * @memberof Timeline
    */
   getMainPosts = async () => {
     if (!this.props.userId) {
       Helpers.throwError(messages.ERROR_SYSTEM);
     }
     const params = { user: this.props.userId };
-    const response = await this.props.actions.getPostList(params) || {};
+    const response = await this.props.actions.getListPost(params) || {};
     // if error
     if (!isEmpty(response.error)) {
       Helpers.throwError(response.error);
@@ -112,14 +112,14 @@ class Timeline extends React.Component {
   /**
    * Lấy danh sách bài viết nổi bật
    * @return {object}
-   * @memberof ProfileUser
+   * @memberof Timeline
    */
   getFeaturedPosts = async () => {
     if (!this.props.userId) {
       Helpers.throwError(messages.ERROR_SYSTEM);
     }
     const params = { user: this.props.userId };
-    const response = await this.props.actions.getListFeaturedPosts(params) || {};
+    const response = await this.props.actions.getListFeaturedPost(params) || {};
     // if error
     if (!isEmpty(response.error)) {
       Helpers.throwError(response.error);
@@ -166,8 +166,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPostList,
-    getListFeaturedPosts
+    getListPost,
+    getListFeaturedPost
   }, dispatch)
 });
 
