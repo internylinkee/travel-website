@@ -8,8 +8,8 @@ import {
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
-  getPostList,
-  getListFeaturedPosts
+  getListPost,
+  getListFeaturedPost
 } from 'actions';
 import Helpers from 'helpers';
 import messages from 'constants/messages';
@@ -102,7 +102,7 @@ class Reviews extends React.Component {
       Helpers.throwError(messages.ERROR_SYSTEM);
     }
     const params = { user: this.props.userId, type: variables.TYPE_POST.REVIEWS };
-    const response = await this.props.actions.getPostList(params) || {};
+    const response = await this.props.actions.getListPost(params) || {};
     // if error
     if (!isEmpty(response.error)) {
       Helpers.throwError(response.error);
@@ -120,7 +120,7 @@ class Reviews extends React.Component {
       Helpers.throwError(messages.ERROR_SYSTEM);
     }
     const params = { user: this.props.userId, type: variables.TYPE_POST.REVIEWS };
-    const response = await this.props.actions.getListFeaturedPosts(params) || {};
+    const response = await this.props.actions.getListFeaturedPost(params) || {};
     // if error
     if (!isEmpty(response.error)) {
       Helpers.throwError(response.error);
@@ -167,8 +167,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPostList,
-    getListFeaturedPosts
+    getListPost,
+    getListFeaturedPost
   }, dispatch)
 });
 

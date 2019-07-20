@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Row,
   Col,
@@ -11,13 +12,14 @@ import {
   List,
   Button
 } from 'antd';
-import { get, isArray } from 'lodash';
+import { get, isArray, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import variables from 'constants/variables';
 import Helpers from 'helpers';
-import { IconText } from 'components/common';
+import { IconText, LoadingWrapper } from 'components/common';
 
 const { Title, Text, Paragraph } = Typography;
+const ListItem = List.Item;
 
 class HorizontalPosts extends React.Component {
   renderContent = (post) => {
@@ -28,6 +30,7 @@ class HorizontalPosts extends React.Component {
           <Paragraph ellipsis={{ rows: 6, expandable: true }}>
             {get(post, 'content')}
           </Paragraph>
+          {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
         </React.Fragment>
       );
     }
@@ -87,9 +90,21 @@ class HorizontalPosts extends React.Component {
     };
   }
 
+  /**
+   * Kiểm tra một bài viết có thuộc user hiện tại không
+   * @param {object} post bài viết
+   * @returns {boolean}
+   * @memberof HorizontalPosts
+   */
+  isBelongToCurrentUser = (post) => {
+    const postUserId = get(post, 'user.id');
+    const currentUserId = get(this.props.auth, 'user.id');
+    return postUserId === currentUserId;
+  }
+
   render() {
     return (
-      <div>
+      <LoadingWrapper isEmpty={isEmpty(this.props.data)}>
         {this.props.data.map((post, index) => (
           <Card
             key={index}
@@ -129,29 +144,47 @@ class HorizontalPosts extends React.Component {
               </Col>
             </Row>
             <List className="control-post-button">
-              <List.Item>
+              <ListItem>
                 <Avatar icon="heart" style={{ backgroundColor: '#2699fb' }} />
-              </List.Item>
-              <List.Item>
+              </ListItem>
+              <ListItem>
                 <Avatar icon="message" style={{ backgroundColor: '#2699fb' }} />
-              </List.Item>
-              <List.Item>
+              </ListItem>
+              <ListItem>
                 <Avatar icon="share-alt" style={{ backgroundColor: '#2699fb' }} />
-              </List.Item>
+              </ListItem>
+              {this.isBelongToCurrentUser(post) && (
+                <ListItem>
+                  <Avatar icon="edit" style={{ backgroundColor: '#F9A204' }} />
+                </ListItem>
+              )}
+              {this.isBelongToCurrentUser(post) && (
+                <ListItem>
+                  <Avatar icon="delete" style={{ backgroundColor: '#d5313d' }} />
+                </ListItem>
+              )}
             </List>
           </Card>
         ))}
-      </div>
+      </LoadingWrapper>
     );
   }
 }
 
 HorizontalPosts.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object)
+  data: PropTypes.arrayOf(PropTypes.object),
+  auth: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 HorizontalPosts.defaultProps = {
   data: []
 };
 
-export default HorizontalPosts;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(HorizontalPosts);

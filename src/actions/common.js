@@ -1,8 +1,9 @@
-/* -------- Post actions -------- */
+/* -------- Common actions -------- */
 import {
   API_FETCH,
-  API_DEFAULT,
-  API_FAILED
+  API_FAILED,
+  GET_LIST_CATEGORY,
+  GET_LIST_LOCATION
 } from 'constants/actionTypes';
 import Helpers from 'helpers';
 import axios from 'axios';
@@ -10,24 +11,24 @@ import axios from 'axios';
 const { CancelToken } = axios;
 const canceledList = [];
 
-export const cancelPostAPI = () => () => {
+export const cancelCommonAPI = () => () => {
   if (canceledList.length > 0) {
     canceledList.map(item => item.canceled.cancel(`cancel_API-${item.key}`));
   }
 };
 
-// Danh sach bai viet
-export const getListPost = params => (dispatch, getState) => {
+// Danh sach địa điểm
+export const getListLocation = params => (dispatch, getState) => {
   canceledList.push({
     key: Helpers.generateKeyAPI(),
     canceled: CancelToken.source()
   });
   const cancelToken = canceledList[canceledList.length - 1].canceled.token;
   return dispatch({
-    types: [API_FETCH, API_DEFAULT, API_FAILED],
+    types: [API_FETCH, GET_LIST_LOCATION, API_FAILED],
     payload: {
       request: {
-        url: '/v1/posts',
+        url: '/v1/locations',
         method: 'GET',
         headers: {
           Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
@@ -39,18 +40,18 @@ export const getListPost = params => (dispatch, getState) => {
   });
 };
 
-// TODO: Rap API danh sach bai viet noi bat
-export const getListFeaturedPost = params => (dispatch, getState) => {
+// Danh sach thẻ
+export const getListCategory = params => (dispatch, getState) => {
   canceledList.push({
     key: Helpers.generateKeyAPI(),
     canceled: CancelToken.source()
   });
   const cancelToken = canceledList[canceledList.length - 1].canceled.token;
   return dispatch({
-    types: [API_FETCH, API_DEFAULT, API_FAILED],
+    types: [API_FETCH, GET_LIST_CATEGORY, API_FAILED],
     payload: {
       request: {
-        url: '/v1/posts/hot',
+        url: '/v1/categories',
         method: 'GET',
         headers: {
           Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
