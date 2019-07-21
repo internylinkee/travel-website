@@ -1,13 +1,14 @@
 import {
   isString,
-  isEmpty
+  isEmpty,
+  isArray,
+  isFunction
 } from 'lodash';
 import {
   Notification
 } from 'components/common';
 import messages from 'constants/messages';
 import moment from 'moment';
-import { isArray } from 'util';
 
 const canceledList = [];
 
@@ -117,5 +118,53 @@ export default class Helpers {
       return value.length;
     }
     return 0;
+  }
+
+  /**
+   * Tìm kiếm object trong mảng theo cặp key - value
+   * @param {array} obj.source Mảng cần tìm
+   * @param {string} obj.key Key của object
+   * @param {*} obj.value Giá trị tương úng với key
+   * @param {boolean} obj.searchElement Nếu true, trả về cả object, ngược lại chỉ trả về vị trí tìm được
+   * @returns {object|number|null} Kết quả tìm được (object hoặc vị trí của object)
+   * @static
+   * @memberof Helpers
+   */
+  static findObjectInArray = ({
+    source = [],
+    key = 'id',
+    value = '',
+    searchElement = false
+  }) => {
+    const elementPos = source.map(item => item[key]).indexOf(value);
+    if (searchElement) {
+      if (elementPos > -1) {
+        return source[elementPos];
+      }
+      return null;
+    }
+    return elementPos;
+  }
+
+  /**
+   * Upload files to server
+   * @param {array} files
+   * @param {function} requestAPI API
+   * @returns {array} result
+   * @static
+   * @memberof Helpers
+   */
+  static uploadFiles = async (files = [], requestAPI = null) => {
+    if (!isArray(files) || isEmpty(files) || !isFunction(requestAPI)) {
+      return [];
+    }
+    const oldFiles = files.filter(file => isString(file.url) && file.url.length > 0);
+    const newFiles = files.filter(file => !file.url);
+    const response = await requestAPI(newFiles) || {};
+    if (!isEmpty(response.error) || isEmpty(response.payload)) {
+      Helpers.throwError(response.error || {});
+    }
+    const result = [...oldFiles.map(file => file.url), ...response.payload];
+    return result;
   }
 }

@@ -1,287 +1,214 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
-  Row,
-  Col,
+  isEmpty,
+  get,
+  isFunction
+} from 'lodash';
+import {
   Card,
   Tabs,
-  Input,
   Icon,
-  Typography,
-  Form,
-  Select,
-  Button
+  Typography
 } from 'antd';
+import {
+  postPost,
+  uploadFiles
+} from 'actions';
+import {
+  FormPostQuestion,
+  FormPostReviews,
+  FormPostTour
+} from 'components/post';
+import Helpers from 'helpers';
+import messages from 'constants/messages';
 
 const { TabPane } = Tabs;
-const { TextArea } = Input;
 const { Text } = Typography;
-const { Option } = Select;
+
+let isMounted = true;
+
+/**
+ * Set isMounted
+ * @param {boolean} value
+ */
+const setIsMounted = (value = true) => {
+  isMounted = value;
+  return isMounted;
+};
+
+/**
+ * Get isMounted
+ */
+const getIsMounted = () => isMounted;
 
 class FormPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      // defaultData: {},
+      isSubmitting: false
+    };
+    setIsMounted(true);
   }
+
+  componentWillUnmount() {
+    setIsMounted(false);
+  }
+
+  /**
+   * Set state properties
+   * @param {object} data the data which will be merged to this.state
+   * @param {function} callback the function which will be called after setState
+   * @returns {void} call this.setState to update state
+   * @memberof Register
+   */
+  setStateData = (state, callback) => {
+    if (!getIsMounted()) {
+      return;
+    }
+    this.setState(state, callback);
+  }
+
+  /**
+   * Tạo bài viết
+   * @param {object} data Dữ liệu form
+   * @return {void} Xử lý và gọi API
+   * @memberof FormPost
+   */
+  callCreatePostAPI = async (data, form) => {
+    try {
+      // set isSubmitting
+      await this.setStateData({ isSubmitting: true });
+      // upload file
+      const imagesInput = get(data, 'imageUrls.data');
+      const imageUrls = await Helpers.uploadFiles(imagesInput, this.props.actions.uploadFiles);
+      // parse data request
+      const dataRequest = {
+        ...data,
+        imageUrls
+      };
+      // call API
+      const response = await this.props.actions.postPost(dataRequest) || {};
+      // if error
+      if (!isEmpty(response.error)) {
+        Helpers.throwError(response.error);
+      }
+      // reset form
+      const { resetFields } = form;
+      await resetFields();
+      // gọi props.onAfterSubmit
+
+      if (isFunction(this.props.onAfterSubmit)) {
+        await Helpers.alertSuccess(messages.SAVE_SUCCEED);
+        return this.props.onAfterSubmit();
+      }
+      return Helpers.alertSuccess(messages.SAVE_SUCCEED);
+    } catch (error) {
+      return Helpers.alertError(messages.SAVE_FAILED);
+    } finally {
+      // set isSubmitting
+      await this.setStateData({ isSubmitting: false });
+    }
+  }
+
+  dataTab = () => ([
+    // Tab câu hỏi
+    {
+      key: 'question',
+      icon: 'question-circle',
+      name: 'Câu hỏi',
+      render: () => (
+        <FormPostQuestion
+          categories={this.props.categories}
+          isSubmitting={this.state.isSubmitting}
+          locations={this.props.locations}
+          onSubmit={this.callCreatePostAPI}
+        />
+      )
+    },
+    // Tab bài viết reviews
+    {
+      key: 'reviews',
+      icon: 'form',
+      name: 'Bài viết',
+      render: () => (
+        <FormPostReviews
+          categories={this.props.categories}
+          isSubmitting={this.state.isSubmitting}
+          locations={this.props.locations}
+          onSubmit={this.callCreatePostAPI}
+        />
+      )
+    },
+    // Tab tour du lịch, chỉ các tài khoản được duyệt là HDV mới hiển thị
+    {
+      key: 'book',
+      icon: 'form',
+      name: 'Tour du lịch',
+      render: () => (
+        <FormPostTour
+          categories={this.props.categories}
+          isSubmitting={this.state.isSubmitting}
+          locations={this.props.locations}
+          onSubmit={this.callCreatePostAPI}
+        />
+      )
+    }
+  ])
 
   render() {
     return (
       <Card style={{ marginBottom: '20px' }}>
         <Tabs type="card">
-          <TabPane
-            key="1"
-            tab={(
-              <Text>
-                <Icon type="question-circle" />
-                Câu hỏi
-              </Text>
-            )}
-          >
-            <Form layout="vertical">
-              <Form.Item label="Tiêu đề">
-                <Input placeholder="Nhập tiêu đề" size="large" />
-              </Form.Item>
-              <Row>
-                <Col span={12} style={{ paddingRight: '20px' }}>
-                  <Form.Item label="Gắn thẻ">
-                    <Select
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn thẻ bài viết"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Ăn uống" value="Ăn uống">
-                        Ăn uống
-                      </Option>
-                      <Option label="Vui chơi giải trí" value="Vui chơi giải trí">
-                        Vui chơi giải trí
-                      </Option>
-                      <Option label="Tham quan" value="Tham quan">
-                        Tham quan
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="Địa điểm">
-                    <Select
-                      defaultValue={['Nha Trang']}
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn địa điểm"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Nha Trang" value="Nha Trang">
-                        Nha Trang
-                      </Option>
-                      <Option label="Đà Nẵng" value="Đà Nẵng">
-                        Đà Nẵng
-                      </Option>
-                      <Option label="Phú Quốc" value="Phú Quốc">
-                        Phú Quốc
-                      </Option>
-                      <Option label="Đà Lạt" value="Đà Lạt">
-                        Đà Lạt
-                      </Option>
-                      <Option label="Côn Đảo" value="Côn Đảo">
-                        Côn Đảo
-                      </Option>
-                      <Option label="Hà Nội" value="Hà Nội">
-                        Hà Nội
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="Nội dung">
-                <TextArea
-                  autosize={{ minRows: 6, maxRows: 12 }}
-                  placeholder="Nhập nội dung"
-                />
-              </Form.Item>
-              <Form.Item>
-                <div style={{ float: 'right', marginTop: '20px' }}>
-                  <Button style={{ marginRight: '20px' }}>
-                    <Icon type="upload" /> Đăng hình
-                  </Button>
-                  <Button type="primary">Đăng bài</Button>
-                </div>
-              </Form.Item>
-            </Form>
-          </TabPane>
-          {/* Tag bài viết reviews */}
-          <TabPane
-            key="2"
-            tab={(
-              <Text>
-                <Icon type="form" />
-                Bài viết
-              </Text>
-            )}
-          >
-            <Form layout="vertical">
-              <Form.Item label="Tiêu đề">
-                <Input placeholder="Nhập tiêu đề" size="large" />
-              </Form.Item>
-              <Form.Item label="Mô tả">
-                <Input placeholder="Nhập mô tả" size="large" />
-              </Form.Item>
-              <Row>
-                <Col span={12} style={{ paddingRight: '20px' }}>
-                  <Form.Item label="Gắn thẻ">
-                    <Select
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn thẻ bài viết"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Ăn uống" value="Ăn uống">
-                        Ăn uống
-                      </Option>
-                      <Option label="Vui chơi giải trí" value="Vui chơi giải trí">
-                        Vui chơi giải trí
-                      </Option>
-                      <Option label="Tham quan" value="Tham quan">
-                        Tham quan
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="Địa điểm">
-                    <Select
-                      defaultValue={['Nha Trang']}
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn địa điểm"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Nha Trang" value="Nha Trang">
-                        Nha Trang
-                      </Option>
-                      <Option label="Đà Nẵng" value="Đà Nẵng">
-                        Đà Nẵng
-                      </Option>
-                      <Option label="Phú Quốc" value="Phú Quốc">
-                        Phú Quốc
-                      </Option>
-                      <Option label="Đà Lạt" value="Đà Lạt">
-                        Đà Lạt
-                      </Option>
-                      <Option label="Côn Đảo" value="Côn Đảo">
-                        Côn Đảo
-                      </Option>
-                      <Option label="Hà Nội" value="Hà Nội">
-                        Hà Nội
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="Nội dung">
-                <TextArea
-                  autosize={{ minRows: 6, maxRows: 12 }}
-                  placeholder="Nhập nội dung"
-                />
-              </Form.Item>
-              <Form.Item>
-                <div style={{ float: 'right', marginTop: '20px' }}>
-                  <Button style={{ marginRight: '20px' }}>
-                    <Icon type="upload" /> Đăng hình
-                  </Button>
-                  <Button type="primary">Đăng bài</Button>
-                </div>
-              </Form.Item>
-            </Form>
-          </TabPane>
-          {/* Tag tour du lịch, chỉ các tài khoản được duyệt là HDV mới hiển thị */}
-          <TabPane
-            key="3"
-            tab={(
-              <Text>
-                <Icon type="book" />
-                Tour du lịch
-              </Text>
-            )}
-          >
-            <Form layout="vertical">
-              <Form.Item label="Tiêu đề">
-                <Input placeholder="Nhập tiêu đề" size="large" />
-              </Form.Item>
-              <Form.Item label="Mô tả">
-                <Input placeholder="Nhập mô tả" size="large" />
-              </Form.Item>
-              <Row>
-                <Col span={12} style={{ paddingRight: '20px' }}>
-                  <Form.Item label="Gắn thẻ">
-                    <Select
-                      defaultValue={['Tham quan']}
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn thẻ bài viết"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Ăn uống" value="Ăn uống">
-                        Ăn uống
-                      </Option>
-                      <Option label="Vui chơi giải trí" value="Vui chơi giải trí">
-                        Vui chơi giải trí
-                      </Option>
-                      <Option label="Tham quan" value="Tham quan">
-                        Tham quan
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="Địa điểm">
-                    <Select
-                      mode="multiple"
-                      optionLabelProp="label"
-                      placeholder="Chọn địa điểm"
-                      style={{ width: '100%' }}
-                    >
-                      <Option label="Nha Trang" value="Nha Trang">
-                        Nha Trang
-                      </Option>
-                      <Option label="Đà Nẵng" value="Đà Nẵng">
-                        Đà Nẵng
-                      </Option>
-                      <Option label="Phú Quốc" value="Phú Quốc">
-                        Phú Quốc
-                      </Option>
-                      <Option label="Đà Lạt" value="Đà Lạt">
-                        Đà Lạt
-                      </Option>
-                      <Option label="Côn Đảo" value="Côn Đảo">
-                        Côn Đảo
-                      </Option>
-                      <Option label="Hà Nội" value="Hà Nội">
-                        Hà Nội
-                      </Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item label="Nội dung">
-                <TextArea
-                  autosize={{ minRows: 6, maxRows: 12 }}
-                  placeholder="Nhập nội dung"
-                />
-              </Form.Item>
-              <Form.Item>
-                <div style={{ float: 'right', marginTop: '20px' }}>
-                  <Button style={{ marginRight: '20px' }}>
-                    <Icon type="upload" /> Đăng hình
-                  </Button>
-                  <Button type="primary">Đăng bài</Button>
-                </div>
-              </Form.Item>
-            </Form>
-          </TabPane>
+          {this.dataTab().map(tab => (
+            <TabPane
+              key={tab.key}
+              tab={(
+                <Text>
+                  <Icon type={tab.icon} />
+                  {tab.name}
+                </Text>
+              )}
+            >
+              {tab.render()}
+            </TabPane>
+          ))}
         </Tabs>
       </Card>
     );
   }
 }
 
-export default FormPost;
+FormPost.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object),
+  locations: PropTypes.arrayOf(PropTypes.object),
+  onAfterSubmit: PropTypes.func
+};
+
+FormPost.defaultProps = {
+  categories: [],
+  locations: [],
+  onAfterSubmit: null
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  categories: state.common.categories,
+  locations: state.common.locations
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    postPost,
+    uploadFiles
+  }, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormPost);

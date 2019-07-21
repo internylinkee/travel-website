@@ -127,7 +127,7 @@ class Register extends React.Component {
     } else {
       callback();
     }
-  };
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
