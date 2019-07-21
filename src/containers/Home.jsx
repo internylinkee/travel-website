@@ -157,6 +157,18 @@ class Home extends React.Component {
   }
 
   /**
+   * Reload page
+   * @returns {void}
+   * @memberof Home
+   */
+  reloadPage = () => {
+    this.props.history.replace('/reload');
+    setTimeout(() => {
+      this.props.history.replace('/');
+    });
+  }
+
+  /**
    * Điều kiện show editor
    * @returns {boolean}
    * @memberof Home
@@ -173,7 +185,9 @@ class Home extends React.Component {
         <Row>
           <Col className="p-col" span={16}>
             {/* Form Edittor */}
-            {this.isShowEditor() && (<FormPost />)}
+            {this.isShowEditor() && (
+              <FormPost onAfterSubmit={this.reloadPage} />
+            )}
             {/* Hiển thị nội dung bài viết có comment */}
             <ListHorizontalPosts data={this.state.mainPosts} />
           </Col>
@@ -196,7 +210,8 @@ class Home extends React.Component {
 
 Home.propTypes = {
   auth: PropTypes.objectOf(PropTypes.any).isRequired,
-  actions: PropTypes.objectOf(PropTypes.any).isRequired
+  actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 const mapStateToProps = state => ({

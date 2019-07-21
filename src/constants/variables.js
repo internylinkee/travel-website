@@ -26,7 +26,7 @@ const variables = {
   },
   COOKIES_OPTION: {
     path: '/',
-    maxAge: 30 * 24 * 60 * 60
+    maxAge: 2 * 24 * 60 * 60
   },
   /* ------ User ------ */
   // tabs profile

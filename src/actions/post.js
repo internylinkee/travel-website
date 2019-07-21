@@ -16,7 +16,7 @@ export const cancelPostAPI = () => () => {
   }
 };
 
-// Danh sach bai viet
+// Danh sách bài viết
 export const getListPost = params => (dispatch, getState) => {
   canceledList.push({
     key: Helpers.generateKeyAPI(),
@@ -39,7 +39,7 @@ export const getListPost = params => (dispatch, getState) => {
   });
 };
 
-// TODO: Rap API danh sach bai viet noi bat
+// TODO: Ráp API Danh sách bài viết nổi bật
 export const getListFeaturedPost = params => (dispatch, getState) => {
   canceledList.push({
     key: Helpers.generateKeyAPI(),
@@ -57,6 +57,29 @@ export const getListFeaturedPost = params => (dispatch, getState) => {
         },
         cancelToken,
         params
+      }
+    }
+  });
+};
+
+// Tạo bài viết
+export const postPost = data => (dispatch, getState) => {
+  canceledList.push({
+    key: Helpers.generateKeyAPI(),
+    canceled: CancelToken.source()
+  });
+  const cancelToken = canceledList[canceledList.length - 1].canceled.token;
+  return dispatch({
+    types: [API_FETCH, API_DEFAULT, API_FAILED],
+    payload: {
+      request: {
+        url: '/v1/posts',
+        method: 'POST',
+        headers: {
+          Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+        },
+        cancelToken,
+        data
       }
     }
   });

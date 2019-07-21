@@ -3,6 +3,7 @@ import { API_URL, API_AUTH, API_FILE_URL } from 'constants/api';
 import { camelizeKeys } from 'humps';
 import { getActionTypes } from 'redux-axios-middleware';
 import { logout } from 'actions';
+import { isArray, get } from 'lodash';
 
 export const apiClients = {
   default: {
@@ -53,13 +54,17 @@ export const apiClients = {
       },
       transformRequest: [(data) => {
         const formData = new FormData();
-        const value = data;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const e in value) {
-          if (value[e] && value[e].name) {
-            formData.append(e, value[e], value[e].name);
+        Object.keys(data).forEach((key) => {
+          if (data[key] && data[key]) {
+            if (isArray(data[key])) {
+              data[key].forEach((value) => {
+                formData.append(key, value);
+              });
+            } else {
+              formData.append(key, data[key], get(data, `${key}.name`));
+            }
           }
-        }
+        });
         return formData;
       }],
       transformResponse: [function onConvertResponse(data) {
