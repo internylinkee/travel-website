@@ -13,7 +13,7 @@ import {
   Button
 } from 'antd';
 import { get, isArray, isEmpty } from 'lodash';
-import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 import variables from 'constants/variables';
 import Helpers from 'helpers';
 import { IconText, LoadingWrapper } from 'components/common';
@@ -27,8 +27,8 @@ class HorizontalPosts extends React.Component {
       return (
         <React.Fragment>
           <Title level={3}>{get(post, 'title')}</Title>
-          <Paragraph ellipsis={{ rows: 6, expandable: true }}>
-            {get(post, 'content')}
+          <Paragraph ellipsis={{ rows: 6 }}>
+            {get(post, 'description')}
           </Paragraph>
           {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
         </React.Fragment>
@@ -40,10 +40,12 @@ class HorizontalPosts extends React.Component {
           <img alt="Ảnh bìa" src={get(post, 'featureImage')} style={{ width: '100%', height: '100%' }} />
         </div>
         <Title level={3}>{get(post, 'title')}</Title>
-        <Paragraph ellipsis={{ rows: 6, expandable: true }}>
+        <Paragraph ellipsis={{ rows: 6 }}>
           {get(post, 'content')}
         </Paragraph>
-        <Button href={`/posts/${get(post, 'id')}/detail`} size="large">Xem thêm</Button>
+        <Link to={`/posts/${get(post, 'id')}/detail`}>
+          <Button size="large">Xem thêm</Button>
+        </Link>
       </React.Fragment>
     );
   }
@@ -108,10 +110,7 @@ class HorizontalPosts extends React.Component {
         {this.props.data.map((post, index) => (
           <Card
             key={index}
-            className={classnames('p-card', {
-              'p-card1': get(post, 'type') === 1,
-              'p-card2': get(post, 'type') === 2
-            })}
+            className="p-card"
           >
             <Row style={{ marginBottom: '20px' }}>
               <Col span={2}>
