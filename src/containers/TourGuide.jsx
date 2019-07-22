@@ -32,7 +32,7 @@ class TourGuide extends React.Component {
             size="large"
             style={{ width: '100%' }}
           >
-            <Option value="jack">Được yêu thích nhất</Option>
+            <Option value="jack">Được theo dõi nhất</Option>
             <Option value="lucy">Có nhiều bài viết nhất</Option>
             <Option value="tom">Có lượt đánh giá</Option>
           </Select>

@@ -8,7 +8,8 @@ import {
   ProfileUser,
   TourGuide,
   PostDetail,
-  Registration
+  Registration,
+  CreatePost
 } from 'containers';
 
 const routes = [
@@ -27,6 +28,8 @@ const routes = [
   { path: '/profile/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Profile User
   { path: '/users/:id/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
+  // Create Post
+  { path: '/create-post', exact: true, component: CreatePost, requireLogin: '/login' },
   // Not found
   { component: NotFound }
 ];

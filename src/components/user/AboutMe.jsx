@@ -16,9 +16,10 @@ import {
   Radio,
   Icon
 } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
 
 const { Meta } = Card;
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
@@ -62,8 +63,13 @@ class AboutMe extends React.Component {
       <Row style={{ padding: '15px' }}>
         {/* Hiển thị thông tin của User khác */}
         <Card
+          className="p-card"
           title={(
-            <p>Thông tin cơ bản</p>
+            <p>Thông tin cơ bản
+              <Link style={{ marginLeft: '10px' }} to="/">
+                <Icon type="edit" />
+              </Link>
+            </p>
           )}
         >
           <Row>
@@ -145,15 +151,16 @@ class AboutMe extends React.Component {
           </Row>
         </Card>
 
-        {/* Hiển thị thông tin của mình */}
+        {/* Chỉnh sửa thông tin của mình */}
         <Card
-          title={(
-            <p>Thông tin cơ bản
-              <Link style={{ marginLeft: '10px' }} to="/">
-                <Icon type="edit" />
-              </Link>
-            </p>
+          className="p-card"
+          extra={(
+            <React.Fragment>
+              <Button style={{ marginRight: '15px' }}>Hủy</Button>
+              <Button type="primary">Lưu</Button>
+            </React.Fragment>
           )}
+          title="Chỉnh sửa thông tin"
         >
           <Row>
             <Col span={8}>
@@ -220,8 +227,90 @@ class AboutMe extends React.Component {
           </Row>
         </Card>
 
+        {/* Show Thông tin HDV */}
         <Card
-          style={{ marginTop: '15px' }}
+          className="p-card"
+          title={(
+            <p>Thông tin Hướng dẫn viên
+              <Link style={{ marginLeft: '10px' }} to="/">
+                <Icon type="edit" />
+              </Link>
+            </p>
+          )}
+        >
+          <Row style={{ margin: '15px 0' }}>
+            <Col span={5}>
+              <p className="text-tour">Kinh nghiệm</p>
+            </Col>
+            <Col span={18}>
+              <Paragraph>
+                Regio melior litem flamma librata bene natura nebulas.
+                Levius oppida foret diffundi naturae. Siccis tanto quinta sorbentur.
+                Aliud lumina melioris! Triones mutastis dispositam pugnabant!
+                Animalibus caecoque. Carmen numero chaos: quod coegit alta postquam.
+                Piscibus nullus nunc cesserunt terris nisi tanta.
+              </Paragraph>
+            </Col>
+          </Row>
+          <Row style={{ margin: '15px 0' }}>
+            <Col span={5}>
+              <p className="text-tour">Mô tả bản thân</p>
+            </Col>
+            <Col span={18}>
+              <Paragraph>
+                Regio melior litem flamma librata bene natura nebulas.
+                Levius oppida foret diffundi naturae. Siccis tanto quinta sorbentur.
+                Aliud lumina melioris! Triones mutastis dispositam pugnabant!
+                Animalibus caecoque. Carmen numero chaos: quod coegit alta postquam.
+                Piscibus nullus nunc cesserunt terris nisi tantegio melior litem flamma librata bene natura nebulas.
+                Levius oppida foret diffundi naturae. Siccis tanto quinta sorbentur.
+                Aliud lumina melioris! Triones mutastis dispositam pugnabant!
+                Animalibus caecoque. Carmen numero chaos: quod coegit alta postquam.
+                Piscibus nullus nunc cesserunt terris nisi tanta.
+              </Paragraph>
+            </Col>
+          </Row>
+        </Card>
+
+        {/* Chỉnh sửa Thông tin HDV */}
+        <Card
+          className="p-card"
+          extra={(
+            <React.Fragment>
+              <Button style={{ marginRight: '15px' }}>Hủy</Button>
+              <Button type="primary">Lưu</Button>
+            </React.Fragment>
+          )}
+          title="Chỉnh sửa thông tin Hướng dẫn viên"
+        >
+          <Form.Item label="Bằng cấp - Chứng chỉ" {...formItemLayout}>
+            <Input placeholder="Nhập bằng cấp, chứng chỉ" {...inputLayout} />
+          </Form.Item>
+          <Form.Item label="Quê quán" {...formItemLayout}>
+            <Input placeholder="Nhập quê quán" {...inputLayout} />
+          </Form.Item>
+          <Form.Item label="Ngoại ngữ" {...formItemLayout}>
+            <Input placeholder="Nhập ngôn ngữ" {...inputLayout} />
+          </Form.Item>
+          <Form.Item label="Kinh nghiệm" {...formItemLayout}>
+            <TextArea
+              autosize={{ minRows: 3 }}
+              placeholder="Nhập kinh nghiệm "
+              {...inputLayout}
+            />
+          </Form.Item>
+          <Form.Item label="Mô tả bản thân" {...formItemLayout}>
+            <TextArea
+              autosize={{ minRows: 6, maxRows: 12 }}
+              placeholder="Nhập mô tả"
+              {...inputLayout}
+            />
+          </Form.Item>
+        </Card>
+
+        {/* Chuyển trang khác */}
+        <Card
+          className="p-card"
           title="Đổi mật khẩu"
         >
           <Form layout="horizontal">
@@ -237,8 +326,8 @@ class AboutMe extends React.Component {
               <Input placeholder="******" {...inputLayout} type="password" />
             </Form.Item>
             <Form.Item {...formResetPass} {...formTailLayout}>
-              <Button type="primary">Submit</Button>
-              <Button style={{ marginLeft: '15px' }}>Cancel</Button>
+              <Button style={{ marginRight: '15px' }}>Hủy</Button>
+              <Button type="primary">Lưu</Button>
             </Form.Item>
           </Form>
         </Card>
