@@ -133,6 +133,13 @@ class FormPostReviews extends React.Component {
             <Input placeholder="Nhập tiêu đề" size="large" />
           )}
         </FormItem>
+        <FormItem label="Mô tả">
+          {getFieldDecorator('description', {
+            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+          })(
+            <Input placeholder="Nhập mô tả" size="large" />
+          )}
+        </FormItem>
         <Row>
           <Col span={12} style={{ paddingRight: '20px' }}>
             <FormItem label="Gắn thẻ">

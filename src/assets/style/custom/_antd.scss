@@ -55,3 +55,15 @@
     margin: 50px auto;
   }
 }
+
+// Style Thẻ, Location
+.ant-tag {
+  margin: 8px 8px 0 0;
+}
+
+// Style Content show bài viết nổi bật
+.b-featured-post {
+  .ant-list-item-meta-content {
+    width: 250px;
+  }
+}

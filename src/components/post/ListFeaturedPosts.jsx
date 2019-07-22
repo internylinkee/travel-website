@@ -7,11 +7,12 @@ import {
   Typography
 } from 'antd';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 
 const { Paragraph } = Typography;
 
 const ListFeaturedPosts = props => (
-  <Card className="p-card" title="Bài viết nổi bật">
+  <Card className="p-card b-featured-post" title="Bài viết nổi bật">
     <List
       dataSource={props.data}
       renderItem={post => (
@@ -20,15 +21,15 @@ const ListFeaturedPosts = props => (
             avatar={<Avatar alt="Ảnh bìa" shape="square" size={64} src={get(post, 'featureImage')} />}
             description={(
               <Paragraph ellipsis={{ rows: 2 }} style={{ marginBottom: 0 }}>
-                {get(post, 'content')}
+                {get(post, 'description')}
               </Paragraph>
             )}
             title={(
-              <a href={`/posts/${get(post, 'id')}/detail`}>
+              <Link to={`/posts/${get(post, 'id')}/detail`}>
                 <Paragraph ellipsis={{ rows: 1 }} style={{ marginBottom: 0 }}>
                   {get(post, 'title')}
                 </Paragraph>
-              </a>
+              </Link>
             )}
           >
           </List.Item.Meta>

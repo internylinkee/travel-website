@@ -8,6 +8,7 @@ import {
   Icon
 } from 'antd';
 import { get } from 'lodash';
+import { Link } from 'react-router-dom';
 
 const { Text } = Typography;
 const { Meta } = Card;
@@ -65,7 +66,10 @@ class ListTourGuides extends React.Component {
             <Card
               key={get(tourguide, 'id')}
               actions={[
-                <a href="/user/:id"><Icon style={{ margin: '10px' }} type="profile" />Cá nhân</a>,
+                <Link to="/">
+                  <Icon style={{ margin: '10px' }} type="profile" />
+                  Cá nhân
+                </Link>,
                 <span><Icon style={{ margin: '10px' }} type="wechat" />Liên hệ</span>
               ]}
               className="card-tour-guide"
