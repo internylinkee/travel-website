@@ -28,7 +28,7 @@ class HorizontalPosts extends React.Component {
         <React.Fragment>
           <Title level={3}>{get(post, 'title')}</Title>
           <Paragraph ellipsis={{ rows: 6 }}>
-            {get(post, 'description')}
+            {get(post, 'content')}
           </Paragraph>
           {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
         </React.Fragment>
@@ -41,7 +41,7 @@ class HorizontalPosts extends React.Component {
         </div>
         <Title level={3}>{get(post, 'title')}</Title>
         <Paragraph ellipsis={{ rows: 6 }}>
-          {get(post, 'content')}
+          {get(post, 'description')}
         </Paragraph>
         <Link to={`/posts/${get(post, 'id')}/detail`}>
           <Button size="large">Xem thêm</Button>

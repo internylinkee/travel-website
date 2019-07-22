@@ -6,4 +6,3 @@ export { default as Albums } from './Albums';
 export { default as Reviews } from './Reviews';
 export { default as Tours } from './Tours';
 export { default as Timeline } from './Timeline';
-export { default as CreatePost } from './CreatePost';

@@ -3,7 +3,7 @@ import {
   Layout,
   Row,
   Col,
-  Cascader
+  Select
 } from 'antd';
 import {
   ListFeaturedPosts,
@@ -15,67 +15,7 @@ import {
 import { HeadingPage } from 'components/common';
 
 const { Content } = Layout;
-
-const options = [
-  {
-    value: 'Reviews',
-    label: 'Bài đánh giá',
-    children: [
-      {
-        value: 'love',
-        label: 'Yêu thích nhất',
-        children: [
-          {
-            value: 'eat',
-            label: 'Ăn uống'
-          },
-          {
-            value: 'Tham quan',
-            label: 'Tham quan'
-          },
-          {
-            value: 'Vui chơi',
-            label: 'Vui chơi'
-          }
-        ]
-      },
-      {
-        value: 'comment',
-        label: 'Bình luận nhiều nhất',
-        children: [
-          {
-            value: 'eat',
-            label: 'Ăn uống'
-          },
-          {
-            value: 'Tham quan',
-            label: 'Tham quan'
-          },
-          {
-            value: 'Vui chơi',
-            label: 'Vui chơi'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men'
-          }
-        ]
-      }
-    ]
-  }
-];
+const { Option } = Select;
 
 class Posts extends React.Component {
   constructor(props) {
@@ -88,12 +28,18 @@ class Posts extends React.Component {
       <Content>
         {/* Header Page */}
         <HeadingPage title="Danh sách bài viết">
-          <Cascader
-            options={options}
-            placeholder="Loc bài viết theo ..."
+          <Select
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            optionFilterProp="children"
+            placeholder="Lọc theo ..."
+            showSearch
             size="large"
             style={{ width: '100%' }}
-          />
+          >
+            <Option value="love">Được yêu thích nhất</Option>
+            <Option value="commnet">Có nhiều bình luận nhất</Option>
+          </Select>
         </HeadingPage>
         {/* Content Page */}
         <Row>

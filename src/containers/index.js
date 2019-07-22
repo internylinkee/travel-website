@@ -7,3 +7,4 @@ export { default as Posts } from './Posts';
 export { default as TourGuide } from './TourGuide';
 export { default as ProfileUser } from './ProfileUser';
 export { default as PostDetail } from './PostDetail';
+export { default as CreatePost } from './CreatePost';

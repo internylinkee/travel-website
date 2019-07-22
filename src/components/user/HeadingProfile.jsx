@@ -62,7 +62,7 @@ class HeaderProfile extends React.Component {
     // TODO: Hiển thị button Follow khi ở Profile của User khác, style màu vàng
     {
       key: variables.PROFILE_TAB.CREATE_POST,
-      path: `/${this.props.prefix}/create-post`,
+      path: '/create-post',
       className: 'menu-profile',
       span: 6,
       name: <Button ghost type="primary">Tạo bài viết</Button>
