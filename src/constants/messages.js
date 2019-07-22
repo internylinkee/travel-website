@@ -9,5 +9,8 @@ export default {
   ERROR_SYSTEM: 'Lỗi hệ thống!',
   INVALID_TYPE_FILE: 'File không hợp lệ! Vui lòng chỉ nhập các file {types}',
   SAVE_SUCCEED: 'Lưu thành công!',
-  SAVE_FAILED: 'Lưu không thành công!'
+  SAVE_FAILED: 'Lưu không thành công!',
+  REMOVE_SUCCEED: 'Xóa thành công!',
+  REMOVE_FAILED: 'Xóa không thành công!',
+  CONFIRM_REMOVE_POST: 'Bạn có muốn xóa bài viết này không?'
 };

@@ -8,16 +8,14 @@ import {
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
-  getListPost,
-  getListFeaturedPost
+  getDetailPost
 } from 'actions';
 import Helpers from 'helpers';
-import messages from 'constants/messages';
 import {
-  ListHorizontalPosts,
-  ListFeaturedPosts
+  FormPost
 } from 'components/post';
 import { LoadingWrapper } from 'components/common';
+import messages from 'constants/messages';
 
 let isMounted = true;
 
@@ -35,14 +33,14 @@ const setIsMounted = (value = true) => {
  */
 const getIsMounted = () => isMounted;
 
-class Timeline extends React.Component {
+class CreatePost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       isError: false,
-      mainPosts: [],
-      featuredPosts: []
+      postId: null,
+      detailPost: null
     };
     setIsMounted(true);
   }
@@ -61,7 +59,7 @@ class Timeline extends React.Component {
    * @param {object} data the data which will be merged to this.state
    * @param {function} callback the function which will be called after setState
    * @returns {void} call this.setState to update state
-   * @memberof Timeline
+   * @memberof CreatePost
    */
   setStateData = (state, callback) => {
     if (!getIsMounted()) {
@@ -71,18 +69,47 @@ class Timeline extends React.Component {
   }
 
   /**
+   * Get params: postId
+   * @returns {object}
+   * @memberof CreatePost
+   */
+  getParams = () => {
+    const postId = get(this.props.match, 'params.id');
+    return { postId };
+  }
+
+  /**
+   * Get thông tin chi tiết bài viết từ API
+   * @param {string} postId Id của bài viết
+   * @returns {object} Thông tin chi tiết
+   * @memberof CreatePost
+   */
+  getDetailPost = async (postId) => {
+    if (!postId) {
+      return null;
+    }
+    const response = await this.props.actions.getDetailPost(postId) || {};
+    if (!isEmpty(response.error) || isEmpty(response.payload)) {
+      Helpers.throwError(response.error || messages.ERROR_SYSTEM);
+    }
+    return get(response, 'payload.post', null);
+  }
+
+  /**
    * Load data
    * @returns {void} update state
-   * @memberof Timeline
+   * @memberof CreatePost
    */
   loadData = async () => {
     let isError = false;
     try {
       // set loading
       await this.setStateData({ loading: true });
-      const mainPosts = await this.getMainPosts();
-      const featuredPosts = await this.getFeaturedPosts();
-      await this.setStateData({ mainPosts, featuredPosts });
+      // get params
+      const { postId } = this.getParams();
+      // get chi tiết bài viết nếu tồn tại postId
+      const detailPost = await this.getDetailPost(postId);
+      await this.setStateData({ detailPost, postId });
     } catch (error) {
       isError = true;
     } finally {
@@ -92,61 +119,37 @@ class Timeline extends React.Component {
   }
 
   /**
-   * Lấy danh sách bài viết
-   * @return {object}
-   * @memberof Timeline
+   * Reload page
+   * @returns {void}
+   * @memberof CreatePost
    */
-  getMainPosts = async () => {
-    if (!this.props.userId) {
-      Helpers.throwError(messages.ERROR_SYSTEM);
-    }
-    const params = { user: this.props.userId };
-    const response = await this.props.actions.getListPost(params) || {};
-    // if error
-    if (!isEmpty(response.error)) {
-      Helpers.throwError(response.error);
-    }
-    return get(response, 'payload');
+  reloadPage = () => {
+    Helpers.reloadPage(this.props.history);
   }
 
   /**
-   * Lấy danh sách bài viết nổi bật
-   * @return {object}
-   * @memberof Timeline
+   * Điều kiện show editor
+   * @returns {boolean}
+   * @memberof CreatePost
    */
-  getFeaturedPosts = async () => {
-    if (!this.props.userId) {
-      Helpers.throwError(messages.ERROR_SYSTEM);
-    }
-    const params = { user: this.props.userId };
-    const response = await this.props.actions.getListFeaturedPost(params) || {};
-    // if error
-    if (!isEmpty(response.error)) {
-      Helpers.throwError(response.error);
-    }
-    return get(response, 'payload');
-  }
+  isShowEditor = () => !!get(this.props.auth, 'isAuthenticated')
 
   render() {
     return (
       <LoadingWrapper
-        isEmpty={isEmpty(this.state.mainPosts) && isEmpty(this.state.featuredPosts)}
         isError={this.state.isError}
         loading={this.state.loading}
       >
         <Row>
-          {/* Danh sach tat ca cac bai viet */}
-          <Col className="p-col" span={16}>
-            <ListHorizontalPosts
-              data={this.state.mainPosts}
-              history={this.props.history}
-            />
-          </Col>
-
-          {/* Thanh thông tin hiển thị các nội dung khác */}
-          <Col className="p-col" span={8}>
-            {/* Danh sách bài viết nổi bật */}
-            <ListFeaturedPosts data={this.state.featuredPosts} />
+          <Col className="p-col" span={24}>
+            {/* Form Edittor */}
+            {this.isShowEditor() && (
+              <FormPost
+                detailPost={this.state.detailPost}
+                onAfterSubmit={this.reloadPage}
+                postId={this.state.postId}
+              />
+            )}
           </Col>
         </Row>
       </LoadingWrapper>
@@ -154,14 +157,11 @@ class Timeline extends React.Component {
   }
 }
 
-Timeline.propTypes = {
+CreatePost.propTypes = {
+  auth: PropTypes.objectOf(PropTypes.any).isRequired,
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
-  userId: PropTypes.string
-};
-
-Timeline.defaultProps = {
-  userId: ''
+  match: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -170,12 +170,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getListPost,
-    getListFeaturedPost
+    getDetailPost
   }, dispatch)
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Timeline);
+)(CreatePost);

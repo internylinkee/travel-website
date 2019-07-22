@@ -51,6 +51,10 @@ class FormPostTour extends React.Component {
     setIsMounted(true);
   }
 
+  async componentDidMount() {
+    await this.setDefaultData();
+  }
+
   componentWillUnmount() {
     setIsMounted(false);
   }
@@ -67,6 +71,30 @@ class FormPostTour extends React.Component {
       return;
     }
     this.setState(state, callback);
+  }
+
+  /**
+   * Set default data: images
+   * @returns {void} update state
+   * @memberof FormPostQuestion
+   */
+  setDefaultData = () => {
+    let images = (get(this.props.detailPost, 'images', []) || []);
+    images = images.map((url, index) => ({
+      url,
+      // fake uid
+      uid: index,
+      // fake name
+      name: `name-${index}.png`,
+      // default status
+      status: 'done'
+    }));
+    this.setStateData({
+      image: {
+        data: images,
+        errors: []
+      }
+    });
   }
 
   /**
@@ -128,14 +156,16 @@ class FormPostTour extends React.Component {
       <Form layout="vertical">
         <FormItem label="Tiêu đề">
           {getFieldDecorator('title', {
-            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }],
+            initialValue: get(this.props.detailPost, 'title', '')
           })(
             <Input placeholder="Nhập tiêu đề" size="large" />
           )}
         </FormItem>
         <FormItem label="Mô tả">
           {getFieldDecorator('description', {
-            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }],
+            initialValue: get(this.props.detailPost, 'description', '')
           })(
             <Input placeholder="Nhập mô tả" size="large" />
           )}
@@ -144,7 +174,8 @@ class FormPostTour extends React.Component {
           <Col span={12} style={{ paddingRight: '20px' }}>
             <FormItem label="Gắn thẻ">
               {getFieldDecorator('categories', {
-                rules: [{ required: true, message: messages.REQUIRED_FIELD }]
+                rules: [{ required: true, message: messages.REQUIRED_FIELD }],
+                initialValue: get(this.props.detailPost, 'categories', []).map(item => item.id)
               })(
                 <Select
                   dataSelect={this.props.categories}
@@ -160,7 +191,8 @@ class FormPostTour extends React.Component {
           <Col span={12}>
             <FormItem label="Địa điểm">
               {getFieldDecorator('locations', {
-                rules: [{ required: true, message: messages.REQUIRED_FIELD }]
+                rules: [{ required: true, message: messages.REQUIRED_FIELD }],
+                initialValue: get(this.props.detailPost, 'locations', []).map(item => item.id)
               })(
                 <Select
                   dataSelect={this.props.locations}
@@ -176,7 +208,8 @@ class FormPostTour extends React.Component {
         </Row>
         <FormItem label="Nội dung">
           {getFieldDecorator('content', {
-            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }]
+            rules: [{ whitespace: true, required: true, message: messages.REQUIRED_FIELD }],
+            initialValue: get(this.props.detailPost, 'content', '')
           })(
             <TextArea
               autosize={{ minRows: 6, maxRows: 12 }}
@@ -193,7 +226,7 @@ class FormPostTour extends React.Component {
               validator: this.validateImage,
               message: messages.REQUIRED_FIELD
             }],
-            initialValue: get(this.state.image, 'data')
+            initialValue: this.state.image
           })(
             <UploadImages onChange={this.handleChangeFiles} />
           )}
@@ -213,14 +246,16 @@ FormPostTour.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object),
   isSubmitting: PropTypes.bool,
   locations: PropTypes.arrayOf(PropTypes.object),
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  detailPost: PropTypes.objectOf(PropTypes.any)
 };
 
 FormPostTour.defaultProps = {
   categories: [],
   isSubmitting: false,
   locations: [],
-  onSubmit: null
+  onSubmit: null,
+  detailPost: {}
 };
 
 export default Form.create({ name: 'FormPostTour' })(FormPostTour);

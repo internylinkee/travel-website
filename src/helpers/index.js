@@ -2,7 +2,8 @@ import {
   isString,
   isEmpty,
   isArray,
-  isFunction
+  isFunction,
+  get
 } from 'lodash';
 import {
   Notification
@@ -158,13 +159,31 @@ export default class Helpers {
     if (!isArray(files) || isEmpty(files) || !isFunction(requestAPI)) {
       return [];
     }
-    const oldFiles = files.filter(file => isString(file.url) && file.url.length > 0);
+    const oldFiles = files.filter(file => isString(file.url) && file.url.length > 0).map(file => file.url);
+
     const newFiles = files.filter(file => !file.url);
     const response = await requestAPI(newFiles) || {};
-    if (!isEmpty(response.error) || isEmpty(response.payload)) {
-      Helpers.throwError(response.error || {});
+    if (!isEmpty(response.error)) {
+      Helpers.throwError(response.error);
     }
-    const result = [...oldFiles.map(file => file.url), ...response.payload];
+    const result = [...oldFiles, ...response.payload];
     return result;
+  }
+
+  /**
+   * Reload page
+   * @param {objecy} history
+   * @param {string} path
+   * @returns {void}
+   * @static
+   * @memberof Helpers
+   */
+  static reloadPage = (history, path = '/') => {
+    const currentPath = get(history, 'location.pathname');
+    if (currentPath === path) {
+      window.location.href = path;
+    } else {
+      history.replace(path);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Row,
   Col,
@@ -12,11 +13,20 @@ import {
   List,
   Button
 } from 'antd';
-import { get, isArray, isEmpty } from 'lodash';
+import {
+  get,
+  isArray,
+  isEmpty,
+  isFunction
+} from 'lodash';
 import { Link } from 'react-router-dom';
+import {
+  deletePost
+} from 'actions';
 import variables from 'constants/variables';
 import Helpers from 'helpers';
-import { IconText, LoadingWrapper } from 'components/common';
+import { IconText, LoadingWrapper, Modal } from 'components/common';
+import messages from 'constants/messages';
 
 const { Title, Text, Paragraph } = Typography;
 const ListItem = List.Item;
@@ -104,6 +114,45 @@ class HorizontalPosts extends React.Component {
     return postUserId === currentUserId;
   }
 
+  /**
+   * Xác nhận xóa bài viết
+   * @param {object} post Bài viết cần xóa
+   * @return {void} Gọi Modal
+   * @memberof HorizontalPosts
+   */
+  confirmRemove = post => async (e) => {
+    e.preventDefault();
+    Modal({
+      type: 'confirm',
+      title: messages.CONFIRM_REMOVE_POST,
+      content: `${post.title}`,
+      onOk: () => this.handleRemove(post)
+    });
+  }
+
+  /**
+   * Xóa bài viết
+   * @param {object} post Bài viết cần xóa
+   * @returns {function} Gọi props.onRemove
+   * @memberof HorizontalPosts
+   */
+  handleRemove = async (post) => {
+    try {
+      if (isFunction(this.props.onRemove)) {
+        return this.props.onRemove(post);
+      }
+      const postId = get(post, 'id');
+      const response = await this.props.actions.deletePost(postId) || {};
+      if (!isEmpty(response.error)) {
+        Helpers.throwError(response.error);
+      }
+      Helpers.alertSuccess(messages.REMOVE_SUCCEED);
+      return Helpers.reloadPage(this.props.history, get(this.props.history, 'location.pathname'));
+    } catch (error) {
+      return Helpers.alertError(messages.REMOVE_FAILED);
+    }
+  }
+
   render() {
     return (
       <LoadingWrapper isEmpty={isEmpty(this.props.data)}>
@@ -154,12 +203,18 @@ class HorizontalPosts extends React.Component {
               </ListItem>
               {this.isBelongToCurrentUser(post) && (
                 <ListItem>
-                  <Avatar icon="edit" style={{ backgroundColor: '#F9A204' }} />
+                  <Link to={`/posts/${get(post, 'id')}/edit`}>
+                    <Avatar icon="edit" style={{ backgroundColor: '#F9A204' }} />
+                  </Link>
                 </ListItem>
               )}
               {this.isBelongToCurrentUser(post) && (
                 <ListItem>
-                  <Avatar icon="delete" style={{ backgroundColor: '#d5313d' }} />
+                  <Avatar
+                    icon="delete"
+                    onClick={this.confirmRemove(post)}
+                    style={{ backgroundColor: '#d5313d', cursor: 'pointer' }}
+                  />
                 </ListItem>
               )}
             </List>
@@ -172,18 +227,28 @@ class HorizontalPosts extends React.Component {
 
 HorizontalPosts.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
-  auth: PropTypes.objectOf(PropTypes.any).isRequired
+  auth: PropTypes.objectOf(PropTypes.any).isRequired,
+  actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  onRemove: PropTypes.func
 };
 
 HorizontalPosts.defaultProps = {
-  data: []
+  data: [],
+  onRemove: null
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    deletePost
+  }, dispatch)
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(HorizontalPosts);

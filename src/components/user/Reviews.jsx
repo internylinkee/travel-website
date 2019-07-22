@@ -138,7 +138,10 @@ class Reviews extends React.Component {
         <Row>
           {/* Danh sach tat ca cac bai viet có type "review" */}
           <Col className="p-col" span={16}>
-            <ListHorizontalPosts data={this.state.mainPosts} />
+            <ListHorizontalPosts
+              data={this.state.mainPosts}
+              history={this.props.history}
+            />
           </Col>
 
           {/* Thanh thông tin hiển thị các nội dung khác */}
@@ -154,6 +157,7 @@ class Reviews extends React.Component {
 
 Reviews.propTypes = {
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   userId: PropTypes.string
 };
 

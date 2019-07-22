@@ -5,7 +5,8 @@ import { Upload, Icon, Modal } from 'antd';
 import {
   get,
   compact,
-  isFunction
+  isFunction,
+  isEmpty
 } from 'lodash';
 import messages from 'constants/messages';
 import Helpers from 'helpers';
@@ -38,11 +39,18 @@ const setIsMounted = (value = true) => {
 const getIsMounted = () => isMounted;
 
 class UploadImages extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    if ('value' in props && !isEmpty(props.value) && props.value !== state.value) {
+      return ({ fileList: get(props, 'value.data', []) });
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
-    const fileList = props.value || [];
     this.state = {
-      fileList,
+      value: props.value,
+      fileList: [],
       previewVisible: false,
       previewImage: ''
     };
@@ -126,7 +134,7 @@ class UploadImages extends React.Component {
     // gọi props.onChange
     if (isFunction(this.props.onChange)) {
       this.props.onChange({
-        data: compact(newFileList).map(file => file.originFileObj),
+        data: compact(newFileList),
         errors: compact(errors)
       });
     }

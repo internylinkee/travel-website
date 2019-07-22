@@ -162,10 +162,7 @@ class Home extends React.Component {
    * @memberof Home
    */
   reloadPage = () => {
-    this.props.history.replace('/reload');
-    setTimeout(() => {
-      this.props.history.replace('/');
-    });
+    this.componentDidMount();
   }
 
   /**
@@ -189,7 +186,10 @@ class Home extends React.Component {
               <FormPost onAfterSubmit={this.reloadPage} />
             )}
             {/* Hiển thị nội dung bài viết có comment */}
-            <ListHorizontalPosts data={this.state.mainPosts} />
+            <ListHorizontalPosts
+              data={this.state.mainPosts}
+              history={this.props.history}
+            />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>

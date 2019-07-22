@@ -165,7 +165,10 @@ class Posts extends React.Component {
         <Row>
           {/* Danh sach bai viet */}
           <Col className="p-col" span={16}>
-            <ListHorizontalPosts data={this.state.mainPosts} />
+            <ListHorizontalPosts
+              data={this.state.mainPosts}
+              history={this.props.history}
+            />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
