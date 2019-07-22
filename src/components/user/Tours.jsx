@@ -76,9 +76,6 @@ class Tours extends React.Component {
                   <Form.Item label="Họ" {...formItemLayout}>
                     <Input defaultValue="Van" placeholder="Nhập họ" {...inputLayout} />
                   </Form.Item>
-                  <Form.Item label="CMND" {...formItemLayout}>
-                    <Input placeholder="Nhập số CMND" {...inputLayout} />
-                  </Form.Item>
                   <Form.Item label="Số điện thoại" {...formItemLayout}>
                     <Input placeholder="Nhập số điện thoại" {...inputLayout} />
                   </Form.Item>
