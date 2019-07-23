@@ -36,7 +36,11 @@ class DetailPostInfo extends React.Component {
   renderContent = post => (
     <React.Fragment>
       <div style={{ height: '350px', margin: '0 -25px 20px' }}>
-        <img alt="Ảnh bìa" src={get(post, 'featureImage')} style={{ width: '100%', height: '100%' }} />
+        <img
+          alt="Ảnh bìa"
+          src={get(post, 'featureImage')}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
       <Title level={3}>{get(post, 'title')}</Title>
       <Paragraph>

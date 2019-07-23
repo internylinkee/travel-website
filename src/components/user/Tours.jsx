@@ -63,6 +63,7 @@ class Tours extends React.Component {
           </Empty>
           {/* Form đăng kí làm HDV */}
           <Card
+            style={{ display: 'none' }}
             title="Đăng kí Hướng dẫn viên"
           >
             <Row>
@@ -124,7 +125,6 @@ class Tours extends React.Component {
               </Col>
             </Row>
           </Card>
-
         </Row>
       </React.Fragment>
     );

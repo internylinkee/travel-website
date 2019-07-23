@@ -15,6 +15,8 @@ import Helpers from 'helpers';
 import messages from 'constants/messages';
 import {
   ListHorizontalPosts,
+  ListCategories,
+  ListLocations,
   ListFeaturedPosts
 } from 'components/post';
 import { LoadingWrapper } from 'components/common';
@@ -169,6 +171,10 @@ class Timeline extends React.Component {
           <Col className="p-col" span={8}>
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts data={this.state.featuredPosts} />
+            {/* Thẻ */}
+            <ListCategories />
+            {/* Địa điểm */}
+            <ListLocations />
           </Col>
         </Row>
       </LoadingWrapper>
