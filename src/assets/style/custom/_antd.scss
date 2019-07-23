@@ -67,3 +67,14 @@
     width: 250px;
   }
 }
+
+// Style from Hiển thị hình ảnh đăng bài viết
+.ant-upload-list-picture-card .ant-upload-list-item {
+  margin: 8px 8px 8px 0;
+}
+
+.ant-upload-list-item-info {
+  span {
+    height: 100%;
+  }
+}

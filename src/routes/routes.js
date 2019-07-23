@@ -20,10 +20,10 @@ const routes = [
   // Registration
   { path: '/registration', exact: true, component: Registration, isUseMasterLayout: false },
   // Posts
-  { path: '/posts', exact: true, component: Posts, requireLogin: '/login' },
-  { path: '/posts/:id/detail', exact: true, component: PostDetail, requireLogin: '/login' },
+  { path: '/posts', exact: true, component: Posts },
+  { path: '/posts/:id/detail', exact: true, component: PostDetail },
   // Tour Guide
-  { path: '/tourguides', exact: true, component: TourGuide, requireLogin: '/login' },
+  { path: '/tourguides', exact: true, component: TourGuide },
   // Profile Current User
   { path: '/profile/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Profile User

@@ -41,6 +41,9 @@ class HorizontalPosts extends React.Component {
             {get(post, 'content')}
           </Paragraph>
           {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
+          <div style={{ height: '350px', margin: '0 -25px 20px' }}>
+            <img alt="Ảnh" src={get(post, 'featureImage')} style={{ width: '100%', height: '100%' }} />
+          </div>
         </React.Fragment>
       );
     }

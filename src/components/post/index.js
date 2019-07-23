@@ -9,3 +9,4 @@ export { default as CommentsPost } from './CommentsPost';
 export { default as FormPostQuestion } from './FormPostQuestion';
 export { default as FormPostReviews } from './FormPostReviews';
 export { default as FormPostTour } from './FormPostTour';
+export { default as DetailPostInfo } from './DetailPostInfo';
