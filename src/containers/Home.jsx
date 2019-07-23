@@ -16,7 +16,6 @@ import {
   FormPost,
   ListHorizontalPosts,
   ListFeaturedPosts,
-  ListAuthor,
   ListLocations,
   ListCategories
 } from 'components/post';
@@ -219,7 +218,6 @@ class Home extends React.Component {
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts data={this.state.featuredPosts} />
             {/* Phần Tác giả được Yêu thích */}
-            <ListAuthor data={this.state.authors} />
             {/* Thẻ */}
             <ListCategories />
             {/* Địa điểm */}

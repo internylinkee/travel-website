@@ -15,7 +15,6 @@ import {
 import Helpers from 'helpers';
 import {
   ListHorizontalPosts,
-  ListAuthor,
   ListCategories,
   ListLocations,
   ListFeaturedPosts
@@ -198,7 +197,6 @@ class Posts extends React.Component {
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts data={this.state.featuredPosts} />
             {/* Phần Tác giả được Yêu thích */}
-            <ListAuthor />
             {/* Thẻ */}
             <ListCategories />
             {/* Địa điểm */}
