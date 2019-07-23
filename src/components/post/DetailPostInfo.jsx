@@ -46,7 +46,7 @@ class DetailPostInfo extends React.Component {
       <Paragraph>
         {get(post, 'description')}
       </Paragraph>
-      <Paragraph>
+      <Paragraph className="pre-line">
         {get(post, 'content')}
       </Paragraph>
     </React.Fragment>
