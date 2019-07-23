@@ -190,9 +190,8 @@ class PostDetail extends React.Component {
               onReload={this.reloadData}
               postId={this.state.postId}
             />
-
             {/* Phần Comment */}
-            <CommentsPost />
+            <CommentsPost postId={get(this.state.detailPost, 'id')} />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>

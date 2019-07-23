@@ -9,7 +9,8 @@ import {
 import { get, isEmpty } from 'lodash';
 import {
   getListPost,
-  getListFeaturedPost
+  getListFeaturedPost,
+  cancelPostAPI
 } from 'actions';
 import Helpers from 'helpers';
 import messages from 'constants/messages';
@@ -57,6 +58,7 @@ class Reviews extends React.Component {
 
   componentWillUnmount() {
     setIsMounted(false);
+    this.props.actions.cancelPostAPI();
   }
 
   /**
@@ -200,7 +202,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getListPost,
-    getListFeaturedPost
+    getListFeaturedPost,
+    cancelPostAPI
   }, dispatch)
 });
 

@@ -28,18 +28,61 @@ import {
 import variables from 'constants/variables';
 import Helpers from 'helpers';
 import { IconText, LoadingWrapper, Modal } from 'components/common';
+import { CommentsPost } from 'components/post';
 import messages from 'constants/messages';
 
 const { Title, Text, Paragraph } = Typography;
 const ListItem = List.Item;
 
+let isMounted = true;
+
+/**
+ * Set isMounted
+ * @param {boolean} value
+ */
+const setIsMounted = (value = true) => {
+  isMounted = value;
+  return isMounted;
+};
+
+/**
+ * Get isMounted
+ */
+const getIsMounted = () => isMounted;
+
 class HorizontalPosts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowedCommentBox: {}
+    };
+    setIsMounted(true);
+  }
+
+  componentWillUnmount() {
+    setIsMounted(false);
+  }
+
+  /**
+   * Set state properties
+   * @param {object} data the data which will be merged to this.state
+   * @param {function} callback the function which will be called after setState
+   * @returns {void} call this.setState to update state
+   * @memberof HorizontalPosts
+   */
+  setStateData = (state, callback) => {
+    if (!getIsMounted()) {
+      return;
+    }
+    this.setState(state, callback);
+  }
+
   renderContent = (post) => {
     if (get(post, 'type') === variables.TYPE_POST.QUESTION) {
       return (
         <React.Fragment>
           <Title level={3}>{get(post, 'title')}</Title>
-          <Paragraph ellipsis={{ rows: 6 }}>
+          <Paragraph className="pre-line" ellipsis={{ rows: 6 }}>
             {get(post, 'content')}
           </Paragraph>
           {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
@@ -101,17 +144,24 @@ class HorizontalPosts extends React.Component {
    * @memberof HorizontalPosts
    */
   getUserInfo = (post) => {
+    const id = get(post, 'user.id');
     const lastName = get(post, 'user.fullName.lastName');
     const firstName = get(post, 'user.fullName.firstName');
     const name = `${lastName} ${firstName}` || '';
     const avatar = get(post, 'user.avatar') || '';
     const location = (get(post, 'locations', []) || []).map(item => item.name).join(', ');
+    let link = `/users/${get(post, 'user.id')}/${variables.PROFILE_TAB.TIMELINE}`;
+    if (get(this.props.auth, 'user.id') === id) {
+      link = `/profile/${variables.PROFILE_TAB.TIMELINE}`;
+    }
     return {
+      id,
       lastName,
       firstName,
       name,
       avatar,
-      location
+      location,
+      link
     };
   }
 
@@ -225,80 +275,121 @@ class HorizontalPosts extends React.Component {
     }
   }
 
+  /**
+   * Hiển thị bình luận cho một bài viết
+   * @param {object} post Bài viết
+   * @returns {function} update state isShowedCommentBox
+   * @memberof HorizontalPosts
+   */
+  toggleShowCommentBox = post => async (e) => {
+    e.preventDefault();
+    if (!this.isAuthenticated()) {
+      return Helpers.alertWarning(messages.REQUIRED_LOGIN);
+    }
+    const postId = get(post, 'id');
+    if (postId) {
+      await this.setStateData(prevState => ({
+        isShowedCommentBox: {
+          ...prevState.isShowedCommentBox,
+          [postId]: !prevState.isShowedCommentBox[postId]
+        }
+      }));
+    }
+    if (this.state.isShowedCommentBox[postId]) {
+      const elmnt = document.getElementById(`post-${get(post, 'id')}`);
+      if (elmnt) {
+        elmnt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+    return false;
+  }
+
   render() {
     return (
       <LoadingWrapper isEmpty={isEmpty(this.props.data)}>
         {this.props.data.map((post, index) => (
-          <Card
-            key={index}
-            className="p-card"
-          >
-            <Row style={{ marginBottom: '20px' }}>
-              <Col span={2}>
-                <Avatar size={56} src={this.getUserInfo(post).avatar} />
-              </Col>
-              <Col span={22} style={{ paddingTop: '5px' }}>
-                <Text className="name-users">{this.getUserInfo(post).name}</Text>
-                <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
-                <IconText text={this.getUserInfo(post).location} type="environment" />
-              </Col>
-              <Col span={22}>
-                <Text>
-                  {Helpers.getDateTime({
-                    value: get(post, 'updatedAt'),
-                    format: variables.DATE_FORMAT.DATETIME
-                  })}
-                </Text>
-              </Col>
-            </Row>
-            <Row>{this.renderContent(post)}</Row>
-            <Divider />
-            <Row>
-              <Col span={12}>
-                <IconText text={`${Helpers.getLength(get(post, 'likes'))}`} type="heart" />
-                <IconText text={`${get(post, 'commentCount', 0)}`} type="message" />
-                <IconText text={`${Helpers.getLength(get(post, 'sharea'))}`} type="share-alt" />
-              </Col>
-              <Col span={12}>
-                {this.renderTags(post)}
-              </Col>
-            </Row>
-            <List className="control-post-button">
-              <ListItem>
-                <Avatar
-                  className={classnames('hand', {
-                    'b-color-pink': this.isLikedPost(post),
-                    'b-color-blue': !this.isLikedPost(post)
-                  })}
-                  icon="heart"
-                  onClick={this.handleLike(post)}
-                />
-              </ListItem>
-              <ListItem>
-                <Avatar icon="message" style={{ backgroundColor: '#2699fb' }} />
-              </ListItem>
-              <ListItem>
-                <Avatar icon="share-alt" style={{ backgroundColor: '#2699fb' }} />
-              </ListItem>
-              {this.isBelongToCurrentUser(post) && (
-                <ListItem>
-                  <Link to={`/posts/${get(post, 'id')}/edit`}>
-                    <Avatar icon="edit" style={{ backgroundColor: '#F9A204' }} />
+          <React.Fragment key={index}>
+            <Card className="p-card">
+              <Row style={{ marginBottom: '20px' }}>
+                <Col span={2}>
+                  <Link to={this.getUserInfo(post).link}>
+                    <Avatar size={56} src={this.getUserInfo(post).avatar} />
                   </Link>
-                </ListItem>
-              )}
-              {this.isBelongToCurrentUser(post) && (
+                </Col>
+                <Col span={22} style={{ paddingTop: '5px' }}>
+                  <Link to={this.getUserInfo(post).link}>
+                    <Text className="name-users">{this.getUserInfo(post).name}</Text>
+                  </Link>
+                  <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
+                  <IconText text={this.getUserInfo(post).location} type="environment" />
+                </Col>
+                <Col span={22}>
+                  <Text>
+                    {Helpers.getDateTime({
+                      value: get(post, 'updatedAt'),
+                      format: variables.DATE_FORMAT.DATETIME
+                    })}
+                  </Text>
+                </Col>
+              </Row>
+              <Row>{this.renderContent(post)}</Row>
+              <Divider />
+              <Row>
+                <Col span={12}>
+                  <IconText text={`${Helpers.getLength(get(post, 'likes'))}`} type="heart" />
+                  <IconText text={`${get(post, 'commentCount', 0)}`} type="message" />
+                  <IconText text={`${Helpers.getLength(get(post, 'sharea'))}`} type="share-alt" />
+                </Col>
+                <Col span={12}>
+                  {this.renderTags(post)}
+                </Col>
+              </Row>
+              <List className="control-post-button">
                 <ListItem>
                   <Avatar
-                    className="hand"
-                    icon="delete"
-                    onClick={this.confirmRemove(post)}
-                    style={{ backgroundColor: '#d5313d' }}
+                    className={classnames('hand', {
+                      'b-color-pink': this.isLikedPost(post),
+                      'b-color-blue': !this.isLikedPost(post)
+                    })}
+                    icon="heart"
+                    onClick={this.handleLike(post)}
                   />
                 </ListItem>
+                <ListItem>
+                  <Avatar
+                    className="hand b-color-blue"
+                    icon="message"
+                    onClick={this.toggleShowCommentBox(post)}
+                  />
+                </ListItem>
+                <ListItem>
+                  <Avatar icon="share-alt" style={{ backgroundColor: '#2699fb' }} />
+                </ListItem>
+                {this.isBelongToCurrentUser(post) && (
+                  <ListItem>
+                    <Link to={`/posts/${get(post, 'id')}/edit`}>
+                      <Avatar icon="edit" style={{ backgroundColor: '#F9A204' }} />
+                    </Link>
+                  </ListItem>
+                )}
+                {this.isBelongToCurrentUser(post) && (
+                  <ListItem>
+                    <Avatar
+                      className="hand"
+                      icon="delete"
+                      onClick={this.confirmRemove(post)}
+                      style={{ backgroundColor: '#d5313d' }}
+                    />
+                  </ListItem>
+                )}
+              </List>
+            </Card>
+            <div id={`post-${get(post, 'id')}`}>
+              {get(this.state.isShowedCommentBox, get(post, 'id')) && (
+                <CommentsPost postId={get(post, 'id')} />
               )}
-            </List>
-          </Card>
+            </div>
+          </React.Fragment>
         ))}
       </LoadingWrapper>
     );

@@ -39,7 +39,7 @@ export const getListPost = params => (dispatch, getState) => {
   });
 };
 
-// TODO: Ráp API Danh sách bài viết nổi bật
+// Danh sách bài viết nổi bật
 export const getListFeaturedPost = params => (dispatch, getState) => {
   canceledList.push({
     key: Helpers.generateKeyAPI(),
@@ -63,50 +63,34 @@ export const getListFeaturedPost = params => (dispatch, getState) => {
 };
 
 // Tạo bài viết
-export const postPost = data => (dispatch, getState) => {
-  canceledList.push({
-    key: Helpers.generateKeyAPI(),
-    canceled: CancelToken.source()
-  });
-  const cancelToken = canceledList[canceledList.length - 1].canceled.token;
-  return dispatch({
-    types: [API_FETCH, API_DEFAULT, API_FAILED],
-    payload: {
-      request: {
-        url: '/v1/posts',
-        method: 'POST',
-        headers: {
-          Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
-        },
-        cancelToken,
-        data
-      }
+export const postPost = data => (dispatch, getState) => dispatch({
+  types: [API_FETCH, API_DEFAULT, API_FAILED],
+  payload: {
+    request: {
+      url: '/v1/posts',
+      method: 'POST',
+      headers: {
+        Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+      },
+      data
     }
-  });
-};
+  }
+});
 
 // Sửa bài viết
-export const putPost = (postId, data) => (dispatch, getState) => {
-  canceledList.push({
-    key: Helpers.generateKeyAPI(),
-    canceled: CancelToken.source()
-  });
-  const cancelToken = canceledList[canceledList.length - 1].canceled.token;
-  return dispatch({
-    types: [API_FETCH, API_DEFAULT, API_FAILED],
-    payload: {
-      request: {
-        url: `/v1/posts/${postId}`,
-        method: 'PUT',
-        headers: {
-          Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
-        },
-        cancelToken,
-        data
-      }
+export const putPost = (postId, data) => (dispatch, getState) => dispatch({
+  types: [API_FETCH, API_DEFAULT, API_FAILED],
+  payload: {
+    request: {
+      url: `/v1/posts/${postId}`,
+      method: 'PUT',
+      headers: {
+        Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+      },
+      data
     }
-  });
-};
+  }
+});
 
 // Chi tiết bài viết
 export const getDetailPost = postId => (dispatch, getState) => {
@@ -154,6 +138,43 @@ export const putLikePost = postId => (dispatch, getState) => dispatch({
       headers: {
         Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
       }
+    }
+  }
+});
+
+// Danh sách bình luận của một bài viết
+export const getListComment = postId => (dispatch, getState) => {
+  canceledList.push({
+    key: Helpers.generateKeyAPI(),
+    canceled: CancelToken.source()
+  });
+  const cancelToken = canceledList[canceledList.length - 1].canceled.token;
+  return dispatch({
+    types: [API_FETCH, API_DEFAULT, API_FAILED],
+    payload: {
+      request: {
+        url: `/v1/posts/${postId}/comments`,
+        method: 'GET',
+        headers: {
+          Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+        },
+        cancelToken
+      }
+    }
+  });
+};
+
+// Thêm bình luận cho một bài viết
+export const postComment = (postId, data) => (dispatch, getState) => dispatch({
+  types: [API_FETCH, API_DEFAULT, API_FAILED],
+  payload: {
+    request: {
+      url: `/v1/posts/${postId}/comments`,
+      method: 'POST',
+      headers: {
+        Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+      },
+      data
     }
   }
 });
