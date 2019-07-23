@@ -6,12 +6,9 @@ import {
   Row,
   Col,
   Divider,
-  Icon,
   Tag,
-  Avatar,
   Card,
-  Typography,
-  Input
+  Typography
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
@@ -24,7 +21,8 @@ import {
   ListAuthor,
   ListCategories,
   ListLocations,
-  ListFeaturedPosts
+  ListFeaturedPosts,
+  CommentsPost
 } from 'components/post';
 import { LoadingWrapper, IconText } from 'components/common';
 
@@ -199,51 +197,8 @@ class PostDetail extends React.Component {
               onReload={this.reloadData}
               postId={this.state.postId}
             />
-
             {/* Phần Comment */}
-            <Card className="b-comment">
-              <Title level={4} style={{ marginBottom: '20px' }}>Bình luận</Title>
-              <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
-                  <Avatar size={40} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
-                </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
-                  <Text className="name-users">Maria Monoban</Text>
-                  <Text className="text-comment">1 phút trước</Text>
-                </Col>
-                <Col span={22} style={{ marginTop: '10px' }}>
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                </Col>
-              </Row>
-              <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
-                  <Avatar size={40} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
-                  <Text className="name-users">Han Solo</Text>
-                  <Text className="text-comment">12 phút trước</Text>
-                </Col>
-                <Col span={22} style={{ marginTop: '10px' }}>
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                </Col>
-              </Row>
-              <Row>
-                <Col span={2}>
-                  <Avatar size={40} src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
-                </Col>
-                <Col span={22}>
-                  <Input
-                    placeholder="Viết bình luận"
-                    style={{ marginTop: '5px' }}
-                    suffix={<Icon style={{ color: 'rgba(0,0,0,.25)' }} type="enter" />}
-                  />
-                </Col>
-              </Row>
-            </Card>
+            <CommentsPost postId={get(this.state.detailPost, 'id')} />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>

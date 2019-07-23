@@ -76,17 +76,24 @@ class DetailPostInfo extends React.Component {
    * @memberof DetailPostInfo
    */
   getUserInfo = (post) => {
+    const id = get(post, 'user.id');
     const lastName = get(post, 'user.fullName.lastName');
     const firstName = get(post, 'user.fullName.firstName');
     const name = `${lastName} ${firstName}` || '';
     const avatar = get(post, 'user.avatar') || '';
     const location = (get(post, 'locations', []) || []).map(item => item.name).join(', ');
+    let link = `/users/${get(post, 'user.id')}/${variables.PROFILE_TAB.TIMELINE}`;
+    if (get(this.props.auth, 'user.id') === id) {
+      link = `/profile/${variables.PROFILE_TAB.TIMELINE}`;
+    }
     return {
+      id,
       lastName,
       firstName,
       name,
       avatar,
-      location
+      location,
+      link
     };
   }
 
@@ -208,10 +215,14 @@ class DetailPostInfo extends React.Component {
         >
           <Row style={{ marginBottom: '20px' }}>
             <Col span={2}>
-              <Avatar size={56} src={this.getUserInfo(this.props.data).avatar} />
+              <Link to={this.getUserInfo(this.props.data).link}>
+                <Avatar size={56} src={this.getUserInfo(this.props.data).avatar} />
+              </Link>
             </Col>
             <Col span={22} style={{ paddingTop: '5px' }}>
-              <Text className="name-users">{this.getUserInfo(this.props.data).name}</Text>
+              <Link to={this.getUserInfo(this.props.data).link}>
+                <Text className="name-users">{this.getUserInfo(this.props.data).name}</Text>
+              </Link>
               <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
               <IconText text={this.getUserInfo(this.props.data).location} type="environment" />
             </Col>
@@ -246,9 +257,6 @@ class DetailPostInfo extends React.Component {
                 icon="heart"
                 onClick={this.handleLike(this.props.data)}
               />
-            </ListItem>
-            <ListItem>
-              <Avatar icon="message" style={{ backgroundColor: '#2699fb' }} />
             </ListItem>
             <ListItem>
               <Avatar icon="share-alt" style={{ backgroundColor: '#2699fb' }} />
