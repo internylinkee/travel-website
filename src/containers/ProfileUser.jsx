@@ -145,16 +145,16 @@ class ProfileUser extends React.Component {
     switch (this.state.tab) {
       // Bài viết
       case variables.PROFILE_TAB.REVIEWS:
-        return (<Reviews userId={userId} />);
+        return (<Reviews history={this.props.history} userId={userId} />);
       // Chuyến đi
       case variables.PROFILE_TAB.TOUR:
-        return (<Tours />);
+        return (<Tours history={this.props.history} />);
       // Về tôi
       case variables.PROFILE_TAB.ABOUT_ME:
-        return (<AboutMe />);
+        return (<AboutMe history={this.props.history} />);
       // Mặc định: dòng thời gian
       default:
-        return (<Timeline userId={userId} />);
+        return (<Timeline history={this.props.history} userId={userId} />);
     }
   }
 
@@ -181,6 +181,7 @@ class ProfileUser extends React.Component {
 ProfileUser.propTypes = {
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   auth: PropTypes.objectOf(PropTypes.any).isRequired
 };
 

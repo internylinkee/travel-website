@@ -30,6 +30,8 @@ const routes = [
   { path: '/users/:id/:tab', exact: true, component: ProfileUser, requireLogin: '/login' },
   // Create Post
   { path: '/create-post', exact: true, component: CreatePost, requireLogin: '/login' },
+  // Update Post
+  { path: '/posts/:id/edit', exact: true, component: CreatePost, requireLogin: '/login' },
   // Not found
   { component: NotFound }
 ];

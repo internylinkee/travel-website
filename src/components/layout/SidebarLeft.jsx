@@ -61,8 +61,7 @@ class SiderbarLeft extends React.Component {
       path: '/posts',
       subPaths: [
         '/posts/:id/detail',
-        '/posts/:id/edit',
-        '/posts/create'
+        '/posts/:id/edit'
       ]
     },
     {

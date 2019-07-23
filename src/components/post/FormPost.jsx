@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import {
   postPost,
+  putPost,
   uploadFiles
 } from 'actions';
 import {
@@ -24,6 +25,7 @@ import {
 } from 'components/post';
 import Helpers from 'helpers';
 import messages from 'constants/messages';
+import variables from 'constants/variables';
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -48,7 +50,6 @@ class FormPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // defaultData: {},
       isSubmitting: false
     };
     setIsMounted(true);
@@ -83,15 +84,19 @@ class FormPost extends React.Component {
       // set isSubmitting
       await this.setStateData({ isSubmitting: true });
       // upload file
-      const imagesInput = get(data, 'imageUrls.data');
+      const imagesInput = get(data, 'imageUrls.data', []).map(image => image.originFileObj || image);
       const imageUrls = await Helpers.uploadFiles(imagesInput, this.props.actions.uploadFiles);
       // parse data request
       const dataRequest = {
         ...data,
         imageUrls
       };
+      // swith API request: nếu tồn tại postId, chỉnh sửa, ngược lại tạo mới bài viết
+      const requestAPI = this.props.postId ? this.props.actions.putPost : this.props.actions.postPost;
+      const firstParam = this.props.postId ? this.props.postId : dataRequest;
+      const secondParam = dataRequest;
       // call API
-      const response = await this.props.actions.postPost(dataRequest) || {};
+      const response = await requestAPI(firstParam, secondParam) || {};
       // if error
       if (!isEmpty(response.error)) {
         Helpers.throwError(response.error);
@@ -100,7 +105,6 @@ class FormPost extends React.Component {
       const { resetFields } = form;
       await resetFields();
       // gọi props.onAfterSubmit
-
       if (isFunction(this.props.onAfterSubmit)) {
         await Helpers.alertSuccess(messages.SAVE_SUCCEED);
         return this.props.onAfterSubmit();
@@ -117,12 +121,14 @@ class FormPost extends React.Component {
   dataTab = () => ([
     // Tab câu hỏi
     {
-      key: 'question',
+      // viết theo API
+      key: variables.TYPE_POST.QUESTION,
       icon: 'question-circle',
       name: 'Câu hỏi',
       render: () => (
         <FormPostQuestion
           categories={this.props.categories}
+          detailPost={this.props.detailPost}
           isSubmitting={this.state.isSubmitting}
           locations={this.props.locations}
           onSubmit={this.callCreatePostAPI}
@@ -131,12 +137,13 @@ class FormPost extends React.Component {
     },
     // Tab bài viết reviews
     {
-      key: 'reviews',
+      key: variables.TYPE_POST.REVIEWS,
       icon: 'form',
       name: 'Bài viết',
       render: () => (
         <FormPostReviews
           categories={this.props.categories}
+          detailPost={this.props.detailPost}
           isSubmitting={this.state.isSubmitting}
           locations={this.props.locations}
           onSubmit={this.callCreatePostAPI}
@@ -145,12 +152,13 @@ class FormPost extends React.Component {
     },
     // Tab tour du lịch, chỉ các tài khoản được duyệt là HDV mới hiển thị
     {
-      key: 'book',
+      key: variables.TYPE_POST.TOUR,
       icon: 'form',
       name: 'Tour du lịch',
       render: () => (
         <FormPostTour
           categories={this.props.categories}
+          detailPost={this.props.detailPost}
           isSubmitting={this.state.isSubmitting}
           locations={this.props.locations}
           onSubmit={this.callCreatePostAPI}
@@ -162,10 +170,11 @@ class FormPost extends React.Component {
   render() {
     return (
       <Card style={{ marginBottom: '20px' }}>
-        <Tabs type="card">
+        <Tabs defaultActiveKey={get(this.props.detailPost, 'type', variables.TYPE_POST.QUESTION)} type="card">
           {this.dataTab().map(tab => (
             <TabPane
               key={tab.key}
+              disabled={get(this.props.detailPost, 'type') && get(this.props.detailPost, 'type') !== tab.key}
               tab={(
                 <Text>
                   <Icon type={tab.icon} />
@@ -186,13 +195,17 @@ FormPost.propTypes = {
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
   categories: PropTypes.arrayOf(PropTypes.object),
   locations: PropTypes.arrayOf(PropTypes.object),
-  onAfterSubmit: PropTypes.func
+  onAfterSubmit: PropTypes.func,
+  detailPost: PropTypes.objectOf(PropTypes.any),
+  postId: PropTypes.string
 };
 
 FormPost.defaultProps = {
   categories: [],
   locations: [],
-  onAfterSubmit: null
+  onAfterSubmit: null,
+  detailPost: null,
+  postId: null
 };
 
 const mapStateToProps = state => ({
@@ -204,6 +217,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     postPost,
+    putPost,
     uploadFiles
   }, dispatch)
 });

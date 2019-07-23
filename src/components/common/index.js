@@ -7,3 +7,4 @@ export { default as ErrorSystem } from './ErrorSystem';
 export { default as LoadingWrapper } from './LoadingWrapper';
 export { default as Select } from './Select';
 export { default as UploadImages } from './UploadImages';
+export { default as Modal } from './Modal';
