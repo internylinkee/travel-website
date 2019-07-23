@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   Row,
-  Col,
-  Divider,
-  Tag,
-  Card,
-  Typography
+  Col
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
@@ -18,15 +14,12 @@ import {
 import Helpers from 'helpers';
 import {
   DetailPostInfo,
-  ListAuthor,
   ListCategories,
   ListLocations,
   ListFeaturedPosts,
   CommentsPost
 } from 'components/post';
-import { LoadingWrapper, IconText } from 'components/common';
-
-const { Title, Text } = Typography;
+import { LoadingWrapper } from 'components/common';
 
 let isMounted = true;
 
@@ -204,43 +197,10 @@ class PostDetail extends React.Component {
           <Col className="p-col" span={8}>
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts data={this.state.featuredPosts} />
-            {/* Phần Tác giả được Yêu thích */}
-            <ListAuthor />
             {/* Thẻ */}
             <ListCategories />
             {/* Địa điểm */}
             <ListLocations />
-
-            {/* Danh sách bài viết liên quan */}
-            <Card className="title-related-posts" title="Các bài viết liên quan" />
-            <Card
-              className="p-card related-posts"
-              cover={(
-                <img
-                  alt="example"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwfMzZWidbLDPeiep0Gtn2B1pi_1GGtgBQrKcxpJSnuCDSQ3KidQ"
-                />
-              )}
-            >
-              <Text className="text-related-posts">
-                Bởi <span className="author">JACK SCORPIO</span> - 5 tháng trước
-              </Text>
-              <Title level={4}>Những nơi nên đến khi bạn đi du lịch ở Phú Quốc</Title>
-              <Divider />
-              <Row>
-                <Col span={12}>
-                  <IconText text="156" type="heart" />
-                  <IconText text="2" type="message" />
-                  <IconText text="156" type="share-alt" />
-                </Col>
-                <Col span={12}>
-                  <span className="tag-post">
-                    <Tag color="volcano">Ăn uống</Tag>
-                    <Tag color="geekblue">Vui chơi</Tag>
-                  </span>
-                </Col>
-              </Row>
-            </Card>
           </Col>
         </Row>
       </LoadingWrapper>
