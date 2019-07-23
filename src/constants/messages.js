@@ -12,5 +12,6 @@ export default {
   SAVE_FAILED: 'Lưu không thành công!',
   REMOVE_SUCCEED: 'Xóa thành công!',
   REMOVE_FAILED: 'Xóa không thành công!',
-  CONFIRM_REMOVE_POST: 'Bạn có muốn xóa bài viết này không?'
+  CONFIRM_REMOVE_POST: 'Bạn có muốn xóa bài viết này không?',
+  REQUIRED_LOGIN: 'Bạn cần đăng nhập để sử dụng chức năng này!'
 };

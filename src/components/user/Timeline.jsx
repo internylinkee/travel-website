@@ -92,6 +92,27 @@ class Timeline extends React.Component {
   }
 
   /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof Timeline
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      await this.setStateData({ mainPosts, featuredPosts });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
+    }
+  }
+
+  /**
    * Lấy danh sách bài viết
    * @return {object}
    * @memberof Timeline
@@ -140,6 +161,7 @@ class Timeline extends React.Component {
             <ListHorizontalPosts
               data={this.state.mainPosts}
               history={this.props.history}
+              onReload={this.reloadData}
             />
           </Col>
 

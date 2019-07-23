@@ -73,7 +73,7 @@ class PostDetail extends React.Component {
    * @param {object} data the data which will be merged to this.state
    * @param {function} callback the function which will be called after setState
    * @returns {void} call this.setState to update state
-   * @memberof Timeline
+   * @memberof PostDetail
    */
   setStateData = (state, callback) => {
     if (!getIsMounted()) {
@@ -85,7 +85,7 @@ class PostDetail extends React.Component {
   /**
    * Load data
    * @returns {void} update state
-   * @memberof Posts
+   * @memberof PostDetail
    */
   loadData = async () => {
     let isError = false;
@@ -107,9 +107,33 @@ class PostDetail extends React.Component {
   }
 
   /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof PostDetail
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      // get params
+      const { postId } = this.getParams();
+      // get chi tiết bài viết nếu tồn tại postId
+      const detailPost = await this.getDetailPost(postId);
+      const featuredPosts = await this.getFeaturedPosts();
+      await this.setStateData({ detailPost, featuredPosts });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
+    }
+  }
+
+  /**
    * Get params: postId
    * @returns {object}
-   * @memberof CreatePost
+   * @memberof PostDetail
    */
   getParams = () => {
     const postId = get(this.props.match, 'params.id');
@@ -120,7 +144,7 @@ class PostDetail extends React.Component {
    * Get thông tin chi tiết bài viết từ API
    * @param {string} postId Id của bài viết
    * @returns {object} Thông tin chi tiết
-   * @memberof CreatePost
+   * @memberof PostDetail
    */
   getDetailPost = async (postId) => {
     if (!postId) {
@@ -136,7 +160,7 @@ class PostDetail extends React.Component {
   /**
    * Lấy danh sách bài viết nổi bật có type "review"
    * @return {object}
-   * @memberof Posts
+   * @memberof PostDetail
    */
   getFeaturedPosts = async () => {
     const response = await this.props.actions.getListFeaturedPost() || {};
@@ -150,7 +174,7 @@ class PostDetail extends React.Component {
   /**
    * Reload page
    * @returns {void}
-   * @memberof Home
+   * @memberof PostDetail
    */
   reloadPage = () => {
     this.props.history.replace('/reload');
@@ -172,6 +196,7 @@ class PostDetail extends React.Component {
             <DetailPostInfo
               data={this.state.detailPost}
               history={this.props.history}
+              onReload={this.reloadData}
               postId={this.state.postId}
             />
 

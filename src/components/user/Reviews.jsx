@@ -62,7 +62,7 @@ class Reviews extends React.Component {
    * @param {object} data the data which will be merged to this.state
    * @param {function} callback the function which will be called after setState
    * @returns {void} call this.setState to update state
-   * @memberof Timeline
+   * @memberof Reviews
    */
   setStateData = (state, callback) => {
     if (!getIsMounted()) {
@@ -74,7 +74,7 @@ class Reviews extends React.Component {
   /**
    * Load data
    * @returns {void} update state
-   * @memberof Timeline
+   * @memberof Reviews
    */
   loadData = async () => {
     let isError = false;
@@ -93,9 +93,30 @@ class Reviews extends React.Component {
   }
 
   /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof Reviews
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      await this.setStateData({ mainPosts, featuredPosts });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
+    }
+  }
+
+  /**
    * Lấy danh sách bài viết có type "review"
    * @return {object}
-   * @memberof ProfileUser
+   * @memberof Reviews
    */
   getMainPosts = async () => {
     if (!this.props.userId) {
@@ -113,7 +134,7 @@ class Reviews extends React.Component {
   /**
    * Lấy danh sách bài viết nổi bật có type "review"
    * @return {object}
-   * @memberof ProfileUser
+   * @memberof Reviews
    */
   getFeaturedPosts = async () => {
     if (!this.props.userId) {
@@ -141,6 +162,7 @@ class Reviews extends React.Component {
             <ListHorizontalPosts
               data={this.state.mainPosts}
               history={this.props.history}
+              onReload={this.reloadData}
             />
           </Col>
 

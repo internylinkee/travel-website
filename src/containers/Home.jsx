@@ -37,24 +37,6 @@ const setIsMounted = (value = true) => {
  */
 const getIsMounted = () => isMounted;
 
-const FAKE_AUTHORS = [
-  {
-    fullName: 'David Joe',
-    followerCount: 10,
-    postCount: 15
-  },
-  {
-    fullName: 'Henry William',
-    followerCount: 2,
-    postCount: 3
-  },
-  {
-    fullName: 'Sara Morgan',
-    followerCount: 0,
-    postCount: 10
-  }
-];
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -62,8 +44,7 @@ class Home extends React.Component {
       loading: false,
       isError: false,
       mainPosts: [],
-      featuredPosts: [],
-      authors: []
+      featuredPosts: []
     };
     setIsMounted(true);
   }
@@ -103,13 +84,33 @@ class Home extends React.Component {
       await this.setStateData({ loading: true });
       const mainPosts = await this.getMainPosts();
       const featuredPosts = await this.getFeaturedPosts();
-      const authors = await this.getAuthors();
-      await this.setStateData({ mainPosts, featuredPosts, authors });
+      await this.setStateData({ mainPosts, featuredPosts });
     } catch (error) {
       isError = true;
     } finally {
       // set loading
       await this.setStateData({ isError, loading: false });
+    }
+  }
+
+  /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof Home
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      await this.setStateData({ mainPosts, featuredPosts });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
     }
   }
 
@@ -134,20 +135,6 @@ class Home extends React.Component {
    */
   getFeaturedPosts = async () => {
     const response = await this.props.actions.getListFeaturedPost() || {};
-    // if error
-    if (!isEmpty(response.error)) {
-      Helpers.throwError(response.error);
-    }
-    return get(response, 'payload');
-  }
-
-  /**
-   * TODO: ráp API Lấy danh sách tác giả được yêu thích
-   * @return {object}
-   * @memberof Home
-   */
-  getAuthors = async () => {
-    const response = { payload: FAKE_AUTHORS };
     // if error
     if (!isEmpty(response.error)) {
       Helpers.throwError(response.error);
@@ -188,6 +175,7 @@ class Home extends React.Component {
             <ListHorizontalPosts
               data={this.state.mainPosts}
               history={this.props.history}
+              onReload={this.reloadData}
             />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}

@@ -72,6 +72,22 @@ export default class Helpers {
   }
 
   /**
+   * Thông báo warning message
+   * @param {string} message message
+   * @returns {void}
+   * @static
+   * @memberof Helpers
+   */
+  static alertWarning = (message = '') => {
+    Notification({
+      type: 'warning',
+      className: 'notifi-warning',
+      message: messages.NOTIFICATION_TITLE,
+      description: message
+    });
+  }
+
+  /**
    * Convert datetime theo format
    * @param {*} obj.value datetime value
    * @param {string} obj.format format
