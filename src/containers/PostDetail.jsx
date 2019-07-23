@@ -4,14 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   Row,
-  Col,
-  Divider,
-  Icon,
-  Tag,
-  Avatar,
-  Card,
-  Typography,
-  Input
+  Col
 } from 'antd';
 import { get, isEmpty } from 'lodash';
 import {
@@ -21,14 +14,12 @@ import {
 import Helpers from 'helpers';
 import {
   DetailPostInfo,
-  ListAuthor,
   ListCategories,
   ListLocations,
-  ListFeaturedPosts
+  ListFeaturedPosts,
+  CommentsPost
 } from 'components/post';
-import { LoadingWrapper, IconText } from 'components/common';
-
-const { Title, Text } = Typography;
+import { LoadingWrapper } from 'components/common';
 
 let isMounted = true;
 
@@ -201,91 +192,16 @@ class PostDetail extends React.Component {
             />
 
             {/* Phần Comment */}
-            <Card className="b-comment">
-              <Title level={4} style={{ marginBottom: '20px' }}>Bình luận</Title>
-              <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
-                  <Avatar size={40} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
-                </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
-                  <Text className="name-users">Maria Monoban</Text>
-                  <Text className="text-comment">1 phút trước</Text>
-                </Col>
-                <Col span={22} style={{ marginTop: '10px' }}>
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                </Col>
-              </Row>
-              <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
-                  <Avatar size={40} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
-                  <Text className="name-users">Han Solo</Text>
-                  <Text className="text-comment">12 phút trước</Text>
-                </Col>
-                <Col span={22} style={{ marginTop: '10px' }}>
-                  Sibi minantia in onerosior iners. Mentes inmensa porrexerat regat inter coeperunt galeae inposuit.
-                  Mixta dispositam chaos: igni unda nulli posset: densior haec.
-                  Contraria septemque unda fuit plagae orba nubes valles terrarum.
-                </Col>
-              </Row>
-              <Row>
-                <Col span={2}>
-                  <Avatar size={40} src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
-                </Col>
-                <Col span={22}>
-                  <Input
-                    placeholder="Viết bình luận"
-                    style={{ marginTop: '5px' }}
-                    suffix={<Icon style={{ color: 'rgba(0,0,0,.25)' }} type="enter" />}
-                  />
-                </Col>
-              </Row>
-            </Card>
+            <CommentsPost />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}
           <Col className="p-col" span={8}>
             {/* Danh sách bài viết nổi bật */}
             <ListFeaturedPosts data={this.state.featuredPosts} />
-            {/* Phần Tác giả được Yêu thích */}
-            <ListAuthor />
             {/* Thẻ */}
             <ListCategories />
             {/* Địa điểm */}
             <ListLocations />
-
-            {/* Danh sách bài viết liên quan */}
-            <Card className="title-related-posts" title="Các bài viết liên quan" />
-            <Card
-              className="p-card related-posts"
-              cover={(
-                <img
-                  alt="example"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwfMzZWidbLDPeiep0Gtn2B1pi_1GGtgBQrKcxpJSnuCDSQ3KidQ"
-                />
-              )}
-            >
-              <Text className="text-related-posts">
-                Bởi <span className="author">JACK SCORPIO</span> - 5 tháng trước
-              </Text>
-              <Title level={4}>Những nơi nên đến khi bạn đi du lịch ở Phú Quốc</Title>
-              <Divider />
-              <Row>
-                <Col span={12}>
-                  <IconText text="156" type="heart" />
-                  <IconText text="2" type="message" />
-                  <IconText text="156" type="share-alt" />
-                </Col>
-                <Col span={12}>
-                  <span className="tag-post">
-                    <Tag color="volcano">Ăn uống</Tag>
-                    <Tag color="geekblue">Vui chơi</Tag>
-                  </span>
-                </Col>
-              </Row>
-            </Card>
           </Col>
         </Row>
       </LoadingWrapper>
