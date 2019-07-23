@@ -19,8 +19,10 @@ import {
   isFunction
 } from 'lodash';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 import {
-  deletePost
+  deletePost,
+  putLikePost
 } from 'actions';
 import variables from 'constants/variables';
 import Helpers from 'helpers';
@@ -89,15 +91,40 @@ class DetailPostInfo extends React.Component {
   }
 
   /**
+   * Check user đã login chưa
+   * @returns {boolean}
+   * @memberof DetailPostInfo
+   */
+  isAuthenticated = () => !!get(this.props.auth, 'isAuthenticated')
+
+  /**
    * Kiểm tra một bài viết có thuộc user hiện tại không
-   * @param {object} post bài viết
+   * @param {object} post Bài viết
    * @returns {boolean}
    * @memberof DetailPostInfo
    */
   isBelongToCurrentUser = (post) => {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
     const postUserId = get(post, 'user.id');
     const currentUserId = get(this.props.auth, 'user.id');
     return postUserId === currentUserId;
+  }
+
+  /**
+   * Kiểm tra một bài viết đã được user hiện tại like chưa
+   * @param {object} post Bài viết
+   * @returns {boolean}
+   * @memberof DetailPostInfo
+   */
+  isLikedPost = (post) => {
+    if (!this.isAuthenticated()) {
+      return false;
+    }
+    const likeIds = get(post, 'likes', []);
+    const currentUserId = get(this.props.auth, 'user.id');
+    return likeIds.indexOf(currentUserId) > -1;
   }
 
   /**
@@ -133,9 +160,43 @@ class DetailPostInfo extends React.Component {
         Helpers.throwError(response.error);
       }
       Helpers.alertSuccess(messages.REMOVE_SUCCEED);
+      // reload data
+      if (isFunction(this.props.onReload)) {
+        return this.props.onReload(post);
+      }
       return Helpers.reloadPage(this.props.history, get(this.props.history, 'location.pathname'));
     } catch (error) {
       return Helpers.alertError(messages.REMOVE_FAILED);
+    }
+  }
+
+  /**
+   * Like bài viết
+   * @param {object} post Bài viết được like
+   * @returns {function} Gọi props.onLike
+   * @memberof DetailPostInfo
+   */
+  handleLike = post => async (e) => {
+    e.preventDefault();
+    try {
+      if (!this.isAuthenticated()) {
+        return Helpers.alertWarning(messages.REQUIRED_LOGIN);
+      }
+      if (isFunction(this.props.onLike)) {
+        return this.props.onLike(post);
+      }
+      const postId = get(post, 'id');
+      const response = await this.props.actions.putLikePost(postId) || {};
+      if (!isEmpty(response.error)) {
+        Helpers.throwError(response.error);
+      }
+      // reload data
+      if (isFunction(this.props.onReload)) {
+        return this.props.onReload(post);
+      }
+      return Helpers.reloadPage(this.props.history, get(this.props.history, 'location.pathname'));
+    } catch (error) {
+      return Helpers.alertError(messages.SAVE_FAILED);
     }
   }
 
@@ -177,7 +238,14 @@ class DetailPostInfo extends React.Component {
           </Row>
           <List className="control-post-button">
             <ListItem>
-              <Avatar icon="heart" style={{ backgroundColor: '#2699fb' }} />
+              <Avatar
+                className={classnames('hand', {
+                  'b-color-pink': this.isLikedPost(this.props.data),
+                  'b-color-blue': !this.isLikedPost(this.props.data)
+                })}
+                icon="heart"
+                onClick={this.handleLike(this.props.data)}
+              />
             </ListItem>
             <ListItem>
               <Avatar icon="message" style={{ backgroundColor: '#2699fb' }} />
@@ -195,9 +263,10 @@ class DetailPostInfo extends React.Component {
             {this.isBelongToCurrentUser(this.props.data) && (
               <ListItem>
                 <Avatar
+                  className="hand"
                   icon="delete"
                   onClick={this.confirmRemove(this.props.data)}
-                  style={{ backgroundColor: '#d5313d', cursor: 'pointer' }}
+                  style={{ backgroundColor: '#d5313d' }}
                 />
               </ListItem>
             )}
@@ -213,12 +282,16 @@ DetailPostInfo.propTypes = {
   auth: PropTypes.objectOf(PropTypes.any).isRequired,
   actions: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
+  onLike: PropTypes.func,
+  onReload: PropTypes.func
 };
 
 DetailPostInfo.defaultProps = {
   data: {},
-  onRemove: null
+  onRemove: null,
+  onLike: null,
+  onReload: null
 };
 
 const mapStateToProps = state => ({
@@ -227,7 +300,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    deletePost
+    deletePost,
+    putLikePost
   }, dispatch)
 });
 

@@ -115,6 +115,28 @@ class Home extends React.Component {
   }
 
   /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof Home
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      const authors = await this.getAuthors();
+      await this.setStateData({ mainPosts, featuredPosts, authors });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
+    }
+  }
+
+  /**
    * Lấy danh sách bài viết
    * @return {object}
    * @memberof Home
@@ -189,6 +211,7 @@ class Home extends React.Component {
             <ListHorizontalPosts
               data={this.state.mainPosts}
               history={this.props.history}
+              onReload={this.reloadData}
             />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}

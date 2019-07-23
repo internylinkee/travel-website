@@ -98,6 +98,28 @@ class Posts extends React.Component {
   }
 
   /**
+   * Reload data
+   * @returns {void} update state
+   * @memberof Posts
+   */
+  reloadData = async () => {
+    let isError = false;
+    try {
+      const mainPosts = await this.getMainPosts();
+      const featuredPosts = await this.getFeaturedPosts();
+      const authors = await this.getAuthors();
+      await this.setStateData({ mainPosts, featuredPosts, authors });
+    } catch (error) {
+      isError = true;
+    } finally {
+      // set loading
+      if (isError) {
+        await this.setStateData({ isError });
+      }
+    }
+  }
+
+  /**
    * Lấy danh sách bài viết có type "review"
    * @return {object}
    * @memberof Posts
@@ -168,6 +190,7 @@ class Posts extends React.Component {
             <ListHorizontalPosts
               data={this.state.mainPosts}
               history={this.props.history}
+              onReload={this.Posts}
             />
           </Col>
           {/* Thanh thông tin hiển thị các nội dung khác */}

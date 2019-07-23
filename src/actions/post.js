@@ -143,3 +143,17 @@ export const deletePost = postId => (dispatch, getState) => dispatch({
     }
   }
 });
+
+// Like bài viết
+export const putLikePost = postId => (dispatch, getState) => dispatch({
+  types: [API_FETCH, API_DEFAULT, API_FAILED],
+  payload: {
+    request: {
+      url: `/v1/posts/${postId}/like`,
+      method: 'PUT',
+      headers: {
+        Authorization: `${getState().auth.token.type} ${getState().auth.token.accessToken}`
+      }
+    }
+  }
+});

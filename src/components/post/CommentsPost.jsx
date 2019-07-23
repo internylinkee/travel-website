@@ -11,7 +11,7 @@ import {
 
 const { Title, Text } = Typography;
 
-class commentsPost extends React.Component {
+class CommentsPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -66,6 +66,4 @@ class commentsPost extends React.Component {
   }
 }
 
-export default commentsPost;
-
-commentsPost.displayName = 'CommentsPost';
+export default CommentsPost;
