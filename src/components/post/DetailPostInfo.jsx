@@ -218,19 +218,19 @@ class DetailPostInfo extends React.Component {
           className="p-card"
         >
           <Row style={{ marginBottom: '20px' }}>
-            <Col span={2}>
+            <Col lg={{ span: 3 }}>
               <Link to={this.getUserInfo(this.props.data).link}>
                 <Avatar size={56} src={this.getUserInfo(this.props.data).avatar} />
               </Link>
             </Col>
-            <Col span={22} style={{ paddingTop: '5px' }}>
+            <Col lg={{ span: 21 }} style={{ paddingTop: '5px' }}>
               <Link to={this.getUserInfo(this.props.data).link}>
                 <Text className="name-users">{this.getUserInfo(this.props.data).name}</Text>
               </Link>
               <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
               <IconText text={this.getUserInfo(this.props.data).location} type="environment" />
             </Col>
-            <Col span={22}>
+            <Col lg={{ span: 21 }}>
               <Text>
                 {Helpers.getDateTime({
                   value: get(this.props.data, 'updatedAt'),
