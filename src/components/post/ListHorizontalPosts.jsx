@@ -82,7 +82,7 @@ class HorizontalPosts extends React.Component {
       return (
         <React.Fragment>
           <Title level={3}>{get(post, 'title')}</Title>
-          <Paragraph className="pre-line" ellipsis={{ rows: 6 }}>
+          <Paragraph className="pre-line">
             {get(post, 'content')}
           </Paragraph>
           {/* TODO: cần hiển thị hình ảnh của bài viết theo grid */}
