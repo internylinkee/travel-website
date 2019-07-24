@@ -311,19 +311,19 @@ class HorizontalPosts extends React.Component {
           <React.Fragment key={index}>
             <Card className="p-card">
               <Row style={{ marginBottom: '20px' }}>
-                <Col span={2}>
+                <Col lg={{ span: 3 }}>
                   <Link to={this.getUserInfo(post).link}>
                     <Avatar size={56} src={this.getUserInfo(post).avatar} />
                   </Link>
                 </Col>
-                <Col span={22} style={{ paddingTop: '5px' }}>
+                <Col lg={{ span: 21 }} style={{ paddingTop: '5px' }}>
                   <Link to={this.getUserInfo(post).link}>
                     <Text className="name-users">{this.getUserInfo(post).name}</Text>
                   </Link>
                   <span style={{ margin: '0 10px' }}>đã gắn địa điểm ở</span>
                   <IconText text={this.getUserInfo(post).location} type="environment" />
                 </Col>
-                <Col span={22}>
+                <Col lg={{ span: 21 }}>
                   <Text>
                     {Helpers.getDateTime({
                       value: get(post, 'updatedAt'),

@@ -132,7 +132,7 @@ class Header extends React.Component {
               <Dropdown overlay={this.renderMenu()} trigger={['click']}>
                 <a className="ant-dropdown-link" href="true">
                   <Avatar size="large" src={this.getUserInfo().avatar} />
-                  <span className="welcome-name">{`Xin chào, ${this.getUserInfo().name}`}</span>
+                  <span className="welcome-name">{`${this.getUserInfo().name}`}</span>
                   <Icon style={{ color: '#fff' }} type="down" />
                 </a>
               </Dropdown>
